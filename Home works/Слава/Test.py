@@ -11,3 +11,4 @@ def SredneeArifm():
     for i in list_1:
         max+=i
     print ("Srednee arifm. :", max/len(list_1))
+    #lol
