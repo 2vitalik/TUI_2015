@@ -6,5 +6,5 @@ def nod (a, b):
     while b!=0:
         a=a%b
         a,b=b,a
-        return a
+    return a
 print nod (12,18)
