@@ -13,3 +13,5 @@ result = {
     4: None,
     5: None
 }
+v = 1
+for u,n in dict[v].items():
