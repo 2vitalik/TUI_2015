@@ -13,7 +13,9 @@ N = {
 if 'b' in N['a']:
     print "Hello"
 #smejnost'
+
 print N['a']['b']
 #ves
+
 print len(N['a'])
 #stepen'
