@@ -1,4 +1,4 @@
 __author__ = 'Stas'
-raw_input("X")
-def greet(adr="mr.", name="X"):
-    print"hello"+ adr + name +"!"
+a = input()
+def greet(adr="mr.", name=a):
+    print ("hello"+ adr + name +"!")
