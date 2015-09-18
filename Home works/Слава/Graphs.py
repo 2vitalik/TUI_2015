@@ -35,9 +35,7 @@ G.add_edge(5, 6, weight=4)
 G.add_edge(6, 7, weight=13)
 
 plot.axis('off')
-
 pos=nx.spring_layout(G)
-
 nx.draw(G,pos)
 
 edge_labels=dict([((u,v,),d['weight'])
