@@ -10,7 +10,6 @@ a = dict()
 with open('graph') as file:
     w1,w2 = [int(x) for x in file.readline().split()]
     n,m = [int(x) for x in file.readline().split()]
-    array = []
     for line in file:
         u, v, c = line.split()
         u = int(u)
