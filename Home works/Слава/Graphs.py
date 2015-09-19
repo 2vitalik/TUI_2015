@@ -4,22 +4,7 @@ import networkx as nx
 import matplotlib.pyplot as plot
 
 G = nx.Graph()
-'''
-e=[('a', 'b', 2),
-   ('a','f', 8),
-   ('b','f',9),
-   ('b','c',11),
-   ('b','g',10),
-   ('c','g',5),
-   ('c','d',3),
-   ('d','g',6),
-   ('d','e',12),
-   ('e','g',7),
-   ('e','f',4),
-   ('f','g',13)]
-G.add_weighted_edges_from(e)
-print(nx.dijkstra_path(G, 'a', 'd'))
-'''
+
 
 G.add_edge(1, 2, weight=2)
 G.add_edge(1, 6, weight=8)
@@ -48,6 +33,22 @@ print "Length of this path: "
 print(nx.dijkstra_path_length(G, 1, 4))
 plot.show()
 
+'''
+e=[('a', 'b', 2),
+   ('a','f', 8),
+   ('b','f',9),
+   ('b','c',11),
+   ('b','g',10),
+   ('c','g',5),
+   ('c','d',3),
+   ('d','g',6),
+   ('d','e',12),
+   ('e','g',7),
+   ('e','f',4),
+   ('f','g',13)]
+G.add_weighted_edges_from(e)
+print(nx.dijkstra_path(G, 'a', 'd'))
+'''
 
 '''N = {
     1: {2: 3, 3: 5, 6: 15},
