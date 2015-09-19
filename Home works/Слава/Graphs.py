@@ -28,7 +28,13 @@ edge_labels=dict([((u,v,),d['weight'])
 nx.draw_networkx_edge_labels(G,pos,edge_labels)
 
 print "Shortest path from 1 to 4: "
-print(nx.dijkstra_path(G, 1, 4))
+#print(nx.dijkstra_path(G, 1, 4))
+Answ = nx.dijkstra_path(G, 1, 4)
+for a in Answ:
+    if a!=len(Answ):
+        print a, "-->",
+    else:
+        print a
 print "Length of this path: "
 print(nx.dijkstra_path_length(G, 1, 4))
 plot.show()
