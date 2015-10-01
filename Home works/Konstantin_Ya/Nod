@@ -1,0 +1,10 @@
+__author__ = 'Kostik'
+a=int(input("Write first number"))
+b=int(input("Write second number"))
+
+if a < b:
+    a,b=b,a
+while b!=0:
+    a %=b
+    a,b=b,a
+print(a)
