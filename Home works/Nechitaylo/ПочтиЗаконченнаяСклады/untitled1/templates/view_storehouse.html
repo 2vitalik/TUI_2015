@@ -1,0 +1,13 @@
+{% extands 'base.html' %}
+
+{% block title %}
+<h3>Склад </h3>
+{% endblock %}
+
+{% block content %}
+<ul>
+    <li> По X: {{ StoreHouse.X }}
+    <li> По Y: {{ StoreHouse.Y }}
+    <li> По объему {{ StoreHouse.V}}
+</ul>
+{% endblock %}
