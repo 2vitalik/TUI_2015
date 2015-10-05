@@ -6,19 +6,26 @@
 
 {% block content %}
     Значение переменной "hello": "<i>{{ hello }}</i>"
-    <BR/><ol>
-    {% for volonter in volonters %}
-{#        <a href="/volonter/{{ volonter.id }}/"> #}
-        <li><a href="{% url 'view_volonter' volonter.id %}">
-                {{ volonter.fio }}
+    {% if user.is_staff %}
+        <BR/><ol>
+        {% for volonter in volonters %}
+    {#        <a href="/volonter/{{ volonter.id }}/"> #}
+            <li><a href="{% url 'view_volonter' volonter.id %}">
+                    {{ volonter.fio }}
+                </a>
+
+                (<a href="{% url 'update_volonter' volonter.id %}">
+                    edit
+                </a>)
+            </li>
+        {% endfor %}
+        </ol>
+        {% if perms.main.volonter_add %}
+            <a href="{% url 'create_volonter' %}">
+                Add new volonter
             </a>
-            (<a href="{% url 'update_volonter' volonter.id %}">
-                edit
-            </a>)
-        </li>
-    {% endfor %}
-    </ol>
-    <a href="{% url 'create_volonter' %}">
-        Add new volonter
-    </a>
+        {% endif %}
+    {% else %}
+        Извините, но вы не супер-юзер :-Р
+    {% endif %}
 {% endblock %}

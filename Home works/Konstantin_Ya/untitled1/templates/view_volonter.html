@@ -8,8 +8,8 @@
 <ul>
     <li>День рождения:
         {{ volonter.birthday|date:"d.m.Y" }}
-    <li>Адрес: {{ volonter.address }}
-    <li>Пол: {{ volonter.gender }},
+    <li>address: {{ volonter.address }}
+    <li>gender: {{ volonter.gender }},
         {{ volonter.get_gender_display }}
 </ul>
 {% endblock %}

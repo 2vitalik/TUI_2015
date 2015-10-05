@@ -15,12 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView, ChangeConvictionsView
+from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^test/', MainView.as_view()),
-    url(r'^$', MainView.as_view()),
     url(r'^volonters/',
         VolonterListView.as_view(),
         name='list_volonters'),
@@ -33,8 +32,4 @@ urlpatterns = [
     url(r'^volonter/(?P<pk>\d+)/edit/',
         VolonterUpdateView.as_view(),
         name='update_volonter'),
-
-    url(r'^actions/change_convictions/(?P<volonter_id>\d+)/',
-        ChangeConvictionsView.as_view(),
-        name='change_convictions')
 ]
