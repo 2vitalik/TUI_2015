@@ -7,7 +7,7 @@ class StoreHouseAdmin(admin.ModelAdmin):
         'X',
         'Y',
         'V',
-        'Adress',
+        'Address',
     )
 # Register your models here.
 
