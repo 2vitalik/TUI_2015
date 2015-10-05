@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Список складов</h3>
+
+
+
+Склады:
+    <BR/><ol>
+        {% for StoreHouse in StoreHouses %}
+          <li><a href="{% url 'view_StoreHouse' StoreHouse.id %}">
+            {{ StoreHouse.Adress }}
+          </a>
+          (<a href="{% url 'update_StoreHouse' StoreHouse.id %}">
+                  <em>edit</em>
+          </a>)
+        </li>
+        {% endfor %}
+     </ol>
+    <a href="{% url 'create_StoreHouse' %}">
+            Add new StoreHouse
+    </a>
+{% endblock %}

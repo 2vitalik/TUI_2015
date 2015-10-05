@@ -1,7 +1,0 @@
-__author__ = 'darina'
-def.nod (a,b):
-if a<b:
-	a,b=b,a
-	while b!=0:
-		a=a%b
-		a,b=b,a
