@@ -9,6 +9,6 @@ class StoreHouseAdmin(admin.ModelAdmin):
         'V',
         'Adress',
     )
-# Register your models here.
+    search_fields = ('Adress', )
 
 admin.site.register(StoreHouse)
