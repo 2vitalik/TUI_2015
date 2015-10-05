@@ -12,12 +12,17 @@ class Volonter(models.Model):
     telephone = models.CharField(max_length=20)
     gender = models.CharField(max_length=1,
                               choices=GENDER_CHOICES)
+    convictions = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.gender)
 
 class KindOfWork(models.Model):
     name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
+
 
 class Skill(models.Model):
     volonter = models.ForeignKey('Volonter')

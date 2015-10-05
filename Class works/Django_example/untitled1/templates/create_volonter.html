@@ -7,10 +7,10 @@
 {% block content %}
     <form method="POST" action="{% url 'create_volonter' %}">
         {% csrf_token %}
-        <li>FIO: <input type="text" name="fio">
-        <li>адрес:<input type="text" name="address">
-        <li>тел:<input type="text" name="telephone">
-        <li>пол:<input type="text" name="gender">
+        <li>ФИО: <input type="text" name="fio">
+        <li>Адрес:<input type="text" name="address">
+        <li>Тел:<input type="text" name="telephone">
+        <li>Пол:<input type="text" name="gender">
         <input type="submit" value="Save!">
     </form>
 {% endblock %}
