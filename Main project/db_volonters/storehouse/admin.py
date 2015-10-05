@@ -7,7 +7,7 @@ class StoreHouseAdmin(admin.ModelAdmin):
         'X',
         'Y',
         'V',
-        'Adress',
+        'Address',
     )
     search_fields = ('Adress', )
 
