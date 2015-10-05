@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.db import models
+#////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
 
 class Volonter(models.Model):
     GENDER_CHOICES = (
@@ -11,17 +12,20 @@ class Volonter(models.Model):
     address = models.TextField()
     telephone = models.CharField(max_length=20)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    conviction = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.gender)
 
+
 class KindOfWork(models.Model):
-    direction = models.ForeignKey('Direction')
+    direction = models.ForeignKey('Direction', null=True)
     name = models.CharField(max_length=100)
-    complexity = models.CharField(max_length=20)
+    complexity = models.CharField(max_length=20, default='')
 
     def __unicode__(self):
-        return "%s, %s" % (self.name, self.complexity)
+        return self.name
+
 
 class Skill(models.Model):
     volonter = models.ForeignKey('Volonter')
@@ -32,9 +36,40 @@ class Skill(models.Model):
     def __unicode__(self):
         return "%s, %s" % (self.updated_at, self.created_at)
 
+
 class Direction(models.Model):
     name = models.CharField(max_length=30)
     importance = models.CharField(max_length=20)
 
     def __unicode__(self):
-        return "%s, %s" % (self.Name, self.Importance)
+        return "%s, %s" % (self.name, self.importance)
+#/////////////////////////////////////////////////////Transport/////////////////////////////////////////////////////////
+
+# class KindOfTransport(models.Model):
+#     name = models.CharField(max_length=30)
+#     volume = models.CharField(max_length=10)
+#     speed = models.CharField(max_length=10)
+#     expences = models.CharField(max_length=20)
+#     passability = models.CharField(max_length=20)
+#
+#     def __unicode__(self):
+#         return "%s, %s" % (self.name, self.volume)
+#
+#
+# class Transport(models.Model):
+#     kindOfTransport = models.ForeignKey('KindOfTransport')
+#     number = models.CharField(max_length=10)
+#
+#     def __unicode__(self):
+#         return "%s, %s" % (self.kindOfTransport, self.number)
+#
+#
+# class Employment(models.Model):
+#     transport = models.ForeignKey('Transport')
+#     dateStart = models.DateField()
+#     dateFinish = models.DateField()
+#     busy = models.BooleanField()
+#
+#     def __unicode__(self):
+#         return "%s , %s , %b" % (self.dateStart, self.dateFinish, self.busy)
+

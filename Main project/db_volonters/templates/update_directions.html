@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block content %}
-    <form method="POST" action="{% url 'update_directions' direction.pk %}">
+    <form method="POST" action="{% url 'update_directions' direction.id %}">
         <li>Name: <input type="text" name="name">
         <li>Importance:<input type="text" name="importance">
-        <input type="submit" value="Save!">
+        <input type="submit" value="Save">
     </form>
 {% endblock %}
