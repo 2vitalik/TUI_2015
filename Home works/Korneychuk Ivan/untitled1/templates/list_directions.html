@@ -6,9 +6,8 @@
 
 {% block content %}
     {% for direction in directions %}
-{#
         <li><a href="{% url 'view_directions' direction.id %}">
-                {{ volonter.fio }}
+                {{ direction.name }}
             </a>
             (<a href="{% url 'update_directions' direction.id %}">
                 edit
@@ -16,7 +15,7 @@
         </li>
     {% endfor %}
     </ol>
-    <a href="{% url 'create_volonter' %}">
-        Add new volonter
+    <a href="{% url 'create_direction' %}">
+        Add new direction
     </a>
 {% endblock %}
