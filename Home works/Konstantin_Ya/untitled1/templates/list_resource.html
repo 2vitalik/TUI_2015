@@ -1,0 +1,16 @@
+{% extends 'base_resource.html' %}
+
+{% block title %}
+    <h3>Список ресурсов</h3>
+{% endblock %}
+
+{% block content %}
+    <BR/><ol>
+    {% for Resource in Resources %}
+{#        <a href="/volonter/{{ volonter.id }}/"> #}
+        <a href="{% url 'view_Resource' Resource.id %}">
+                {{ Resource.name }}
+        </a>
+    {% endfor %}
+    </ol>\
+{% endblock %}

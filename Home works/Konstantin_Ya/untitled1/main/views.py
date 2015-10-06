@@ -1,11 +1,11 @@
+from audioop import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.models import Volonter
-
+from main.models import Volonter, Resource
 
 class MainView(TemplateView):
     template_name = 'list_volonter.html'
@@ -43,3 +43,17 @@ class VolonterUpdateView(UpdateView):
     fields = ('fio', 'address',
               'telephone', 'gender')
 
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class ResourceMainView(TemplateView):
+    template_name = 'list_resource.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ResourceMainView, self).get_context_data(**kwargs)
+        context.update({
+            'Resources': Resource.objects.all(),
+        })
+        return context
+class ResourceListView(ListView):
+    template_name = 'list_resource.html'
+    model = Resource
+    context_object_name = 'Resources'

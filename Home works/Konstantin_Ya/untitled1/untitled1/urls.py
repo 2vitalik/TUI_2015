@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView
+from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView, ResourceListView, \ResourceDetailView
+from django.core.urlresolvers import reverse
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -32,4 +33,10 @@ urlpatterns = [
     url(r'^volonter/(?P<pk>\d+)/edit/',
         VolonterUpdateView.as_view(),
         name='update_volonter'),
+    url(r'^Resource/$',
+        ResourceListView.as_view(),
+        name='list_Resource'),
+    url(r'^Resource/(?P<pk>\d+)/$',
+        ResourceDetailView.as_view(),
+        name='view_Resource'),
 ]

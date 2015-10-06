@@ -1,6 +1,6 @@
 from django.conf.app_template import admin
 from django.contrib import admin
-from main.models import Volonter, Skill, KindOfWork, Resource, Stock
+from main.models import Volonter, Skill, KindOfWork, Resource, Need
 
 class VolonterAdmin(admin.ModelAdmin):
     list_display = (
@@ -32,13 +32,24 @@ class KindOfWorkAdmin(admin.ModelAdmin):
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
         'name',
+        'unit_of_mesure',
+        'count',
     )
-class StockAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {'fields':
+                    ('name',
+                     ('count', 'unit_of_mesure'),
+                     )
+                }),
+    )
+
+class NeedAdmin(admin.ModelAdmin):
     list_display = (
         'resource',
+
     )
 admin.site.register(Volonter, VolonterAdmin)
 admin.site.register(Skill, SkillAdmin)
 admin.site.register(KindOfWork, KindOfWorkAdmin)
 admin.site.register(Resource,ResourceAdmin)
-admin.site.register(Stock,StockAdmin)
+admin.site.register(Need,NeedAdmin)

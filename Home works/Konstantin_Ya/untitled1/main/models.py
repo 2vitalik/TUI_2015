@@ -1,4 +1,6 @@
 # coding: utf-8
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -30,25 +32,27 @@ class Skill(models.Model):
     kind = models.ForeignKey('KindOfWork', null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
+
     def __unicode__(self):
         return "%s" % (self.kind)
 
 
 class Resource(models.Model):
     UNIT_CHOISES = (
-        (u'Кг', 'weight'),
-        (u'Л', 'volume'),
+        ('weight',u'Кг'),
+        ('volume',u'Л' ),
     )
     name = models.CharField(max_length=20)
-    unit_of_mesure = models.CharFieldField(max_lenght = 5,
+    unit_of_mesure = models.CharField(max_length = 20,
                                            choices = UNIT_CHOISES)
+    count = models.FloatField(null=True)
     def __unicode__(self):
         return "%s" % (self.name)
 
 
-class Stock(models.Model):
+class Need(models.Model):
     resource = models.ForeignKey('Resource')
-    number_stock = models.CharField(max_length=20)
+
     def __unicode__(self):
         return "%s" % (self.resource)
 
