@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Back to: <a href="{% url 'list_volonters' %}">list</a>
+    <h3>Список волонтёров</h3>
+{% endblock %}
+
+{% block content %}
+  <table class="abl">
+    <tr class="abl">
+        <td class="abl">ID</td>
+        <td class="abl">NAME</td>
+        <td class="abl">ADRES</td>
+        <td class="abl">NUMBER</td>
+    </tr>
+
+    {% for volonter in volonters %}
+        <tr class="abl">
+        <td class="abl">{{ volonter.id }}</td>
+        <td class="abl"> <a href="{% url 'view_volonter' volonter.id %}">{{ volonter.fio }}</a></td>
+        <td class="abl">{{ volonter.address }}</td>
+        <td class="abl">{{ volonter.telephone }}</td>
+    </tr>
+
+    {% endfor %}
+  </table>
+{% endblock %}

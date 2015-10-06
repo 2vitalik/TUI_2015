@@ -1,0 +1,81 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<title>Continents AIO</title>
+<meta http-equiv="Content-Type" content="text/html; charrset=windows-1251">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--<link rel="stylesheet" type="text/css" href="{% static 'print.css'  %}"/>!-->
+<link rel="stylesheet" type="text/css" href="{% static 'main.css'  %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'style.css'  %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'print.css'  %}" media="print"/>
+<script src="{% static 'jquery-1.6.4.min.js'  %}"></script>
+<script src="{% static 'custom.js'  %}"></script>
+<!--[if lt IE 9]>
+<script src="js/css3-mediaqueries.min.js"></script>
+<script src="js/html5.js"></script>
+<script src="js/IE9.js"></script>
+<![endif]-->
+</head>
+<body>
+<header class="clearFix">
+  <div class="wrap"> <a id="logo" href="#">Site_Name</a>
+    <hr>
+    <nav>
+      <div id="nav"> <strong>Navigation</strong>
+        <ul>
+          <li class="active"> <a href="#">sdsdssd</a> </li>
+          <li> <a href="#">dsdsds</a> </li>
+          <li class="parent"> <a href="#">OTCHET</a>
+            <ul>
+              <li> <a href="{% url 'list_volonters' %}">Volonters</a> </li>
+              <li> <a href="{% url 'order_list' %}">Orders</a> </li>
+              <li> <a href="#">zxzxzx</a> </li>
+			  <li> <a href="#">zzx</a> </li>
+            </ul>
+          </li>
+          <li> <a href="#">zzz</a> </li>
+          <li> <a href="/admin">ADMIN</a> </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+<hr>
+<div id="intro">
+  <div class="inner">
+    <div class="wrap clearFix">
+      <h1>zzz! <strong>zzzz!</strong></h1>
+      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+      <a href="{% url 'create_volonter' %}" class="button">Log IN</a> </div>
+  </div>
+</div>
+<!-- / #intro -->
+<hr>
+<div id="content">
+  <div id="story">{% block title %}{% endblock %}</div>
+  <div id="bl">
+    <table border="1" width="700px" class="colore">
+        <tr>
+            <td>{% block content %}{% endblock %}</td>
+        </tr>
+    </table>
+</div>
+</div>
+<!-- / #content -->
+<hr class="noPrint">
+<div id="twitter">
+  <div class="wrap clearFix"> <span class="icon"></span>
+    <p>Etiam porta sem malesuada magna mollis euismod. Nullam quis risus eget urna mollis <a href="#">domain.com</a> <small>2 days ago</small></p>
+  </div>
+</div>
+<hr>
+<footer class="clearFix">
+  <div class="wrap clearFix">
+    <p class="floatRight"> Copyright &copy; 2015 <a href="#"></a> &ndash; All Rights Reserved</p>
+    <p class="socialIcons"> <a href="#" class="rss">RSS</a> <a href="#" class="facebook">Facebook</a> <a href="#" class="twitter">Twitter</a> </p>
+  </div>
+</footer>
+</body>
+</html>
+
