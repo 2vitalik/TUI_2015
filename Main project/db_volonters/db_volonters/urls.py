@@ -37,19 +37,8 @@ urlpatterns = [
     url(r'^direction/(?P<pk>\d+)/edit/',DirectionUpdateView.as_view(), name='update_directions'),
 
 
-    url(r'^StoreHouse/$',
-         StoreHouseListView.as_view(),
-         name= 'list_StoreHouse'),
-
-    url(r'^StoreHouse/(?P<pk>\d+)/$',
-        StoreHouseDetailView.as_view(),
-        name='view_StoreHouse' ),
-
-    url(r'^StoreHouse/add/$',
-        StoreHouseCreateView.as_view(),
-        name='create_StoreHouse' ),
-
-    url(r'^StoreHouse/(?P<pk>\d+)/edit/',
-        StoreHouseUpdateView.as_view(),
-        name='update_StoreHouse' ),
+    url(r'^StoreHouse/$',StoreHouseListView.as_view(), name= 'list_StoreHouse'),
+    url(r'^StoreHouse/(?P<pk>\d+)/$', StoreHouseDetailView.as_view(), name='view_StoreHouse' ),
+    url(r'^StoreHouse/add/$', StoreHouseCreateView.as_view(), name='create_StoreHouse' ),
+    url(r'^StoreHouse/(?P<pk>\d+)/edit/', StoreHouseUpdateView.as_view(), name='update_StoreHouse' ),
 ]

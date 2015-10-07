@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3>Список потребностей</h3>
+{% endblock %}
+
+{% block content %}
+    {% for need in needs %}
+        <li><a href="{% url 'view_need' need.pk %}">
+                {{ need.pk }}
+            </a>
+        </li>
+    {% endfor %}
+{% endblock %}

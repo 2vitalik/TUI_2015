@@ -19,9 +19,9 @@ class Volonter(models.Model):
 
 
 class KindOfWork(models.Model):
-    direction = models.ForeignKey('Direction',)
+    direction = models.ForeignKey('Direction', null=True)
     name = models.CharField(max_length=100)
-    complexity = models.CharField(max_length=20,)
+    complexity = models.CharField(max_length=20, null= True)
 
     def __unicode__(self):
         return self.name
@@ -45,31 +45,85 @@ class Direction(models.Model):
         return "%s, %s" % (self.name, self.importance)
 #/////////////////////////////////////////////////////Transport/////////////////////////////////////////////////////////
 
-# class KindOfTransport(models.Model):
-#     name = models.CharField(max_length=30)
-#     volume = models.CharField(max_length=10)
-#     speed = models.CharField(max_length=10)
-#     expences = models.CharField(max_length=20)
-#     passability = models.CharField(max_length=20)
-#
-#     def __unicode__(self):
-#         return "%s, %s" % (self.name, self.volume)
-#
-#
-# class Transport(models.Model):
-#     kindOfTransport = models.ForeignKey('KindOfTransport')
-#     number = models.CharField(max_length=10)
-#
-#     def __unicode__(self):
-#         return "%s, %s" % (self.kindOfTransport, self.number)
-#
-#
-# class Employment(models.Model):
-#     transport = models.ForeignKey('Transport')
-#     dateStart = models.DateField()
-#     dateFinish = models.DateField()
-#     busy = models.BooleanField()
-#
-#     def __unicode__(self):
-#         return "%s , %s , %b" % (self.dateStart, self.dateFinish, self.busy)
+class KindOfTransport(models.Model):
+    name = models.CharField(max_length=20)
+    volume = models.CharField(max_length=10)
+    speed = models.CharField(max_length=10)
+    expensesOfFuel = models.CharField(max_length=10)
+    passability = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        return self.name
+
+class Transport(models.Model):
+    kindOfTransport = models.ForeignKey('KindOfTransport')
+    carsNumber = models.CharField(max_length=10)
+
+    def __unicode__(self):
+        return "%s , %s" % (self.kindOfTransport, self.carsNumber)
+
+class Employment(models.Model):
+    transport = models.ForeignKey('Transport')
+    dateOfStarting = models.DateField()
+    dateOfFinish = models.DateField()
+    busy = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return "%s , %s , %s , %s" % (self.busy, self.transport, self.dateOfStarting, self.dateOfFinish)
+#////////////////////////////////////////////////////geography point////////////////////////////////////////////////////
+class GeographyPoint(models.Model):
+    x = models.CharField(max_length=10)
+    y = models.CharField(max_length=10)
+    address = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return "%s,%s,%s" % (self.address, self.x, self.y)
+#////////////////////////////////////////////////////resource///////////////////////////////////////////////////////////
+
+class Resource(models.Model):
+    name = models.CharField(max_length=20)
+    unitOfMesure = models.CharField(max_length=10)
+
+    def __unicode__(self):
+        return self.name
+
+class Stock(models.Model):
+    resource = models.ForeignKey('Resource')
+    geographyPoint = models.ForeignKey('GeographyPoint')
+    number = models.CharField(max_length=10)
+
+#/////////////////////////////////////////////////Needs//////////////////////////////////////////////////////////////////
+
+class Order(models.Model):
+    geographyPoint = models.ForeignKey('GeographyPoint')
+    dateOfStarting = models.DateField()
+    dateOfFinish = models.DateField()
+    priority = models.CharField(max_length=15)
+
+    def __unicode__(self):
+        return self.geographyPoint
+
+class Need(models.Model):
+    resource = models.ForeignKey('Resource')
+    order = models.ForeignKey('Order')
+    countOfResource = models.CharField(max_length=20)
+    priority = models.CharField(max_length=15)
+    perfomance = models.CharField(max_length=10)
+
+#//////////////////////////////////////////way//////////////////////////////////////////////////////////////////////////
+class Way(models.Model):
+    s =models.CharField(max_length=20)
+    danger = models.CharField(max_length=10)
+    passability = models.CharField(max_length=15)
+    zagruzhenost = models.CharField(max_length=20)
+
+
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
 

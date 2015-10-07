@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3>Потребность: {{ need.pk}}</h3>
+{% endblock %}
+
+{% block content %}
+<ul>
+    <li>: {{ need.resource }},
+    <li>: {{ need.order }},
+    <li>: {{ need.countOfResource }},
+    <li>: {{ need.priority }},
+    <li>: {{ need.perfomance }},
+</ul>
+{% endblock %}

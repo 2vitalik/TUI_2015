@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3>Заказ: {{ order.pk}}</h3>
+{% endblock %}
+
+{% block content %}
+<ul>
+    <li>дата начала: {{ order.dateOfStarting }},
+    <li>дата окончания: {{ order.dateOfFinish }},
+    <li>приоритет: {{ order.priority }},
+</ul>
+{% endblock %}

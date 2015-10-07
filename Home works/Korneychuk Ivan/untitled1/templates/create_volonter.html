@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <h3>Волонтёр: {{ volonter.fio }}</h3>
-{% endblock %}
+    Back to: <a href="{% url 'list_volonters' %}">list</a>
+    {% endblock %}
 
 {% block content %}
     <form method="POST" action="{% url 'create_volonter' %}">

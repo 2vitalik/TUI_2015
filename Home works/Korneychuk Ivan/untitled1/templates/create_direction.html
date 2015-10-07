@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <h3> Направление: {{ direction.name }}</h3>
+    Back to: <a href="{% url 'list_directions' %}">list</a>
 {% endblock %}
 
 {% block content %}
@@ -9,6 +9,6 @@
         {% csrf_token %}
         <li>Name: <input type="text" name="name">
         <li>Importance:<input type="text" name="importance">
-    <input type="submit" value="Save!">
-           </form>
+        <input type="submit" value="Save!">
+    </form>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.core.urlresolvers import reverse
-from main.models import Volonter, Skill, KindOfWork, Direction
+from main.models import Volonter, Skill, KindOfWork, Direction, KindOfTransport, Transport, Employment, GeographyPoint, \
+    Order, Need
 
 
 class VolonterAdmin(admin.ModelAdmin):
@@ -36,7 +37,40 @@ class KindOfWorkAdmin(admin.ModelAdmin):
 
 class DirectionAdmin(admin.ModelAdmin):
     list_display = ('name', 'importance', )
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+class KindOfTransportAdmin(admin.ModelAdmin):
+    list_display = ('pk','name', 'volume', 'speed', 'expensesOfFuel', 'passability', )
+
+class TransportAdmin(admin.ModelAdmin):
+    list_display = ('pk','kindOfTransport','carsNumber',)
+
+class EmploymentAdmin(admin.ModelAdmin):
+    list_display = ('transport','dateOfStarting','dateOfFinish','busy',)
+
+class ResourceAdmin(admin.ModelAdmin):
+    list_display = ('pk','name','unitOfMesure',)
+
+class StockAdmin(admin.ModelAdmin):
+    list_display = ('pk','resource', 'geographyPoint', 'number',)
+
+class GeographyPointAdmin(admin.ModelAdmin):
+    list_display = ('pk','x','y','address',)
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('pk','geographyPoint','dateOfStarting','dateOfFinish','priority',)
+
+class NeedAdmin(admin.ModelAdmin):
+    list_display = ('pk','resource','order','countOfResource','priority','perfomance',)
+
+
+
+admin.site.register(Need, NeedAdmin)
+admin.site.register(Order, OrderAdmin)
+admin.site.register(GeographyPoint, GeographyPointAdmin)
+admin.site.register(Employment, EmploymentAdmin)
+admin.site.register(Transport, TransportAdmin)
+admin.site.register(KindOfTransport, KindOfTransportAdmin)
 admin.site.register(Direction, DirectionAdmin)
 admin.site.register(Volonter, VolonterAdmin)
 admin.site.register(Skill, SkillAdmin)
