@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="842420795">
+    <data-source source="LOCAL" name="Django default" uuid="00b93aec-f23f-46b6-9966-b365cf773e9b">
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Bullet\PycharmProjects\TUI_2015\Main project\db_volonters\db.sqlite3</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+

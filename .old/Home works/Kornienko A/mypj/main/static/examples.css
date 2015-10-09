@@ -6,9 +6,11 @@ input {
 input[type=checkbox] {
 	margin: 7px;
 }
+
 #grafik {
 	boredr: 1px solid #000000;
 }
+
 
 
 .demo-container {
