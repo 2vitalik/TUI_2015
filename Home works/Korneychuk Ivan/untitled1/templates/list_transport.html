@@ -5,10 +5,9 @@
 {% endblock %}
 
 {% block content %}
-    {% for transport in transports %}
-        <li><a href="{% url 'view_transport' transport.id %}">
-                {{ transport.name }}
+    {% for transport in trans %}
+        <li><a href="{% url 'view_transport' transport.pk %}">
+                {{ transport.kindOfTransport.name }},{{ transport.kindOfTransport.kind }}
             </a>
-        </li>
-    {% endfor %}
+     {% endfor %}
 {% endblock %}
