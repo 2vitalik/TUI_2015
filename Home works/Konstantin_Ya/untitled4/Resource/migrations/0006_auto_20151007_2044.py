@@ -7,12 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('storehouse', '0001_initial'),
+        ('Resource', '0005_auto_20151007_2016'),
     ]
 
     operations = [
-        migrations.RenameModel(
-            old_name='WarHouse',
-            new_name='StoreHouse',
+        migrations.AlterField(
+            model_name='need',
+            name='priority',
+            field=models.IntegerField(null=True),
         ),
     ]
