@@ -9,7 +9,7 @@ class Resource(models.Model):
     volume = models.FloatField()
     count = models.FloatField()
     def __unicode__(self):
-        return "%s, %f, %f, %f" % (self.name, self.weight, self.volume, self.count)
+        return self.name
 
 class Need(models.Model):
     id_resource = models.ForeignKey('Resource', null = True)
@@ -26,7 +26,7 @@ class Order(models.Model):
     date_of_finish = models.DateField(null = False)
     priority = models.FloatField(null = True)
     def __unicode__(self):
-        return "%s, %s, %f" % (self.date_of_starting, self.date_of_finish, self.priority)
+        return "%s" % self.pk
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$/storehouse/$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 class PointOfConsuming(models.Model):
     #id_geography_point = models.ForeignKey(GeographyPoint)

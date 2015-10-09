@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3>Направление: {{ direction.name }}</h3>
+{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{% url 'update_directions' direction.pk %}">
+        <li>Name: <input type="text" name="name">
+        <li>Importance:<input type="text" name="importance">
+        <input type="submit" value="Save!">
+    </form>
+{% endblock %}
