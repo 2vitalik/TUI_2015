@@ -4,7 +4,7 @@ from django.views.generic import CreateView, UpdateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.models import Volonter, Direction
+from main.models import Volonter, KindOfWork, Skill, Transport
 
 
 class MainView(TemplateView):
@@ -44,36 +44,49 @@ class VolonterUpdateView(UpdateView):
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class DirectionMainView(TemplateView):
-    template_name = 'list_directions.html'
-    def get_context_data(self, **kwargs):
-        context = super(DirectionMainView, self).get_context_data(**kwargs)
-        context.update({
-            'directions': Direction.objects.all(),
-        })
-        return context
-
-class DirectionListView(ListView):
-    template_name = 'list_directions.html'
-    model = Direction
-    context_object_name = 'directions'
-
-class DirectionDetailView(DetailView):
-    template_name = 'view_directions.html'
-    model = Direction
-    context_object_name = 'direction'
-
-class DirectionUpdateView(UpdateView):
-    template_name = 'update_directions.html'
-    model = Direction
-    context_object_name = 'direction'
-    fields = ('name', 'importance',)
-
-class DirectionCreateView(CreateView):
-    template_name = 'create_direction.html'
-    model = Direction
-    fields = ('name', 'importance',)
-    success_url = reverse_lazy('list_directions')
-
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class KindOfWorkMainView(TemplateView):
+    template_name = 'list_kindofwork.html'
+    def get_context_data(self, **kwargs):
+        context = super(KindOfWorkMainView, self).get_context_data()
+        context.update({'kWorks':KindOfWork.objects.all()})
+        return context
+class KindOfWorkListView(ListView):
+    template_name = 'list_kindofwork.html'
+    model = KindOfWork
+    context_object_name = 'kWork'
+class KindOfWorkDetailView(DetailView):
+    template_name = 'view_kindofwork.html'
+    model = KindOfWork
+    context_object_name = 'kWork'
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class SkillMainView(TemplateView):
+    template_name = 'list_skill.html'
+    def get_context_data(self, **kwargs):
+        context = super(SkillMainView, self).get_context_data()
+        context.update({'skills': Skill.objects.all()})
+        return context
+class SkillListView(ListView):
+    template_name = 'list_skill.html'
+    model = Skill
+    context_object_name = 'skills'
+class SkillDetailView(DetailView):
+    template_name = 'view_skill.html'
+    model = Skill
+    context_object_name = 'skill'
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class TransportMainView(TemplateView):
+    template_name = 'list_transport.html'
+    def get_context_data(self, **kwargs):
+        context = super(TransportMainView, self).get_context_data()
+        context.update({'trans': Transport.objects.all()})
+        return context
+class TransportListView(ListView):
+    template_name = 'list_transport.html'
+    model = Transport
+    context_object_name = 'trans'
+class TransportDetailView(DetailView):
+    template_name = 'view_transport.html'
+    model = Transport
+    context_object_name = 'trans'
 
