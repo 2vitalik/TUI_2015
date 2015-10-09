@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from Resource.views import ResourceListView, ResourceDetailView, ResourceCreateView
+from Resource.views import ResourceListView, ResourceDetailView, ResourceCreateView, NeedListView, NeedDetailView, \
+    NeedCreateView, PointOfConsumingListView, PointOfConsumingDetailView, PointOfConsumingCreateView
 from main.views import MainView, VolonterListView, VolonterDetailView, \
     VolonterCreateView, VolonterUpdateView, KindOfWorkListView, KindOfWorkDetailView, SkillListView, SkillDetailView, TransportListView, TransportDetailView, VolonterGrafikView
 from storehouse.views import StoreHouseListView, StoreHouseDetailView, StoreHouseUpdateView, \
@@ -45,10 +46,7 @@ urlpatterns = [
     url(r'transport/', TransportListView.as_view(), name='list_transport'),
     url(r'transport/(?P<pk>\d+)/$', TransportDetailView.as_view(), name='view_transport'),
 
-    url(r'^volonter/grafik/$',
-        VolonterGrafikView.as_view(),
-        name = 'grafic_volonter',
-        ),
+    url(r'^volonter/grafik/$',VolonterGrafikView.as_view(),name = 'grafic_volonter'),
 
     url(r'^Resource/$',
         ResourceListView.as_view(),
@@ -59,4 +57,25 @@ urlpatterns = [
     url(r'^Resource/add/$',
         ResourceCreateView.as_view(),
         name = 'create_resource'),
+
+    url(r'^Need/$',
+        NeedListView.as_view(),
+        name = 'list_need'),
+    url(r'^Need/(?P<pk>\d+)/$',
+        NeedDetailView.as_view(),
+        name = 'view_need'),
+    url(r'^Need/add/$',
+        NeedCreateView.as_view(),
+        name = 'create_need'),
+
+    url(r'^PointOfConsuming/$',
+        PointOfConsumingListView.as_view(),
+        name = 'list_pointofconsuming'),
+    url(r'^PointOfConsuming/(?P<pk>\d+)/$',
+        PointOfConsumingDetailView.as_view(),
+        name = 'view_pointofconsuming'),
+    url(r'^PointOfConsuming/add/$',
+        PointOfConsumingCreateView.as_view(),
+        name = 'create_pointofconsuming'),
+
 ]

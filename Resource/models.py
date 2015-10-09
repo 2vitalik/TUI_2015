@@ -3,6 +3,9 @@ from django.conf.app_template import models
 from django.db import models
 
 # Create your models here. 111
+import main
+
+
 class Resource(models.Model):
     name = models.CharField(max_length=20)
     weight = models.FloatField()
@@ -21,16 +24,16 @@ class Need(models.Model):
         return "%i, %f, %i" % (self.number_of_resource, self.priority, self.perfomance)
 
 class Order(models.Model):
-    #id_geography_point = models.ForeignKey(GeographyPoint)
+    id_geography_point = models.ForeignKey('main.GeographyPoint', null = True)
     date_of_starting = models.DateField(null = False)
     date_of_finish = models.DateField(null = False)
     priority = models.FloatField(null = True)
     def __unicode__(self):
         return "%s" % self.pk
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$/storehouse/$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 class PointOfConsuming(models.Model):
-    #id_geography_point = models.ForeignKey(GeographyPoint)
+    id_geography_point = models.ForeignKey('main.GeographyPoint', null = True)
     fio = models.CharField(max_length=50, null = False)
     telephone = models.CharField(max_length=11, null = True)
     def __unicode__(self):
-        return "%s, %s" % (self.fio, self.telephone)
+        return "%s" % self.pk

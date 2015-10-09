@@ -2,7 +2,7 @@ from pyexpat import model
 from django.shortcuts import render
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
-from Resource.models import Resource
+from Resource.models import Resource, Need, PointOfConsuming
 
 
 class MainView(TemplateView):
@@ -12,6 +12,7 @@ class MainView(TemplateView):
         context = super(MainView, self).get_context_data(**kwargs)
         context.update({
             'Resource': Resource.objects.all(),
+            'Need':Need.objects.all(),
         })
         return context
 class ResourceListView(ListView):
@@ -30,3 +31,38 @@ class ResourceCreateView(CreateView):
     context_object_name = 'Resource'
     fields = ('name', 'weight', 'volume','count',)
     success_url = reverse_lazy('create_resource')
+#///////////////////////////////$NEED$//////////////////////////////////////////////////////////////////////////////////
+class NeedListView(ListView):
+    template_name = 'list_need.html'
+    model = Need
+    context_object_name = 'Need'
+
+class NeedDetailView(DetailView):
+    template_name = 'view_need.html'
+    model = Need
+    context_object_name = 'Need'
+
+class NeedCreateView(CreateView):
+    template_name = 'create_need.html'
+    model = Need
+    context_object_name = 'Need'
+    fields = ('id_resource', 'number_of_resource', 'priority','perfomance',)
+    success_url = reverse_lazy('create_need')
+#/////////////////////////////////////$PointOfConsuming$////////////////////////////////////////////////////////////////////
+
+class PointOfConsumingListView(ListView):
+    template_name = 'list_pointofconsuming.html'
+    model =  PointOfConsuming
+    context_object_name = ' PointOfConsuming'
+
+class PointOfConsumingDetailView(DetailView):
+    template_name = 'view_pointofconsuming.html'
+    model = PointOfConsuming
+    context_object_name = 'PointOfConsuming'
+
+class PointOfConsumingCreateView(CreateView):
+    template_name = 'create_pointofconsuming.html'
+    model = PointOfConsuming
+    context_object_name = 'PointOfConsuming'
+    fields = ('id_geography_point','fio','telephone',)
+    success_url = reverse_lazy('create_PointOfConsuming')

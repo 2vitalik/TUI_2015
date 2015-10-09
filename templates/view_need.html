@@ -5,10 +5,11 @@
 
 {% block content %}
 <ul>
-    <li>Имя: {{Need.name }}
-    <li>Вес: {{ Resource.weight }} кг
-    <li>Обьем: {{ Resource.volume }} л
-    <li>Кол-во: {{ Resource.count }} шт.
+    <li>Ресурс: {{Need.id_resource }}
+    <li>Кол-во: {{ Need.number_of_resource }} шт.
+    <li>Приоритет: {{ Need.priority }} **
+    <li>Удовлетворённость: {{ Need.perfomance }}%
+
 </ul>
-<a href = "{% url 'list_resource' %}">Назад</a>
+<a href = "{% url 'list_need' %}">Назад</a>
 {% endblock %}

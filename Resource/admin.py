@@ -30,11 +30,13 @@ class NeedAdmin(admin.ModelAdmin):
     )
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = (
+        'id_geography_point',
         'fio',
         'telephone',
     )
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
+        'id_geography_point',
         'date_of_starting',
         'date_of_finish',
         'priority',
