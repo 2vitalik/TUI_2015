@@ -7,7 +7,7 @@ class Resource(models.Model):
     name = models.CharField(max_length=20)
     weight = models.FloatField()
     volume = models.FloatField()
-    count = models.FloatField(0)
+    count = models.FloatField()
     def __unicode__(self):
         return "%s, %f, %f, %f" % (self.name, self.weight, self.volume, self.count)
 
