@@ -2,7 +2,7 @@
 from django.conf.app_template import models
 from django.db import models
 
-# Create your models here.
+# Create your models here. 111
 class Resource(models.Model):
     name = models.CharField(max_length=20)
     weight = models.FloatField()
