@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.core.urlresolvers import reverse
-from main.models import Volonter, Skill, KindOfWork, Direction, MakingAWay, Route, Way, GeographyPoint, Trip, Employment, Transport, KindOfTransport, ShippingDetalization, Shipping, Supply, Stock
+from main.models import Volonter, Skill, KindOfWork, MakingAWay, Route, Way, GeographyPoint, Trip, Employment, Transport, KindOfTransport, ShippingDetalization, Shipping, Supply, Stock
 
 
 class VolonterAdmin(admin.ModelAdmin):
