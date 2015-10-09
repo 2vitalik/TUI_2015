@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title></title>
 </head>
 <body>
-
-    <table border="1" bgcolor="#7fff00" >
-        <tr>
-            <td>
-                Title: {% block title %}{% endblock %}</td>
-        </tr>
-        <tr>
-            <td>Content: {% block content %}{% endblock %}</td>
-        </tr>
-    </table>
+       <table border = "3">
+           <tr>
+               <td> {% block title %}{% endblock %}</td>
+           </tr>
+           <tr>
+               <td> {% block content %}{% endblock %}</td>
+           </tr>
+       </table>
 
 </body>
 </html>

@@ -41,4 +41,14 @@ urlpatterns = [
     url(r'^StoreHouse/(?P<pk>\d+)/$', StoreHouseDetailView.as_view(), name='view_StoreHouse' ),
     url(r'^StoreHouse/add/$', StoreHouseCreateView.as_view(), name='create_StoreHouse' ),
     url(r'^StoreHouse/(?P<pk>\d+)/edit/', StoreHouseUpdateView.as_view(), name='update_StoreHouse' ),
+
+    url(r'^Resource/$',
+        ResourceListView.as_view(),
+        name='list_resource'),
+    url(r'^Resource/(?P<pk>\d+)/$',
+        ResourceDetailView.as_view(),
+        name = 'view_resource'),
+    url (r'^Resource/add/$',
+         ResourceCreateView.as_view(),
+         name = 'create_resource'),
 ]
