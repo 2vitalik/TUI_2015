@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3>Ресурс:</h3>
+{% endblock %}
+
+{% block content %}
+   <form method="post" action="{% url 'create_resource' %}">
+      {% csrf_token %}
+      <li>Ресурс: <input type="text" name="name">
+      <li>Вес: <input type="text" name="weight">
+      <li>Обьем: <input type="text" name="volume">
+      <li>Кол-во: <input type="text" name="count">
+      <input type="submit" name="Save" value = "Save!">
+   </form>
+    <a href = "{% url 'list_resource' %}">Назад</a>
+{% endblock %}
