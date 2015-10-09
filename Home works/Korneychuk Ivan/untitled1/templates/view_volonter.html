@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3>Волонтёр: {{ volonter.fio }}</h3>
+{% endblock %}
+
+{% block content %}
+<ul>
+    <li>День рождения:
+        {{ volonter.birthday|date:"d.m.Y" }}
+    <li>address: {{ volonter.address }}
+    <li>gender: {{ volonter.gender }},
+        {{ volonter.get_gender_display }}
+</ul>
+{% endblock %}
