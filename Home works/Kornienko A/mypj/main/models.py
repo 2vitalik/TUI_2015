@@ -2,19 +2,18 @@
 from django.db import models
 
 class Volonter(models.Model):
-    GENDER_CHOICES = (
+    GENDER_CHOISES = (
         (u'М', 'Male'),
         (u'Ж', 'Female'),
     )
-    fio = models.CharField(verbose_name=u'ФИО', max_length=200)
+    fio = models.CharField(max_length=200)
     birthday = models.DateField(null=True, blank=True)
     address = models.TextField(null=True)
     telephone = models.CharField(max_length=20)
-    gender = models.CharField(max_length=1,
-                              choices=GENDER_CHOICES)
+    gender = models.CharField(choices=GENDER_CHOISES,max_length=20,null=True)
 
     def __unicode__(self):
-        return "%s, %s" % (self.fio, self.gender)
+        return "%s, %s,%s, %s, %s" % (self.fio, self.gender,  self.birthday,  self.address,  self.telephone)
 
 class KindOfWork(models.Model):
     name = models.CharField(max_length=100)

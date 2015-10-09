@@ -23,7 +23,7 @@ Choose the colour you wish to use => colour-azure.css is default
 @import url(colour-orange.css);
 @import url(colour-purple.css);
 */
-@import url(colour-azure.css);
+@import url(colour-blue.css);
 
 /*******************************************************************************************************************
 *  BASE                                                                                                            
@@ -31,7 +31,7 @@ Choose the colour you wish to use => colour-azure.css is default
 html{background:#f2f2f2;}
 body{color:#727272; font:normal 13px "Helvetice Neue",Arial,Tahoma,Verdana;}
 p{line-height:1.5em; margin-bottom:15px;}
-p strong{color:#424242;}
+p strong{color:#000000;}
 address{font-style:normal; padding-bottom:15px;}
 
 /*******************************************************************************************************************
@@ -173,28 +173,61 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 @media only screen and (-webkit-min-device-pixel-ratio: 2) { 
 	html{width:100%;}
 }
-#story{
 
-	width: auto;
-	min-height: 20px;
-	height: auto;
-	text-align: center;
-}
+
 #content{
 	width:auto ;
 	position:relative;
 	background-color: azure;
+	padding-left: 50%;
+   	margin-left: -500px;
 
 
 
 }
-#bl{
+#content .bl_content{
 	padding-top: 10px;
 	padding-bottom: 10px;
-	padding-left:500px;
+	color: #000000;
+
 }
-.abl{
-	border:1px solid #000000;
-	padding:3px;
+#content .bl_title{
+	padding-top: 15px;
+	width: 1000px;
+	min-height: 20px;
+	height: auto;
+}
+#content .bl_bottom{
+	text-align: right;
+	width: 1000px;
+	min-height: 20px;
+	height: auto;
+}
+#list_table table{
+	width: 1000px;
+	border-color: #24528d;
+	background-color: #24528d;
+}
+#list_table td{
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 4px;
+	padding-right: 4px;
+	background-color: #ffffff;
+
+}
+.detail_list{
+	color:#424242;
+	text-decoration: none;
+}
+.detail_list:hover{
+	color:#214c90;
+	text-decoration: none;
+}
+.detail_list:active{
+	color:#000000;
+	text-decoration: none;
+}
+.title_list{
 	text-align: center;
 }

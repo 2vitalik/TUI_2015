@@ -15,8 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from main.views import MainView,OrderView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView, \
-    OrderDetailView
+from main.views import MainView,OrderView, VolonterListView,VolonterGrafikView, VolonterDetailView, VolonterCreateView, OrderDetailView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls),name='admins'),
@@ -28,17 +27,18 @@ urlpatterns = [
     url(r'^volonter/(?P<pk>\d+)/$',
         VolonterDetailView.as_view(),
         name='view_volonter'),
-    url(r'^volonter/add/',
+    url(r'^volonter/add/$',
         VolonterCreateView.as_view(),
         name='create_volonter'),
-    url(r'^volonter/(?P<pk>\d+)/edit/',
-        VolonterUpdateView.as_view(),
-        name='update_volonter'),
      url(r'^orders/$',
         OrderView.as_view(),
         name='order_list'),
     url(r'^orders/(?P<pk>\d+)/$',
         OrderDetailView.as_view(),
         name='view_order'),
+    url(r'^volonter/grafik/$',
+        VolonterGrafikView.as_view(),
+        name = 'grafic_volonter',
+        )
 
 ]
