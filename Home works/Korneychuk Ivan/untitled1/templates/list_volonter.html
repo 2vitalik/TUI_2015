@@ -6,17 +6,8 @@
 
 {% block content %}
     {% for volonter in volonters %}
-{#        <a href="/volonter/{{ volonter.id }}/"> #}
         <li><a href="{% url 'view_volonter' volonter.id %}">
                 {{ volonter.fio }}
             </a>
-            (<a href="{% url 'update_volonter' volonter.id %}">
-                edit
-            </a>)
-        </li>
-    {% endfor %}
-    </ol>
-    <a href="{% url 'create_volonter' %}">
-        Add new volonter
-    </a>
+     {% endfor %}
 {% endblock %}

@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <h3>Транспорт: {{ transport.kindOfTransport }}</h3>
+    <h3>Машины: {{ trans.pk }}</h3>
 {% endblock %}
 
 {% block content %}
 <ul>
-    <li>number: {{ transport.carsNumber }},
-
-</ul>
+    <li>ID вида машины: {{ trans.kindOfTransport}}
+    <li>Номер: {{ trans.number }}
+   </ul>
 {% endblock %}

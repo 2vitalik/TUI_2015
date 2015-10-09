@@ -1,6 +1,6 @@
 # coding: utf-8
 from django.db import models
-#////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////Volonters///////////////////////////////////////////////////////////////
 
 class Volonter(models.Model):
     GENDER_CHOICES = (
@@ -16,17 +16,12 @@ class Volonter(models.Model):
 
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.gender)
-
-
 class KindOfWork(models.Model):
-    direction = models.ForeignKey('Direction', null=True)
     name = models.CharField(max_length=100)
     complexity = models.CharField(max_length=20, null= True)
 
     def __unicode__(self):
         return self.name
-
-
 class Skill(models.Model):
     volonter = models.ForeignKey('Volonter')
     kind = models.ForeignKey('KindOfWork', null=True)
@@ -36,92 +31,102 @@ class Skill(models.Model):
     def __unicode__(self):
         return "%s, %s" % (self.updated_at, self.created_at)
 
-
-class Direction(models.Model):
-    name = models.CharField(max_length=30)
-    importance = models.CharField(max_length=20)
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Stock(models.Model):
+    #storeHouseId = models.ForeignKey('Storehouse')
+    #resource = models.ForeignKey('Resource')
+    amount = models.IntegerField(null=True)
 
     def __unicode__(self):
-        return "%s, %s" % (self.name, self.importance)
-#/////////////////////////////////////////////////////Transport/////////////////////////////////////////////////////////
+        return self.amount
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Supply(models.Model):
+    volonter = models.ForeignKey('Volonter')
+    stock = models.ForeignKey('Stock')
+    dateReal = models.DateField()
+    dateRecomended = models.DateField()
+    amount = models.IntegerField(null=True)
 
+
+    def __unicode__(self):
+        return self.amount
+class Shipping(models.Model):
+    volonter = models.ForeignKey('Volonter')
+    dateRecomended = models.DateField()
+
+    def __unicode__(self):
+        return self.dateRecomended
+class ShippingDetalization(models.Model):
+    amount = models.IntegerField()
+    shipping = models.ForeignKey('Shipping')
+    stock = models.ForeignKey('Stock')
+
+    def __unicode__(self):
+        return self.amount
+#///////////////////////////////////////////transport///////////////////////////////////////////////////////////////////
 class KindOfTransport(models.Model):
     name = models.CharField(max_length=20)
+    kind = models.CharField(max_length=20)
     volume = models.CharField(max_length=10)
     speed = models.CharField(max_length=10)
-    expensesOfFuel = models.CharField(max_length=10)
+    expenseOfFuel = models.CharField(max_length=10)
     passability = models.CharField(max_length=20)
+    load = models.CharField(max_length=20)
 
     def __unicode__(self):
-        return self.name
-
+        return "%s, %s" % (self.name, self.kind)
 class Transport(models.Model):
     kindOfTransport = models.ForeignKey('KindOfTransport')
-    carsNumber = models.CharField(max_length=10)
+    number = models.CharField(max_length=10)
 
     def __unicode__(self):
-        return "%s , %s" % (self.kindOfTransport, self.carsNumber)
-
+        return self.number
 class Employment(models.Model):
-    transport = models.ForeignKey('Transport')
-    dateOfStarting = models.DateField()
-    dateOfFinish = models.DateField()
-    busy = models.BooleanField(default=False)
+    transport = models.OneToOneField('Transport', null=True)
+    dateStart = models.DateField()
+    dateFinish = models.DateField()
 
     def __unicode__(self):
-        return "%s , %s , %s , %s" % (self.busy, self.transport, self.dateOfStarting, self.dateOfFinish)
-#////////////////////////////////////////////////////geography point////////////////////////////////////////////////////
+        return "%d, %d" % (self.dateStart, self.dateFinish)
+class Trip(models.Model):
+    transport = models.ForeignKey('Transport')
+    route = models.ForeignKey('Route', null=True)
+    shipping = models.ForeignKey('Shipping')
+    dateDeparture = models.DateField()
+    perfomance = models.BooleanField(default=False)
+#/////////////////////////////////////////////way///////////////////////////////////////////////////////////////////////
 class GeographyPoint(models.Model):
-    x = models.CharField(max_length=10)
-    y = models.CharField(max_length=10)
+    x = models.FloatField()
+    y = models.FloatField()
     address = models.CharField(max_length=50)
 
     def __unicode__(self):
-        return "%s,%s,%s" % (self.address, self.x, self.y)
-#////////////////////////////////////////////////////resource///////////////////////////////////////////////////////////
-
-class Resource(models.Model):
-    name = models.CharField(max_length=20)
-    unitOfMesure = models.CharField(max_length=10)
+        return self.address
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Way(models.Model):
+    gpointFrom = models.ForeignKey('GeographyPoint', related_name='WaygpointFrom')
+    gpointTo = models.ForeignKey('GeographyPoint', related_name='WaygpointTo')
+    s = models.CharField(max_length=15)
+    danger = models.CharField(max_length=20)
+    passability = models.CharField(max_length=20)
+    zagruzhenost = models.CharField(max_length=20)
+#///////////////////////////////////////////////////////route///////////////////////////////////////////////////////////
+class Route(models.Model):
+    #storehouse = models.ForeignKey('Storehouse')
+    #pointOfConsuming = models.ForeignKey('PointOfConsuming')
+    gpointFrom = models.ForeignKey('GeographyPoint', related_name='RoutegpointFrom')
+    gpointTo = models.ForeignKey('GeographyPoint', related_name='RoutegpointTo')
+    name = models.CharField(max_length=30)
 
     def __unicode__(self):
         return self.name
-
-class Stock(models.Model):
-    resource = models.ForeignKey('Resource')
-    geographyPoint = models.ForeignKey('GeographyPoint')
-    number = models.CharField(max_length=10)
-
-#/////////////////////////////////////////////////Needs//////////////////////////////////////////////////////////////////
-
-class Order(models.Model):
-    geographyPoint = models.ForeignKey('GeographyPoint')
-    dateOfStarting = models.DateField()
-    dateOfFinish = models.DateField()
-    priority = models.CharField(max_length=15)
+class MakingAWay(models.Model):
+    way = models.ForeignKey('Way')
+    route = models.ForeignKey('Route')
+    sequence=models.IntegerField()
 
     def __unicode__(self):
-        return self.geographyPoint
-
-class Need(models.Model):
-    resource = models.ForeignKey('Resource')
-    order = models.ForeignKey('Order')
-    countOfResource = models.CharField(max_length=20)
-    priority = models.CharField(max_length=15)
-    perfomance = models.CharField(max_length=10)
-
-#//////////////////////////////////////////way//////////////////////////////////////////////////////////////////////////
-class Way(models.Model):
-    s =models.CharField(max_length=20)
-    danger = models.CharField(max_length=10)
-    passability = models.CharField(max_length=15)
-    zagruzhenost = models.CharField(max_length=20)
-
-
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
+        return self.sequence
 
 
 
