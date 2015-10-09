@@ -1,0 +1,48 @@
+/*
+
+Original Author: Tomas Lach (www.tomaslach.cz)
+Modified by OS Templates (http://www.os-templates.com)
+
+*/
+
+*{background:none !important;}
+body{color:#000; font:normal 12px Arial,sans-serif; padding-top:0;}
+p{font-size:1.0em; line-height:1.8em; margin-bottom:15px;}
+address{font-style:normal; padding-bottom:15px;}
+
+/*******************************************************************************************************************
+*  LINKS                                                                                                           *
+*******************************************************************************************************************/
+a, #content a{color:#000; outline:0; text-decoration:none; border:none;}
+
+/*******************************************************************************************************************
+*  TITLES                                                                                                          *
+*******************************************************************************************************************/
+h1, h2, h3, h4, h5{margin:0 0 10px 0; color:#000;}
+h1{font-size:3.0em; margin-bottom:5px; font-weight:normal;}
+h2{font-size:1.6em; margin-bottom:20px; font-weight:normal; padding-top:40px;}
+h3{font-size:1.2em; margin-bottom:20px; text-transform:uppercase;}
+h4{font-size:1.2em;}
+h5{font-size:1.1em;}
+
+/*******************************************************************************************************************
+*  HEADER                                                                                                          
+*******************************************************************************************************************/
+header a#logo{display:block; width:100%; font-size:2.2em; font-weight:bold; color:#000; text-transform:uppercase; text-align:center; text-decoration:none;}
+
+/*******************************************************************************************************************
+*  INTRO                                                                                                           *
+*******************************************************************************************************************/
+#intro{margin-bottom:0;}
+
+/*******************************************************************************************************************
+*  OTHER STYLES                                                                                                    *
+*******************************************************************************************************************/
+hr{margin:30px 0;}
+.wrap{width:100%; padding:0;}
+.high{font-weight:bold; color:#2d7bac;}
+
+/*******************************************************************************************************************
+*  DISPLAY NONE                                                                                                    *
+*******************************************************************************************************************/
+a.more, #intro .button, header #nav, .socialIcons, #twitter, form, .buttonCentered, .noPrint{display:none;}

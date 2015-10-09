@@ -18,13 +18,14 @@ from django.contrib import admin
 from main.views import MainView, VolonterListView, VolonterDetailView, \
     VolonterCreateView, VolonterUpdateView, \
     DirectionListView, DirectionMainView, DirectionDetailView, \
-    DirectionCreateView, DirectionUpdateView
+    DirectionCreateView, DirectionUpdateView, VolonterGrafikView
 from storehouse.views import StoreHouseListView, StoreHouseDetailView, StoreHouseUpdateView, \
     StoreHouseCreateView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^test/', MainView.as_view()),
+    url(r'^$', MainView.as_view()),
 
     url(r'^volonters/',VolonterListView.as_view(), name='list_volonters'),
     url(r'^volonter/(?P<pk>\d+)/$',VolonterDetailView.as_view(), name='view_volonter'),
@@ -41,4 +42,9 @@ urlpatterns = [
     url(r'^StoreHouse/(?P<pk>\d+)/$', StoreHouseDetailView.as_view(), name='view_StoreHouse' ),
     url(r'^StoreHouse/add/$', StoreHouseCreateView.as_view(), name='create_StoreHouse' ),
     url(r'^StoreHouse/(?P<pk>\d+)/edit/', StoreHouseUpdateView.as_view(), name='update_StoreHouse' ),
+
+    url(r'^volonter/grafik/$',
+        VolonterGrafikView.as_view(),
+        name = 'grafic_volonter',
+        )
 ]

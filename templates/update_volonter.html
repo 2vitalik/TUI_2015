@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block content %}
-    <form method="POST" action="{% url 'update_volonter' volonter.id %}">
+    <form method="POST" action="{% url 'update_volonter' volonter.pk %}">
         <li>FIO: <input type="text" name="fio">
         <li>адрес:<input type="text" name="address">
         <li>тел:<input type="text" name="telephone">
         <li>пол:<input type="text" name="gender">
-        <input type="submit" value="Save">
+        <input type="submit" value="Save!">
     </form>
 {% endblock %}
