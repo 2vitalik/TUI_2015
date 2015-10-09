@@ -7,22 +7,16 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0007_auto_20151001_1256'),
+        ('main', '0013_kindoftransport'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Need',
+            name='Transport',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('resource', models.ForeignKey(to='main.Resource')),
+                ('number', models.CharField(max_length=10)),
+                ('kindOfTransport', models.ForeignKey(to='main.KindOfTransport')),
             ],
-        ),
-        migrations.RemoveField(
-            model_name='stock',
-            name='resource',
-        ),
-        migrations.DeleteModel(
-            name='Stock',
         ),
     ]

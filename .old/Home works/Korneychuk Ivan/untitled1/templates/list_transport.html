@@ -7,7 +7,7 @@
 {% block content %}
     {% for transport in trans %}
         <li><a href="{% url 'view_transport' transport.pk %}">
-                {{ transport.kindOfTransport.name }},{{ transport.kindOfTransport.kind }}
+                {{ KindOfTransport.pk.name }},{{ KindOfTransport.pk.kind }}, {{ transport.kind }}
             </a>
      {% endfor %}
 {% endblock %}
