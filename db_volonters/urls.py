@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from Resource.views import ResourceListView, ResourceDetailView, ResourceCreateView
 from main.views import MainView, VolonterListView, VolonterDetailView, \
     VolonterCreateView, VolonterUpdateView, KindOfWorkListView, KindOfWorkDetailView, SkillListView, SkillDetailView, TransportListView, TransportDetailView, VolonterGrafikView
 from storehouse.views import StoreHouseListView, StoreHouseDetailView, StoreHouseUpdateView, \
@@ -42,12 +43,12 @@ urlpatterns = [
     url(r'skill/(?P<pk>\d+)/$', SkillDetailView.as_view(), name='view_skill'),
 
     url(r'transport/', TransportListView.as_view(), name='list_transport'),
-    url(r'transport/(?P<pk>\d+)/$', TransportDetailView.as_view(), name='view_transport')
+    url(r'transport/(?P<pk>\d+)/$', TransportDetailView.as_view(), name='view_transport'),
 
     url(r'^volonter/grafik/$',
         VolonterGrafikView.as_view(),
         name = 'grafic_volonter',
-        )
+        ),
 
     url(r'^Resource/$',
         ResourceListView.as_view(),
@@ -55,7 +56,7 @@ urlpatterns = [
     url(r'^Resource/(?P<pk>\d+)/$',
         ResourceDetailView.as_view(),
         name = 'view_resource'),
-    url (r'^Resource/add/$',
-         ResourceCreateView.as_view(),
-         name = 'create_resource'),
+    url(r'^Resource/add/$',
+        ResourceCreateView.as_view(),
+        name = 'create_resource'),
 ]
