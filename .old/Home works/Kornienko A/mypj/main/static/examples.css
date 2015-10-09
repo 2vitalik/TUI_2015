@@ -7,10 +7,13 @@ input[type=checkbox] {
 	margin: 7px;
 }
 
+#grafik {
+	boredr: 1px solid #000000;
+}
+
 
 
 .demo-container {
-	border: 1px;
 	box-sizing: border-box;
 	width: 850px;
 	height: 450px;
