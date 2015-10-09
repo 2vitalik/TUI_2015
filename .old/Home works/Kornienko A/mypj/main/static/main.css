@@ -1,0 +1,233 @@
+/*
+
+Original Author: Tomas Lach (www.tomaslach.cz)
+Heavily Modified by OS Templates (http://www.os-templates.com)
+
+Changing colours is now simple, now uses @import to import the individual CSS colour scheme instead of having to use multiple templates
+The template now gracefully degrades for older browsers - IE 7 + 8 are now also partially supported
+
+Template re-named to: Continents AIO (All In One)
+
+*/
+
+/*******************************************************************************************************************
+*  IMPORT OTHER STYLES                                                                                             
+*******************************************************************************************************************/
+@import url(reset.css); 
+/* 
+Choose the colour you wish to use => colour-azure.css is default
+@import url(colour-azure.css);
+@import url(colour-black.css);
+@import url(colour-blue.css);
+@import url(colour-green.css);
+@import url(colour-orange.css);
+@import url(colour-purple.css);
+*/
+@import url(colour-blue.css);
+
+/*******************************************************************************************************************
+*  BASE                                                                                                            
+*******************************************************************************************************************/
+html{background:#f2f2f2;}
+body{color:#727272; font:normal 13px "Helvetice Neue",Arial,Tahoma,Verdana;}
+p{line-height:1.5em; margin-bottom:15px;}
+p strong{color:#000000;}
+address{font-style:normal; padding-bottom:15px;}
+
+/*******************************************************************************************************************
+*  LINKS                                                                                                           
+*******************************************************************************************************************/
+a{outline:0;}
+a:hover{color:#000; text-decoration:underline;}
+
+/*******************************************************************************************************************
+*  H1 - H4                                                                                                         
+*******************************************************************************************************************/
+h1, h2, h3, h4{line-height:1.2em; margin-bottom:15px; font-weight:bold;}
+h1{font-size:3.0em; color:#fff; font-weight:normal;}
+h1 strong{font-weight:bold;}
+h2{font-size:1.1em; color:#737373; margin-bottom:30px; border-bottom:1px solid #e5e5e5; padding-bottom:10px;}
+h3, h4{font-size:1.4em; color:#424242; text-shadow:1px 1px 1px #fff; margin-bottom:10px;}
+h4{font-size:1.6em;}
+
+/*******************************************************************************************************************
+*  HEADER                                                                                                          
+*******************************************************************************************************************/
+header{height:84px; line-height:84px; background:#1a1a1a; position:relative; z-index:100;}
+header a#logo{font-size:1.2em; font-weight:bold; display:block; position:absolute; top:0; left:20px; color:#fff; text-transform:uppercase; text-decoration:none;}
+header a#logo:hover{text-decoration:none; color:#f7f7f7;}
+header #nav{position:absolute; top:0; right:0;}
+header #nav > strong{display:none;}
+header #nav > ul > li{float:left; background:url("img/nav-sep.png") no-repeat 0 50%; position:relative;}
+header #nav > ul > li.parent > a{background:url("img/nav-more.png") no-repeat 20px 50%; padding-left:40px;}
+header #nav > ul > li > ul{display:none; min-width:100%; position:absolute; top:62px; left:20px; line-height:normal; white-space:nowrap;}
+header #nav > ul > li > ul > li{margin-bottom:1px;}
+header #nav > ul > li > ul > li > a{color:#c3c3c3; text-decoration:none; padding:10px 20px; display:block; background:url("img/subnav-bg.png");}
+header #nav > ul > li > ul > li > a:hover{background:#000; color:#fff; text-decoration:none;}
+header #nav > ul > li:first-child{background:none;}
+header #nav > ul > li > a{float:left; color:#a2a2a2; display:block; height:84px; text-transform:uppercase; text-decoration:none; font-weight:bold; padding:0 20px; -webkit-transition:all 0.3s ease-in-out; -moz-transition:all 0.3s ease-in-out; -o-transition:all 0.3s ease-in-out; -ms-transition:all 0.3s ease-in-out; transition:all 0.3s ease-in-out;}
+header #nav > ul > li.active > a{cursor:pointer; text-decoration:none;}
+header #nav > ul > li > a:hover{color:#fff; text-decoration:none;}
+
+#intro{border-bottom:1px solid #fff; position:relative; z-index:90;}
+#intro .inner{padding:55px 0;}
+#intro p{color:#fff; margin-bottom:20px; padding-right:20%;}
+#intro .button{text-shadow:-1px -1px 0 #ff6d00; text-transform:none; border:0; font-size:13px; background-color:#ff9a01; border-radius:5px; color:#fff; display:inline-block; padding:15px 40px; text-decoration:none; box-shadow:0 2px 2px #2596b7;  border-top:1px solid #ffe702; background:-moz-linear-gradient(top, #ffc101 0%, #ff9a01); background:-webkit-gradient(linear, left top, left bottom, from(#ffc101), to(#ff9a01));}
+#intro .button:hover{background:-moz-linear-gradient(top, #ff9a01 0%, #ffc101); background:-webkit-gradient(linear, left top, left bottom, from(#ff9a01), to(#ffc101));}
+#intro .button span{color:#b1b1b1; font-weight:100;}
+
+/*******************************************************************************************************************
+*  CONTENT                                                                                                         
+*******************************************************************************************************************/
+
+.cols{margin-bottom:30px;}
+.cols li{max-width:32%; float:left; background:url("img/cite.png") no-repeat;}
+.cols li p{padding-left:45px;}
+.cols li.middle{margin:0 2%;}
+form{margin:45px 0 0; background:#eee; border:1px solid #e5e5e5; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
+form fieldset{padding:10px 40px 20px; color:#737373;}
+form .text{border:1px solid #d6d6d6; background:#fff; width:350px; padding:8px; font-size:12px; margin:0 10px; -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px;}
+form .text:hover{border-color:#aeaeae;}
+
+/*******************************************************************************************************************
+*  TWITTER                                                                                                          
+*******************************************************************************************************************/
+#twitter{background:#fff; border-top:1px solid #e5e5e5;}
+#twitter .wrap{padding-top:20px; padding-bottom:5px; position:relative;}
+#twitter p{padding-left:80px;}
+#twitter .icon{display:block; position:absolute; top:-20px; left:20px; width:56px; height:61px; background:url("img/twitter.png") no-repeat;}
+
+/*******************************************************************************************************************
+*  FOOTER                                                                                                          
+*******************************************************************************************************************/
+footer{padding:30px 0; background:#1a1a1a; font-size:0.85em; color:#777;}
+footer p{line-height:1.9em;}
+footer a, footer a:link, footer a:focus{color:#999; -webkit-transition:all 0.3s ease-in-out; -moz-transition:all 0.3s ease-in-out; -o-transition:all 0.3s ease-in-out; -ms-transition:all 0.3s ease-in-out; transition:all 0.3s ease-in-out;}
+footer a:hover{color:#fff;}
+footer .socialIcons{padding-top:7px;}
+footer .socialIcons a{display:inline-block; width:29px; height:29px; margin:0 10px 0 0; text-indent:-9999px;}
+footer .socialIcons a:last-child{margin-right:0;}
+footer .socialIcons a.rss{background:url("img/small-rss.png") no-repeat;}
+footer .socialIcons a.facebook{background:url("img/small-facebook.png") no-repeat;}
+footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;}
+
+/*******************************************************************************************************************
+*  OTHER STYLES                                                                                                    
+*******************************************************************************************************************/
+.wrap{margin:0 auto; position:relative; max-width:940px; padding:0 20px;}
+.col{width:48%; position:relative; margin-bottom:20px;}
+.col h3, .col p{padding-left:60px;}
+.col .icon{position:absolute; top:0; left:0; padding:0;}
+.buttonCentered{text-align:center; margin-bottom:30px;}
+.button, .button:link, .button:focus{cursor:pointer; position:relative; margin-top:10px; display:inline-block; text-decoration:none; font-size:12px; font-weight:bold; text-transform:uppercase; color:#787b7c; padding:8px 20px; background:-moz-linear-gradient(top, #fff 0%, #f1f1f1); background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#f1f1f1)); -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; border:1px solid #cacaca; text-shadow:0 0 0;}
+.button:hover{text-decoration:none; background:-moz-linear-gradient(top, #424242 0%, #000); background:-webkit-gradient(linear, left top, left bottom, from(#424242), to(#000)); color:#fff; border-color:#000;}
+.button.iconLeft{padding-left:45px;}
+.button.iconRight{padding-right:45px;}
+.button i{display:inline-block; position:absolute; top:50%; margin-top:-9px; width:16px; height:16px; background-repeat:no-repeat; background-position:50% 50%;}
+.button.iconLeft i{left:20px;}
+.button.iconRight i{right:20px;}
+.button i.more{background-image:url("img/more.png");}
+.button i.email{background-image:url("img/mail.png"); margin-top:-8px;}
+
+/*******************************************************************************************************************
+*  Responsive design                                                                                                    
+*******************************************************************************************************************/
+@media (max-width: 975px) {
+	.wrap{margin:0;}
+	.cols li{max-width:30%;}
+	.cols li.middle{margin:0 5%;}
+	form fieldset{padding:15px;}
+	form label{display:block; margin-bottom:10px;}
+	form .text{margin:0; width:100%; padding-left:0; padding-right:0; text-indent:8px;}
+	form .button{float:right;}
+}
+
+@media (max-width: 750px) { 
+	header nav li a{font-size:11px; padding:0 10px;}
+	.col, .cols li{width:100%; max-width:100%; float:none; margin:0 0 30px !important;}
+	.cols li{max-width:100%;}
+	.cols li.middle{margin:0;}
+}
+
+@media (max-width: 580px) { 
+	header{height:50px; line-height:50px;}
+	#intro .inner{padding:30px 0;}
+	#intro p{padding-right:0 !important;}
+	h1{font-size:2.6em;}
+	header a#logo{left:20px;}
+	header #nav{right:20px;}
+	header #nav > strong{display:block; float:right; cursor:pointer;}
+	header #nav > strong:hover{color:#fff;}
+	header #nav > ul{display:none; position:absolute; left:auto; right:0; top:80%; line-height:normal; white-space:nowrap;}
+	header #nav > ul > li, header #nav > ul > li > ul > li{float:none; margin-bottom:1px; position:relative; background:none !important;}
+	header #nav > ul > li > ul{margin-top:1px; position:relative !important; display:block !important; top:0 !important; width:100% !important;}
+	header #nav > ul > li > a, header #nav > ul > li.parent > a{color:#c3c3c3; text-decoration:none; padding:10px 20px !important; height:auto; float:none !important; width:100%; display:block; background:url("img/subnav-bg.png"); -webkit-transition:all 0s ease-in-out; -moz-transition:all 0s ease-in-out; -o-transition:all 0s ease-in-out; -ms-transition:all 0s ease-in-out; transition:all 0s ease-in-out;}
+	header #nav > ul > li > a:hover{background:#000; color:#fff; text-decoration:none;}
+	header #nav > ul > li > ul > li > a{background:url("img/subnav-bg.png");}
+	footer p.floatLeft, footer p.floatRight{display:block; width:100%; float:none; margin-bottom:20px;}
+	footer p:last-child{margin-bottom:0;}
+	.buttonCentered{position:relative; top:-15px;}
+}
+
+/* iPhone4 */
+@media only screen and (-webkit-min-device-pixel-ratio: 2) { 
+	html{width:100%;}
+}
+
+
+#content{
+	width:auto ;
+	position:relative;
+	background-color: azure;
+	padding-left: 50%;
+   	margin-left: -500px;
+
+
+
+}
+#content .bl_content{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: #000000;
+
+}
+#content .bl_title{
+	padding-top: 15px;
+	width: 1000px;
+	min-height: 20px;
+	height: auto;
+}
+#content .bl_bottom{
+	text-align: right;
+	width: 1000px;
+	min-height: 20px;
+	height: auto;
+}
+#list_table table{
+	width: 1000px;
+	border-color: #24528d;
+	background-color: #24528d;
+}
+#list_table td{
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 4px;
+	padding-right: 4px;
+	background-color: #ffffff;
+
+}
+.detail_list{
+	color:#424242;
+	text-decoration: none;
+}
+.detail_list:hover{
+	color:#214c90;
+	text-decoration: none;
+}
+.detail_list:active{
+	color:#000000;
+	text-decoration: none;
+}
+.title_list{
+	text-align: center;
+}
