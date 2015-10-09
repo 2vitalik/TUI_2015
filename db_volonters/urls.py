@@ -16,9 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from main.views import MainView, VolonterListView, VolonterDetailView, \
-    VolonterCreateView, VolonterUpdateView, \
-    DirectionListView, DirectionMainView, DirectionDetailView, \
-    DirectionCreateView, DirectionUpdateView, VolonterGrafikView
+    VolonterCreateView, VolonterUpdateView, KindOfWorkListView, KindOfWorkDetailView, SkillListView, SkillDetailView, TransportListView, TransportDetailView, VolonterGrafikView
 from storehouse.views import StoreHouseListView, StoreHouseDetailView, StoreHouseUpdateView, \
     StoreHouseCreateView
 
@@ -32,16 +30,19 @@ urlpatterns = [
     url(r'^volonter/add/',VolonterCreateView.as_view(), name='create_volonter'),
     url(r'^volonter/(?P<pk>\d+)/edit/',VolonterUpdateView.as_view(), name='update_volonter'),
 
-    url(r'directions/', DirectionListView.as_view(), name = 'list_directions'),
-    url(r'direction/(?P<pk>\d+)/$', DirectionDetailView.as_view(), name = 'view_directions'),
-    url(r'^direction/add/',DirectionCreateView.as_view(), name='create_direction'),
-    url(r'^direction/(?P<pk>\d+)/edit/',DirectionUpdateView.as_view(), name='update_directions'),
-
-
     url(r'^StoreHouse/$',StoreHouseListView.as_view(), name= 'list_StoreHouse'),
     url(r'^StoreHouse/(?P<pk>\d+)/$', StoreHouseDetailView.as_view(), name='view_StoreHouse' ),
     url(r'^StoreHouse/add/$', StoreHouseCreateView.as_view(), name='create_StoreHouse' ),
     url(r'^StoreHouse/(?P<pk>\d+)/edit/', StoreHouseUpdateView.as_view(), name='update_StoreHouse' ),
+
+    url(r'kwork/', KindOfWorkListView.as_view(), name='list_kindofwork'),
+    url(r'kwork/(?P<pk>\d+)/$', KindOfWorkDetailView.as_view(), name='view_kindofwork'),
+
+    url(r'skills/', SkillListView.as_view(), name='list_skill'),
+    url(r'skill/(?P<pk>\d+)/$', SkillDetailView.as_view(), name='view_skill'),
+
+    url(r'transport/', TransportListView.as_view(), name='list_transport'),
+    url(r'transport/(?P<pk>\d+)/$', TransportDetailView.as_view(), name='view_transport')
 
     url(r'^volonter/grafik/$',
         VolonterGrafikView.as_view(),
