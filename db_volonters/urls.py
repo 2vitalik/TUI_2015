@@ -48,4 +48,14 @@ urlpatterns = [
         VolonterGrafikView.as_view(),
         name = 'grafic_volonter',
         )
+
+    url(r'^Resource/$',
+        ResourceListView.as_view(),
+        name='list_resource'),
+    url(r'^Resource/(?P<pk>\d+)/$',
+        ResourceDetailView.as_view(),
+        name = 'view_resource'),
+    url (r'^Resource/add/$',
+         ResourceCreateView.as_view(),
+         name = 'create_resource'),
 ]
