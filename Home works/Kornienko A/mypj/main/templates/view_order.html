@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Back to: <a href="{% url 'order_list' %}">list</a>
+    <h3>Заказ: {{ order.name }}</h3>
+{% endblock %}
+
+{% block content %}
+<ul>
+    <li>Id: {{ order.id }}
+    <li>Name: {{ order.name }}
+    <li>About: {{ order.about }}
+    <li>Volonter: {{ order.volonter.all }}
+</ul>
+{% endblock %}
