@@ -27,10 +27,10 @@ urlpatterns = [
     url(r'^test/', MainView.as_view()),
     url(r'^$', MainView.as_view()),
 
-    url(r'^volonters/',VolonterListView.as_view(), name='list_volonters'),
-    url(r'^volonter/(?P<pk>\d+)/$',VolonterDetailView.as_view(), name='view_volonter'),
-    url(r'^volonter/add/',VolonterCreateView.as_view(), name='create_volonter'),
-    url(r'^volonter/(?P<pk>\d+)/edit/',VolonterUpdateView.as_view(), name='update_volonter'),
+    url(r'^Volonter/$',VolonterListView.as_view(), name='list_volonter'),
+    url(r'^Volonter/(?P<pk>\d+)/$',VolonterDetailView.as_view(), name='view_volonter'),
+    url(r'^Volonter/add/',VolonterCreateView.as_view(), name='create_volonter'),
+    url(r'^Volonter/(?P<pk>\d+)/edit/',VolonterUpdateView.as_view(), name='update_volonter'),
 
     url(r'^StoreHouse/$',StoreHouseListView.as_view(), name= 'list_StoreHouse'),
     url(r'^StoreHouse/(?P<pk>\d+)/$', StoreHouseDetailView.as_view(), name='view_StoreHouse' ),

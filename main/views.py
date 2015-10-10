@@ -13,7 +13,7 @@ class MainView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MainView, self).get_context_data(**kwargs)
         context.update({
-            'volonters': Volonter.objects.all(),
+            'Volonter': Volonter.objects.all(),
         })
         return context
 
@@ -21,26 +21,26 @@ class MainView(TemplateView):
 class VolonterListView(ListView):
     template_name = 'list_volonter.html'
     model = Volonter
-    context_object_name = 'volonters'
+    context_object_name = 'Volonter'
 
 class VolonterDetailView(DetailView):
     template_name = 'view_volonter.html'
     model = Volonter
-    context_object_name = 'volonter'
+    context_object_name = 'Volonter'
 
 class VolonterCreateView(CreateView):
     template_name = 'create_volonter.html'
     model = Volonter
+    context_object_name = 'Volonter'
     fields = ('fio', 'address',
               'telephone', 'gender')
-    success_url = reverse_lazy('list_volonters')
+    success_url = reverse_lazy('list_volonter')
 
 class VolonterUpdateView(UpdateView):
     template_name = 'update_volonter.html'
     model = Volonter
-    context_object_name = 'volonter'
-    fields = ('fio', 'address',
-              'telephone', 'gender')
+    context_object_name = 'Volonter'
+    fields = ('fio', 'address','telephone', 'gender')
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -2,6 +2,7 @@ from pyexpat import model
 from django.shortcuts import render
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from Resource.admin import PointOfConsumingAdmin
 from Resource.models import Resource, Need, PointOfConsuming
 
 
@@ -15,6 +16,7 @@ class MainView(TemplateView):
             'Need':Need.objects.all(),
         })
         return context
+
 class ResourceListView(ListView):
     template_name = 'list_resource.html'
     model = Resource
@@ -50,10 +52,20 @@ class NeedCreateView(CreateView):
     success_url = reverse_lazy('create_need')
 #/////////////////////////////////////$PointOfConsuming$////////////////////////////////////////////////////////////////////
 
+class MainView(TemplateView):
+    template_name = 'list_pointofconsuming.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MainView, self).get_context_data(**kwargs)
+        context.update({
+            'PointOfConsuming':PointOfConsuming.objects.all(),
+        })
+        return context
+
 class PointOfConsumingListView(ListView):
     template_name = 'list_pointofconsuming.html'
     model =  PointOfConsuming
-    context_object_name = ' PointOfConsuming'
+    context_object_name = 'PointOfConsuming'
 
 class PointOfConsumingDetailView(DetailView):
     template_name = 'view_pointofconsuming.html'
@@ -65,4 +77,4 @@ class PointOfConsumingCreateView(CreateView):
     model = PointOfConsuming
     context_object_name = 'PointOfConsuming'
     fields = ('id_geography_point','fio','telephone',)
-    success_url = reverse_lazy('create_PointOfConsuming')
+    success_url = reverse_lazy('create_pointofconsuming')

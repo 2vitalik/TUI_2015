@@ -32,8 +32,8 @@ class Order(models.Model):
         return "%s" % self.pk
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 class PointOfConsuming(models.Model):
-    id_geography_point = models.ForeignKey('main.GeographyPoint', null = True)
+    id_geography_point = models.ForeignKey('main.GeographyPoint', null = False)
     fio = models.CharField(max_length=50, null = False)
-    telephone = models.CharField(max_length=11, null = True)
+    telephone = models.CharField(max_length=11, null = False)
     def __unicode__(self):
-        return "%s" % self.pk
+        return "%s" % self.fio

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}
+    <h3>Потребности:</h3>
+{% endblock %}
+
+{% block content %}
+<ul>
+    <li>Ресурс: {{Need.id_resource }}
+    <li>Кол-во: {{ Need.number_of_resource }} шт.
+    <li>Приоритет: {{ Need.priority }}
+    {% if Need.priority == 0%}
+    -
+    {% endif %}
+    {% if Need.priority > 0%}
+    *
+    {% endif %}
+    {% if Need.priority >= 10%}
+    *
+    {% endif %}
+    {% if Need.priority >= 20%}
+    *
+    {% endif %}
+    {% if Need.priority >= 30%}
+    *
+    {% endif %}
+    {% if Need.priority >= 40%}
+    *
+    {% endif %}
+    {% if Need.priority >= 50%}
+    *
+    {% endif %}
+    {% if Need.priority >= 60%}
+    *
+    {% endif %}
+    {% if Need.priority >= 70%}
+    *
+    {% endif %}
+    {% if Need.priority >= 80%}
+    *
+    {% endif %}
+    {% if Need.priority >= 90%}
+    *
+    {% endif %}
+
+
+
+    <li>Удовлетворённость: {{ Need.perfomance }}%
+
+</ul>
+<a href = "{% url 'list_need' %}">Назад</a>
+{% endblock %}
