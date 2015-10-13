@@ -32,7 +32,7 @@ class VolonterCreateView(CreateView):
     template_name = 'create_volonter.html'
     model = Volonter
     context_object_name = 'Volonter'
-    fields = ('fio', 'address',
+    fields = ('fio', 'address', 'birthday',
               'telephone', 'gender')
     success_url = reverse_lazy('list_volonter')
 
