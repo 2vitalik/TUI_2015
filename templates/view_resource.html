@@ -6,8 +6,7 @@
 {% block content %}
 <ul>
     <li>Имя: {{ Resource.name }}
-    <li>Вес: {{ Resource.weight }} кг
-    <li>Обьем: {{ Resource.volume }} л
+    <li>Еденица измерения: {{ Resource.unitOFmesure}}
     <li>Кол-во: {{ Resource.count }} шт.
 </ul>
 <a href = "{% url 'list_resource' %}">Назад</a>

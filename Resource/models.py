@@ -5,14 +5,13 @@ from django.db import models
 # Create your models here. 111
 class Resource(models.Model):
     name = models.CharField(max_length=20)
-    weight = models.FloatField()
-    volume = models.FloatField()
+    unitOFmesure = models.CharField(max_length=10, null=True)
     count = models.FloatField()
     def __unicode__(self):
         return self.name
 
 class Need(models.Model):
-    id_resource = models.ForeignKey('Resource', null = True)
+    resource = models.ForeignKey('Resource', null = True)
     number_of_resource = models.IntegerField(null = True)
     priority = models.FloatField(null = True)
     perfomance = models.IntegerField(null = True)
@@ -21,7 +20,7 @@ class Need(models.Model):
         return "%i, %f, %i" % (self.number_of_resource, self.priority, self.perfomance)
 
 class Order(models.Model):
-    #id_geography_point = models.ForeignKey(GeographyPoint)
+    geography_point = models.ForeignKey('main.GeographyPoint', null=True)
     date_of_starting = models.DateField(null = False)
     date_of_finish = models.DateField(null = False)
     priority = models.FloatField(null = True)
@@ -29,7 +28,7 @@ class Order(models.Model):
         return "%s" % self.pk
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$/storehouse/$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 class PointOfConsuming(models.Model):
-    #id_geography_point = models.ForeignKey(GeographyPoint)
+    geography_point = models.ForeignKey('main.GeographyPoint', null=True)
     fio = models.CharField(max_length=50, null = False)
     telephone = models.CharField(max_length=11, null = True)
     def __unicode__(self):
