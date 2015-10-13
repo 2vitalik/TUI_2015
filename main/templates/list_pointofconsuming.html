@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+    <h3>Список потребителей</h3>
+{% endblock %}
+
+{% block content %}
+    <BR/><ul>
+    {% for Points in PointOfConsuming %}
+{#        <a href="/volonter/{{ volonter.id }}/"> #}
+       <li> <a href="{% url 'view_pointofconsuming' Points.id %}">
+                {{ Points.fio }}
+        </a></li>
+    {% endfor %}
+
+
+    </ul>
+    <a href="{% url 'create_pointofconsuming' %}">Добавить нового потребителя</a>
+{% endblock %}

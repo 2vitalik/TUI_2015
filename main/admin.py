@@ -22,8 +22,7 @@ class SkillAdmin(admin.ModelAdmin):
         'pk',
         'volonter',
         'kind',
-        'updated_at',
-        'created_at',
+        'proficiency',
     )
     def kind(self, obj):
         url = reverse('admin:main_kindofwork_change', args = [obj.kind.pk])
@@ -38,7 +37,7 @@ class KindOfWorkAdmin(admin.ModelAdmin):
 
 
 class StockAdmin(admin.ModelAdmin):
-    list_display = ('pk','amount',)
+    list_display = ('pk','storeHouseId','resource','amount','weight',)
 
 
 class SupplyAdmin(admin.ModelAdmin):
@@ -62,7 +61,7 @@ class GeographyPointAdmin(admin.ModelAdmin):
 class WayAdmin(admin.ModelAdmin):
     list_display = ('gpointFrom','gpointTo','s','danger','passability','zagruzhenost',)
 class RouteAdmin(admin.ModelAdmin):
-    list_display = ('pk','gpointFrom','gpointTo','name',)
+    list_display = ('pk','storehouse','pointOfConsuming','gpointFrom','gpointTo','name',)
 class MakingAWayAdmin(admin.ModelAdmin):
     list_display = ('pk','way','route','sequence',)
 

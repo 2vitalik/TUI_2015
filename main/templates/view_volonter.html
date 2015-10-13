@@ -1,48 +1,18 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <h3 class="title_list">Волонтёр: {{ volonter.fio }}</h3>
+    Back to: <a href="{% url 'list_volonter' %}">list</a>
+    <h3>Волонтёр: {{ Volonter.fio }}</h3>
 {% endblock %}
 
 {% block content %}
-
-    <!--
 <ul>
-    <li>Id: {{ volonter.id }}
-    <li>Name: {{ volonter.fio }}
-    <li>День рождения:{{ volonter.birthday|date:"d.m.Y" }}
-    <li>address: {{ volonter.address }}
-    <li>gender: {{ volonter.gender }},
-        {{ volonter.get_gender_display }}
-
-
-</ul>-->
-    <div id="view_tab">
-    <table border="1">
-    <tr>
-        <td WIDTH="120px">ID</td>
-        <td align="center">{{volonter.id}}</td>
-    </tr>
-    <tr>
-        <td>ФИО</td>
-        <td align="center">{{ volonter.fio }}</td>
-    </tr>
-    <tr>
-        <td>День рождения</td>
-        <td align="center">{{ volonter.birthday|date:"d.m.Y" }}</td>
-    </tr>
-    <tr>
-        <td>ADDRESS</td>
-        <td align="center">{{volonter.address }}</td>
-    </tr>
-     <tr>
-        <td>GENDER</td>
-        <td align="center">{{ volonter.gender }},{{ volonter.get_gender_display }}</td>
-    </tr>
-  </table>
-    </div>
-{% endblock %}
-{% block bottom %}
-    Back to: <a href="{% url 'list_volonters' %}">list</a><br>
-
+    <li>Id: {{ Volonter.id }}
+    <li>Name: {{ Volonter.fio }}
+    <li>День рождения:{{ Volonter.birthday|date}}
+    <li>address: {{ Volonter.address }}
+    <li>gender: {{ Volonter.gender }},
+        {{ Volonter.get_gender_display }}
+</ul>
+<a href="{% url 'update_volonter' Volonter.id %}">Изменить</a>
 {% endblock %}

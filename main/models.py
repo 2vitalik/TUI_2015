@@ -15,7 +15,7 @@ class Volonter(models.Model):
     conviction = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return "%s, %s " % (self.fio, self.gender,)
+        return "%s" % (self.fio)
 
 
 class KindOfWork(models.Model):
@@ -27,17 +27,16 @@ class KindOfWork(models.Model):
 class Skill(models.Model):
     volonter = models.ForeignKey('Volonter')
     kind = models.ForeignKey('KindOfWork', null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    proficiency = models.CharField(max_length=20, null=True)
 
     def __unicode__(self):
-        return "%s, %s" % (self.updated_at, self.created_at)
-
+        return "%s, %s, %s" % (self.proficiency, self.volonter, self.kind)
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Stock(models.Model):
-    #storeHouseId = models.ForeignKey('Storehouse')
-    #resource = models.ForeignKey('Resource')
+    storeHouseId = models.ForeignKey('storehouse.StoreHouse')
+    resource = models.ForeignKey('Resource.Resource')
     amount = models.IntegerField(null=True)
+    weight = models.FloatField(null=True)
 
     def __unicode__(self):
         return self.amount
@@ -57,7 +56,7 @@ class Shipping(models.Model):
     dateRecomended = models.DateField()
 
     def __unicode__(self):
-        return self.dateRecomended
+        return "%s" % self.dateRecomended
 class ShippingDetalization(models.Model):
     amount = models.IntegerField()
     shipping = models.ForeignKey('Shipping')
@@ -89,7 +88,7 @@ class Employment(models.Model):
     dateFinish = models.DateField()
 
     def __unicode__(self):
-        return "%d, %d" % (self.dateStart, self.dateFinish)
+        return "%s, %s" % (self.dateStart, self.dateFinish)
 class Trip(models.Model):
     transport = models.ForeignKey('Transport')
     route = models.ForeignKey('Route', null=True)
@@ -105,8 +104,6 @@ class GeographyPoint(models.Model):
     def __unicode__(self):
         return self.address
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 class Way(models.Model):
     gpointFrom = models.ForeignKey('GeographyPoint', related_name='WaygpointFrom')
     gpointTo = models.ForeignKey('GeographyPoint', related_name='WaygpointTo')
@@ -118,8 +115,8 @@ class Way(models.Model):
 
 
 class Route(models.Model):
-    #storehouse = models.ForeignKey('Storehouse')
-    #pointOfConsuming = models.ForeignKey('PointOfConsuming')
+    storehouse = models.ForeignKey('storehouse.StoreHouse', null=True)
+    pointOfConsuming = models.ForeignKey('Resource.PointOfConsuming', null=True)
     gpointFrom = models.ForeignKey('GeographyPoint', related_name='RoutegpointFrom')
     gpointTo = models.ForeignKey('GeographyPoint', related_name='RoutegpointTo')
     name = models.CharField(max_length=30)
@@ -134,4 +131,4 @@ class MakingAWay(models.Model):
     sequence=models.IntegerField()
 
     def __unicode__(self):
-        return self.sequence
+        return "%s" % self.sequence

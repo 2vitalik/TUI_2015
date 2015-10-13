@@ -14,12 +14,12 @@
         <td>NUMBER</td>
     </tr>
 
-    {% for volonter in volonters %}
+    {% for volonters in Volonter %}
         <tr class="list_tr">
-        <td>{{ volonter.id }}</td>
-        <td> <a class="detail_list" href="{% url 'view_volonter' volonter.id %}">{{ volonter.fio }}</a></td>
-        <td>{{ volonter.address }}</td>
-        <td>{{ volonter.telephone }}</td>
+        <td>{{ volonters.id }}</td>
+        <td> <a class="detail_list" href="{% url 'view_volonter' volonters.id %}">{{ volonters.fio }}</a></td>
+        <td>{{ volonters.address }}</td>
+        <td>{{ volonters.telephone }}</td>
     </tr>
 
     {% endfor %}
@@ -27,6 +27,6 @@
     </div>
 {% endblock %}
 {% block bottom %}
-    <!--Back to: <a href="{% url 'list_volonters' %}">list</a><br>-->
+    Back to: <a href="{% url 'list_volonter' %}">list</a><br>
     Go to: <a href="{% url 'grafic_volonter' %}">grafik</a>
 {% endblock %}
