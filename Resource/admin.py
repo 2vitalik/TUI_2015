@@ -9,34 +9,32 @@ from Resource.models import Resource, Need, PointOfConsuming, Order
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
         'name',
-        'weight',
-        'volume',
-        'count',
+        'description',
     )
     fieldsets = (
         (None, {'fields':
                     ('name',
-                     ('weight', 'volume','count'),
+                     ('unitOFmesure','count'),
                      )
                 }),
     )
 
 class NeedAdmin(admin.ModelAdmin):
     list_display = (
-        'id_resource',
+        'resource',
         'number_of_resource',
         'priority',
         'perfomance',
     )
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = (
-        'id_geography_point',
+        'geography_point',
         'fio',
         'telephone',
     )
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
-        'id_geography_point',
+        'geography_point',
         'date_of_starting',
         'date_of_finish',
         'priority',
