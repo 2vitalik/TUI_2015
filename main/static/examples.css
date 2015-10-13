@@ -18,7 +18,7 @@ input[type=checkbox] {
 	width: 850px;
 	height: 450px;
 	padding: 20px 15px 15px 15px;
-	margin: 15px auto 30px auto;
+	margin: 15px 0 30px 0;
 	border: 1px solid #ddd;
 	background: #fff;
 	background: linear-gradient(#f6f6f6 0, #fff 50px);

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% block title %}
     <h3 class="title_list">Список волонтёров</h3>
 {% endblock %}
@@ -10,16 +10,16 @@
     <tr>
         <td>ID</td>
         <td>NAME</td>
-        <td>ADRES</td>
+        <td>ADDRESS</td>
         <td>NUMBER</td>
     </tr>
 
-    {% for volonters in Volonter %}
+    {% for volonter in volonters %}
         <tr class="list_tr">
-        <td>{{ volonters.id }}</td>
-        <td> <a class="detail_list" href="{% url 'view_volonter' volonters.id %}">{{ volonters.fio }}</a></td>
-        <td>{{ volonters.address }}</td>
-        <td>{{ volonters.telephone }}</td>
+        <td>{{ volonter.id }}</td>
+        <td> <a class="detail_list" href="{% url 'view_volonter' volonter.id %}">{{ volonter.fio }}</a></td>
+        <td>{{ volonter.address }}</td>
+        <td>{{ volonter.telephone }}</td>
     </tr>
 
     {% endfor %}
@@ -27,6 +27,6 @@
     </div>
 {% endblock %}
 {% block bottom %}
-    Back to: <a href="{% url 'list_volonters' %}">list</a><br>
+    <!--Back to: <a href="{% url 'list_volonters' %}">list</a><br>-->
     Go to: <a href="{% url 'grafic_volonter' %}">grafik</a>
 {% endblock %}

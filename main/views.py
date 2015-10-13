@@ -95,3 +95,15 @@ class VolonterGrafikView(ListView):
     template_name = 'grafik_volonter.html'
     model = Volonter
     context_object_name = 'Volonter'
+
+    def get_context_data(self, **kwargs):
+        context = super(VolonterGrafikView, self).get_context_data(**kwargs)
+        context.update({
+            'data': [
+                {'name': 'driver', 'value': 111},
+                {'name': 'cooker', 'value': 11},
+                {'name': 'coder', 'value': 20},
+                {'name': 'voloner', 'value': 500},
+            ],
+        })
+        return context

@@ -5,14 +5,13 @@
 <title>Continents AIO</title>
 <meta http-equiv="Content-Type" content="text/html; charrset=windows-1251">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" type="text/css" href="{% static 'main.css'  %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'style.css'  %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'examples.css'  %}" >
-<link rel="stylesheet" type="text/css" href="{% static 'print.css'  %}" media="print"/>
-    <script language="javascript" type="text/javascript" src="{% static 'jquery.js'  %}"></script>
-	<script language="javascript" type="text/javascript" src="{% static 'jquery.flot.js'  %}"></script>
-<script src="{% static 'custom.js'  %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'examples.css' %}" >
+<link rel="stylesheet" type="text/css" href="{% static 'print.css' %}" media="print"/>
+    <script language="javascript" type="text/javascript" src="{% static 'jquery.js' %}"></script>
+	<script language="javascript" type="text/javascript" src="{% static 'jquery.flot.js' %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static 'jquery.flot.pie.js' %}"></script>
+<script src="{% static 'custom.js' %}"></script>
 <!--[if lt IE 9]>
 <script src="js/css3-mediaqueries.min.js"></script>
 <script src="js/html5.js"></script>
@@ -117,9 +116,9 @@
           <li class="parent"> <a href="#">Отчёты</a>
             <ul>
               <li> <a href="{% url 'list_volonters' %}">Волонтёры</a> </li>
-{#              <li> <a href="{% url 'order_list' %}">Заказы</a> </li>#}
-              <li> <a href="#">склады!</a> </li>
-			  <li> <a href="#">other</a> </li>
+              <li> <a href="{% url 'list_StoreHouse' %}">Склады</a> </li>
+              <li> <a href="{% url 'list_resource' %}">Ресурсы</a> </li>
+              <li> <a href="#">Заказы</a> </li>
             </ul>
           </li>
           <li> <a href="#">MAP</a> </li>
@@ -135,7 +134,8 @@
     <div class="wrap clearFix">
       <h1>Хочешь стать волонтёром? <strong>Зарегистрируйся!</strong></h1>
       <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-      <a href="{% url 'create_volonter' %}" class="button">Стать волонтёром!</a> </div>
+      <a href="{% url 'create_volonter' %}" class="button">Стать волонтёром!</a>
+      <a href="#" class="button">Попросить помощь!</a> </div>
   </div>
 </div>
 <!-- / #intro -->
@@ -149,7 +149,7 @@
 <hr class="noPrint">
 <div id="twitter">
   <div class="wrap clearFix"> <span class="icon"></span>
-    <p>Etiam porta sem malesuada magna mollis euismod. Nullam quis risus eget urna mollis <a href="#">domain.com</a> <small>2 days ago</small></p>
+    <p>Подписывайтесь на нас в <a href="#">Твиттер</a> и <a href="#">Вконтакте</a></p>
   </div>
 </div>
 <hr>

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3 class="title_list">График волонтёров по виду деятельности</h3>
+{% endblock %}
+
+{% block content %}
+    <script type="text/javascript">
+
+	$(function() {
+
+        var data = [
+            {% for item in data %}
+                { label: "{{ item.name }}",  data: {{ item.value }} },
+            {% endfor %}
+        ];
+
+		var placeholder = $("#placeholder");
+        placeholder.unbind();
+			$.plot(placeholder, data, {
+				series: {
+					pie: {
+						show: true,
+						radius: 1,
+						label: {
+							show: true,
+							radius: 3/4,
+							formatter: labelFormatter,
+							background: {
+								opacity: 0.7
+							}
+						}
+					}
+				},
+				legend: {
+					show: true
+				}
+			});
+
+		$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+	});
+
+	// A custom label formatter used by several of the plots
+
+	function labelFormatter(label, series) {
+		return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+	}
+	</script>
+    <div id="grafik">
+
+		<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder"></div>
+		</div>
+
+
+
+	</div>
+{% endblock %}
+{% block bottom %}
+    Back to: <a href="{% url 'list_volonters' %}">HOME</a><br>
+{% endblock %}

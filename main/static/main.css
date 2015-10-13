@@ -72,7 +72,21 @@ header #nav > ul > li > a:hover{color:#fff; text-decoration:none;}
 #intro{border-bottom:1px solid #fff; position:relative; z-index:90;}
 #intro .inner{padding:55px 0;}
 #intro p{color:#fff; margin-bottom:20px; padding-right:20%;}
-#intro .button{text-shadow:-1px -1px 0 #ff6d00; text-transform:none; border:0; font-size:13px; background-color:#ff9a01; border-radius:5px; color:#fff; display:inline-block; padding:15px 40px; text-decoration:none; box-shadow:0 2px 2px #2596b7;  border-top:1px solid #ffe702; background:-moz-linear-gradient(top, #ffc101 0%, #ff9a01); background:-webkit-gradient(linear, left top, left bottom, from(#ffc101), to(#ff9a01));}
+#intro .button{text-shadow:-1px -1px 0 #ff6d00;
+	text-transform:none; border:0;
+	font-size:13px;
+	background-color:#ff9a01;
+	border-radius:5px;
+	color:#fff;
+	margin-right: 10px;
+	display:inline-block;
+	padding:15px 40px;
+	text-decoration:none;
+	box-shadow:0 2px 2px #2596b7;
+	border-top:1px solid #ffe702;
+	background:-moz-linear-gradient(top, #ffc101 0%, #ff9a01);
+	background:-webkit-gradient(linear, left top, left bottom, from(#ffc101), to(#ff9a01));
+}
 #intro .button:hover{background:-moz-linear-gradient(top, #ff9a01 0%, #ffc101); background:-webkit-gradient(linear, left top, left bottom, from(#ff9a01), to(#ffc101));}
 #intro .button span{color:#b1b1b1; font-weight:100;}
 
@@ -84,10 +98,6 @@ header #nav > ul > li > a:hover{color:#fff; text-decoration:none;}
 .cols li{max-width:32%; float:left; background:url("img/cite.png") no-repeat;}
 .cols li p{padding-left:45px;}
 .cols li.middle{margin:0 2%;}
-form{margin:45px 0 0; background:#eee; border:1px solid #e5e5e5; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
-form fieldset{padding:10px 40px 20px; color:#737373;}
-form .text{border:1px solid #d6d6d6; background:#fff; width:350px; padding:8px; font-size:12px; margin:0 10px; -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px;}
-form .text:hover{border-color:#aeaeae;}
 
 /*******************************************************************************************************************
 *  TWITTER                                                                                                          
@@ -230,4 +240,41 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 }
 .title_list{
 	text-align: center;
+}
+#create_table table{
+	width: 400px;
+	margin-left: 300px;
+	border: 200px;
+
+	<!--background-color: #24528d;-->
+}
+#create_table td{
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 4px;
+	padding-right: 4px;
+	<!--background-color: #ffffff;-->
+
+
+}
+
+#view_tab table{
+	width: 600px;
+	margin-left: 200px;
+	border: 200px;
+	border-color: #24528d;
+	background-color: #24528d;
+	<!--background-color: #24528d;-->
+}
+#view_tab td{
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 4px;
+	padding-right: 4px;
+	background-color: #ffffff;
+
+
+}
+#grafik {
+	margin-left: 100px;
 }
