@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3>Новый потребитель:</h3>
+{% endblock %}
+
+{% block content %}
+   <form method = "post" action="{% url 'create_pointofconsuming' %}">
+      {% csrf_token %}
+      <li>ФИО:: <input type="text" name="fio">
+      <li>Телефон: <input type="text" name="telephone">
+      <li>Географическая точка: <input type="number" name="id_geography_point">
+      <input type="submit" name="Save" value = "Save!">
+   </form>
+    <a href = "{% url 'list_pointofconsuming' %}">Назад</a>
+{% endblock %}
