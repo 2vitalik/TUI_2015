@@ -9,8 +9,7 @@ from Resource.models import Resource, Need, PointOfConsuming, Order
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
         'name',
-        'unitOFmesure',
-        'count',
+        'description',
     )
     fieldsets = (
         (None, {'fields':
