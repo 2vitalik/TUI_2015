@@ -21,28 +21,28 @@
     <table border="1">
     <tr>
         <td WIDTH="120px">ID</td>
-        <td align="center">{{volonter.id}}</td>
+        <td align="center">{{Volonter.id}}</td>
     </tr>
     <tr>
         <td>ФИО</td>
-        <td align="center">{{ volonter.fio }}</td>
+        <td align="center">{{ Volonter.fio }}</td>
     </tr>
     <tr>
         <td>День рождения</td>
-        <td align="center">{{ volonter.birthday|date:"d.m.Y" }}</td>
+        <td align="center">{{ Volonter.birthday|date:"d.m.Y" }}</td>
     </tr>
     <tr>
         <td>ADDRESS</td>
-        <td align="center">{{volonter.address }}</td>
+        <td align="center">{{Volonter.address }}</td>
     </tr>
      <tr>
         <td>GENDER</td>
-        <td align="center">{{ volonter.gender }},{{ volonter.get_gender_display }}</td>
+        <td align="center">{{ Volonter.gender }},{{ Volonter.get_gender_display }}</td>
     </tr>
   </table>
     </div>
 {% endblock %}
 {% block bottom %}
-    Back to: <a href="{% url 'list_volonters' %}">list</a><br>
+    Back to: <a href="{% url 'list_volonter' %}">list</a><br>
 
 {% endblock %}
