@@ -11,13 +11,13 @@ class ResourceAdmin(admin.ModelAdmin):
         'name',
         'description',
     )
-    fieldsets = (
-        (None, {'fields':
-                    ('name',
-                     ('unitOFmesure','count'),
-                     )
-                }),
-    )
+    # fieldsets = (
+    #     (None, {'fields':
+    #                 ('name',
+    #                  'description',
+    #                  )
+    #             }),
+    # )
 
 class NeedAdmin(admin.ModelAdmin):
     list_display = (

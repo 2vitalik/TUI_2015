@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Back to: <a href="{% url 'list_volonters' %}">list</a>
+    Back to: <a href="{% url 'list_volonter' %}">list</a>
     <h3>Волонтёр: {{ Volonter.fio }}</h3>
 {% endblock %}
 
@@ -9,12 +9,10 @@
 <ul>
     <li>Id: {{ Volonter.id }}
     <li>Name: {{ Volonter.fio }}
-    <li>День рождения:
-        {{ Volonter.birthday|date:"d.m.Y" }}
+    <li>День рождения:{{ Volonter.birthday|date}}
     <li>address: {{ Volonter.address }}
     <li>gender: {{ Volonter.gender }},
         {{ Volonter.get_gender_display }}
-
-
 </ul>
+<a href="{% url 'update_volonter' Volonter.id %}">Изменить</a>
 {% endblock %}

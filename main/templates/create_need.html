@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3>Потребность:</h3>
+{% endblock %}
+
+{% block content %}
+   <form method="post" action="{% url 'create_need' %}">
+      {% csrf_token %}
+      <li>Номер ресурса: <input type="number" name="id_resource">
+      <li>Кол-во: <input type="number" name="number_of_resource">
+      <li>Приоритет: <input type="number" name="priority">
+      <li>Удовлетворённость: <input type="number" name="perfomance">
+      <input type="submit" name="Save" value = "Save!">
+   </form>
+    <a href = "{% url 'list_need' %}">Назад</a>
+{% endblock %}
