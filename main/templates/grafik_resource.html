@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3 class="title_list">График ресурсов<script>document.write(nor)</script></h3>
+{% endblock %}
+
+{% block content %}
+	<script type="text/javascript">
+    var data;
+    var nor;
+    function c(nor) {
+        $(function () {
+            data = [[nor, 48], ["Склад2", 30], ["Склад3", 4], ["Склад4", 13]];
+            $.plot("#placeholder", [data], {
+                series: {
+                    bars: {
+                        show: true,
+                        barWidth: 0.6,
+                        align: "center"
+                    }
+                },
+                xaxis: {
+                    mode: "categories",
+                    tickLength: 0
+                }
+            });
+
+
+            // Show the initial default chart
+
+
+            $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+        });
+    };
+	</script>
+    <div id="grafik">
+
+		<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder"></div>
+		</div>
+
+
+	</div>
+
+{% endblock %}
+{% block bottom %}
+    <div id="menu">
+
+            {% for ress in Resource %}
+                 <a href="{% url 'grafik_resource' ress.id %}">{{ ress.id }}</a>
+            {% endfor %}
+
+{#                <input type="button" onclick="c('hleb')" value="hleb" />#}
+{#				<input type="button" onclick="c('konoply')" value="konoplya" />#}
+    </div>
+    Back to: <a href="{% url 'list_resource' %}">HOME</a><br>
+{% endblock %}

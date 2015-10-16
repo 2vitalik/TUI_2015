@@ -16,3 +16,7 @@
     </ul>
     <a href="{% url 'create_resource' %}">Добавить новый ресурс</a>
 {% endblock %}
+
+{% block bottom %}
+    Go to: <a href="{% url 'grafik_resource' 1 %}">grafik</a>
+{% endblock %}

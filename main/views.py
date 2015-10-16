@@ -4,6 +4,7 @@ from django.views.generic import CreateView, UpdateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+import Resource
 from main.models import Volonter, KindOfWork, Skill, Transport
 
 
@@ -104,6 +105,20 @@ class VolonterGrafikView(ListView):
                 {'name': 'cooker', 'value': 11},
                 {'name': 'coder', 'value': 20},
                 {'name': 'voloner', 'value': 500},
+            ],
+        })
+        return context
+
+class reGrafikView(DetailView):
+    template_name = 'grafik_resource.html'
+    model = Resource
+    context_object_name = 'Resource'
+
+    def get_context_data(self, **kwargs):
+        context = super(reGrafikView, self).get_context_data(**kwargs)
+        context.update({
+            'data': [
+
             ],
         })
         return context
