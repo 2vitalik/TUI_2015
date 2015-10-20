@@ -125,12 +125,15 @@ class VolonterGrafikView(ListView):
                    u'Чернівецька область',
                    u'Автономна Республіка Крим',]
         data = []
+        N = 1
         for oblast in oblasti:
             count = Volonter.objects.filter(address__contains=oblast).count()
             data.append({
                 'name': oblast,
-                'count': count
+                'count': count,
+                'val': N
             })
+            N=N+1
         context.update({
             'data': data,
         })

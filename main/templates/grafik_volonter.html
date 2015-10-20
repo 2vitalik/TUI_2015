@@ -15,7 +15,8 @@
 
         var data = [
             {% for vol in data %}
-                ['{{ vol.name }}', {{ vol.count }} ],
+
+                ['{{ vol.val }}', {{ vol.count }} ],
             {% endfor %}
 ];
             $.plot("#placeholder", [data], {
@@ -26,13 +27,13 @@
                         fill: true,
                         align: "center",
 
-                    }
+                        }
                 },
 
                 xaxis: {
                     mode: "categories",
                     color: 'black',
-                    font: { size: 7, lineHeight: 13 }, // null (derived from CSS in placeholder) or object like { size: 11, lineHeight: 13, style: "italic", weight: "bold", family: "sans-serif", variant: "small-caps" }
+                    font: { size: 16, lineHeight: 17 }, // null (derived from CSS in placeholder) or object like { size: 11, lineHeight: 13, style: "italic", weight: "bold", family: "sans-serif", variant: "small-caps" }
                     tickLength: 0
                 }
             });
@@ -51,8 +52,12 @@
 		<div class="demo-container">
 			<div id="placeholder" class="demo-placeholder"></div>
 		</div>
+        <ol>
+         {% for vol in data %}
+<li><p>{{ vol.val }}.  {{ vol.name }} ( {{ vol.count }} )</p></li>
 
-
+            {% endfor %}
+        </ol>
 
 	</div>
 {% endblock %}
