@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from django.conf.app_template import models
 from django.db import models
 
-# Create your models here. 111
 import main
 
 

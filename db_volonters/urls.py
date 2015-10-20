@@ -46,7 +46,7 @@ urlpatterns = [
     url(r'transport/', TransportListView.as_view(), name='list_transport'),
     url(r'transport/(?P<pk>\d+)/$', TransportDetailView.as_view(), name='view_transport'),
 
-    url(r'^volonter/grafik/$',VolonterGrafikView.as_view(),name = 'grafik_volonter'),
+    url(r'^volonter/grafik/$',VolonterGrafikView.as_view(),name = 'grafic_volonter'),
 
     url(r'^Resource/$',
         ResourceListView.as_view(),
