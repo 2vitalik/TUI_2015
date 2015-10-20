@@ -29,6 +29,7 @@ class Need(models.Model):
         super(Need, self).save(force_insert, force_update, using,
              update_fields)
         if created:
+
             Order.objects.create(
                 priority=0.5,
                 date_of_starting = datetime.now(),
