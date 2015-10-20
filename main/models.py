@@ -1,7 +1,7 @@
 # coding: utf-8
 from datetime import datetime, timedelta
 from django.db import models
-#////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
+
 class Volonter(models.Model):
     GENDER_CHOICES = (
         (u'М', 'Male'),
@@ -16,108 +16,6 @@ class Volonter(models.Model):
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.address)
 
-# class KindOfWork(models.Model):
-#     name = models.CharField(max_length=100)
-#     complexity = models.CharField(max_length=20, null= True)
-#
-#     def __unicode__(self):
-#         return self.name
-# class Skill(models.Model):
-#     volonter = models.ForeignKey('Volonter')
-#     kind = models.ForeignKey('KindOfWork', null=True)
-#     proficiency = models.CharField(max_length=20, null=True)
-#
-#     def __unicode__(self):
-#         return "%s, %s, %s" % (self.proficiency, self.volonter, self.kind)
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-# #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-# class Supply(models.Model):
-#     volonter = models.ForeignKey('Volonter')
-#     stock = models.ForeignKey('Stock')
-#     dateReal = models.DateField()
-#     dateRecomended = models.DateField()
-#     amount = models.IntegerField(null=True)
-#
-#
-#     def __unicode__(self):
-#         return "%s"%(self.amount)
-# class Shipping(models.Model):
-#     volonter = models.ForeignKey('Volonter')
-#     dateRecomended = models.DateField()
-#
-#     def __unicode__(self):
-#         return "%s" % self.pk
-# class ShippingDetalization(models.Model):
-#     amount = models.IntegerField()
-#     shipping = models.ForeignKey('Shipping')
-#     stock = models.ForeignKey('Stock')
-#
-#     def __unicode__(self):
-#         return "%s"%(self.amount)
-# #///////////////////////////////////////////transport///////////////////////////////////////////////////////////////////
-# class KindOfTransport(models.Model):
-#     name = models.CharField(max_length=50)
-#     kind = models.CharField(max_length=20)
-#     volume = models.CharField(max_length=10)
-#     speed = models.CharField(max_length=10)
-#     expenseOfFuel = models.CharField(max_length=10)
-#     passability = models.CharField(max_length=20)
-#     load = models.CharField(max_length=20)
-#
-#     def __unicode__(self):
-#         return "%s, %s" % (self.name, self.kind)
-# class Transport(models.Model):
-#     kindOfTransport = models.ForeignKey('KindOfTransport')
-#     number = models.CharField(max_length=10)
-#
-#     def __unicode__(self):
-#         return self.number
-# class Employment(models.Model):
-#     transport = models.OneToOneField('Transport', null=True)
-#     dateStart = models.DateField()
-#     dateFinish = models.DateField()
-#
-#     def __unicode__(self):
-#         return "%s, %s" % (self.dateStart, self.dateFinish)
-# class Trip(models.Model):
-#     transport = models.ForeignKey('Transport')
-#     route = models.ForeignKey('Route', null=True)
-#     shipping = models.ForeignKey('Shipping')
-#     dateDeparture = models.DateField()
-#     perfomance = models.BooleanField(default=False)
-# #/////////////////////////////////////////////way///////////////////////////////////////////////////////////////////////
-
-# #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-# class Way(models.Model):
-#     gpointFrom = models.ForeignKey('GeographyPoint', related_name='WaygpointFrom')
-#     gpointTo = models.ForeignKey('GeographyPoint', related_name='WaygpointTo')
-#     s = models.CharField(max_length=15)
-#     danger = models.CharField(max_length=20)
-#     passability = models.CharField(max_length=20)
-#     zagruzhenost = models.CharField(max_length=20)
-# #///////////////////////////////////////////////////////route///////////////////////////////////////////////////////////
-#
-#
-# class Route(models.Model):
-#     storehouse = models.ForeignKey('storehouse.StoreHouse', null=True)
-#     pointOfConsuming = models.ForeignKey('Resource.PointOfConsuming', null=True)
-#     gpointFrom = models.ForeignKey('GeographyPoint', related_name='RoutegpointFrom')
-#     gpointTo = models.ForeignKey('GeographyPoint', related_name='RoutegpointTo')
-#     name = models.CharField(max_length=30)
-#
-#     def __unicode__(self):
-#         return "%s"%self.pk
-#
-#
-# class MakingAWay(models.Model):
-#     way = models.ForeignKey('Way')
-#     route = models.ForeignKey('Route')
-#     sequence=models.IntegerField()
-#
-#     def __unicode__(self):
-#         return "%s" % self.sequence
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GeographyPoint(models.Model):
     x = models.FloatField()
     y = models.FloatField()
