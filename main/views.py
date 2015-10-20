@@ -16,7 +16,7 @@ class MainView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MainView, self).get_context_data(**kwargs)
         context.update({
-            'Volonter': Volonter.objects.all(),
+            'volonters': Volonter.objects.all(),
         })
         return context
 

@@ -1,4 +1,5 @@
 # coding: utf-8
+from datetime import datetime, timedelta
 from django.db import models
 #////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
 class Volonter(models.Model):
@@ -171,6 +172,18 @@ class Need(models.Model):
     def __unicode__(self):
         return "%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        created = self.pk is None
+        super(Need, self).save(force_insert, force_update, using,
+             update_fields)
+        if created:
+
+            ResourceOrder.objects.create(
+                priority=0.5,
+                date_of_starting = datetime.now(),
+                date_of_finish = datetime.now() + timedelta(days=1),
+            )
 
 
 
