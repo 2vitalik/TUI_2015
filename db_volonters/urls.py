@@ -16,14 +16,15 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from Resource.views import ResourceListView, ResourceDetailView, ResourceCreateView, NeedListView, NeedDetailView, \
-    NeedCreateView, PointOfConsumingListView, PointOfConsumingDetailView, PointOfConsumingCreateView
-from main.views import MainView, VolonterListView, VolonterDetailView, \
-    VolonterCreateView, VolonterUpdateView, KindOfWorkListView, KindOfWorkDetailView, SkillListView, SkillDetailView, TransportListView, TransportDetailView, VolonterGrafikView, reGrafikView
+    NeedCreateView, PointOfConsumingListView, PointOfConsumingDetailView, PointOfConsumingCreateView, \
+    CreateVolontersView
+from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView, KindOfWorkListView, KindOfWorkDetailView, SkillListView, SkillDetailView, TransportListView, TransportDetailView, VolonterGrafikView
 from storehouse.views import StoreHouseListView, StoreHouseDetailView, StoreHouseUpdateView, StoreHouseCreateView
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^test/', MainView.as_view()),
+    url(r'^test/$', MainView.as_view()),
     url(r'^$', MainView.as_view()),
 
     url(r'^Volonter/$',VolonterListView.as_view(), name='list_volonter'),
@@ -46,8 +47,6 @@ urlpatterns = [
     url(r'transport/(?P<pk>\d+)/$', TransportDetailView.as_view(), name='view_transport'),
 
     url(r'^volonter/grafik/$',VolonterGrafikView.as_view(),name = 'grafik_volonter'),
-
-    url(r'^Resource/grafik/(?P<pk>\d+)/$',reGrafikView.as_view(),name = 'grafik_resource'),
 
     url(r'^Resource/$',
         ResourceListView.as_view(),
@@ -79,4 +78,7 @@ urlpatterns = [
         PointOfConsumingCreateView.as_view(),
         name = 'create_pointofconsuming'),
 
+
+    url(r'^test/create_volonters$',
+        CreateVolontersView.as_view()),
 ]

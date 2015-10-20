@@ -1,9 +1,14 @@
+# coding: utf-8
+from httplib import HTTPResponse
 from pyexpat import model
+import random
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from Resource.admin import PointOfConsumingAdmin
 from Resource.models import Resource, Need, PointOfConsuming
+from main.models import Volonter
 
 
 class MainView(TemplateView):
@@ -78,3 +83,46 @@ class PointOfConsumingCreateView(CreateView):
     context_object_name = 'PointOfConsuming'
     fields = ('id_geography_point','fio','telephone',)
     success_url = reverse_lazy('create_pointofconsuming')
+
+class CreateVolontersView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        print 'Fill Volonters:'
+        surnames = [u'Трэк', u'Троев', u'Атеистов', u'Трюкови', u'Спайдэр', u'Виннов']
+        names = [u'Вася', u'Акакий', u'Лео', u'Адольф', u'Иосиф', u'Дима', u'Игорь', u'Антон', u'Жора', u'Вася', u'Трион', u'Енот',]
+        operators = [u'093', u'050', u'098', u'066', u'099']
+        oblast = [u'Вінницька область',
+                   u'Волинська область',
+                   u'Дніпропетровська область',
+                   u'Донецька область',
+                   u'Закарпатська область',
+                   u'Запорізька область',
+                   u'Івано-Франківська область',
+                   u'Київська область',
+                   u'Кіровоградська область',
+                   u'Луганська область',
+                   u'Львівська область',
+                   u'Миколаївська область',
+                   u'Одеська область',
+                   u'Полтавська область',
+                   u'Рівненська область',
+                   u'Сумська область',
+                   u'Тернопільська область',
+                   u'Харківська область',
+                   u'Херсонська область',
+                   u'Хмельницька область',
+                   u'Черкаська область',
+                   u'Чернігівська область',
+                   u'Чернівецька область',
+                   u'Автономна Республіка Крим']
+        for i in range(20):
+            telephone = u'+38' + random.choice(operators) + unicode(random.randint(1000000, 9999999))
+            fio = random.choice(surnames) + u' ' + random.choice(names)
+            address = random.choice(oblast)
+            Volonter.objects.create(
+                fio=fio,
+                address=address,
+                telephone=telephone,
+                gender=u'М',
+            )
+            print fio, telephone
+        return HttpResponse('ok')

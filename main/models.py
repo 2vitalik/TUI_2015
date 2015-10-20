@@ -15,7 +15,7 @@ class Volonter(models.Model):
     conviction = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return "%s" % (self.fio)
+        return "%s, %s" % (self.fio, self.address)
 
 
 class KindOfWork(models.Model):

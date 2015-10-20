@@ -1,3 +1,4 @@
+# coding: utf-8
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView
@@ -34,7 +35,7 @@ class VolonterCreateView(CreateView):
     model = Volonter
     context_object_name = 'Volonter'
     fields = ('fio', 'address', 'birthday',
-              'telephone', 'gender')
+              'telephone', 'gender',)
     success_url = reverse_lazy('list_volonter')
 
 class VolonterUpdateView(UpdateView):
@@ -99,26 +100,38 @@ class VolonterGrafikView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(VolonterGrafikView, self).get_context_data(**kwargs)
+        oblasti = [u'Вінницька область',
+                   u'Волинська область',
+                   u'Дніпропетровська область',
+                   u'Донецька область',
+                   u'Закарпатська область',
+                   u'Запорізька область',
+                   u'Івано-Франківська область',
+                   u'Київська область',
+                   u'Кіровоградська область',
+                   u'Луганська область',
+                   u'Львівська область',
+                   u'Миколаївська область',
+                   u'Одеська область',
+                   u'Полтавська область',
+                   u'Рівненська область',
+                   u'Сумська область',
+                   u'Тернопільська область',
+                   u'Харківська область',
+                   u'Херсонська область',
+                   u'Хмельницька область',
+                   u'Черкаська область',
+                   u'Чернігівська область',
+                   u'Чернівецька область',
+                   u'Автономна Республіка Крим',]
+        data = []
+        for oblast in oblasti:
+            count = Volonter.objects.filter(address__contains=oblast).count()
+            data.append({
+                'name': oblast,
+                'count': count
+            })
         context.update({
-            'data': [
-                {'name': 'driver', 'value': 111},
-                {'name': 'cooker', 'value': 11},
-                {'name': 'coder', 'value': 20},
-                {'name': 'voloner', 'value': 500},
-            ],
-        })
-        return context
-
-class reGrafikView(DetailView):
-    template_name = 'grafik_resource.html'
-    model = Resource
-    context_object_name = 'Resource'
-
-    def get_context_data(self, **kwargs):
-        context = super(reGrafikView, self).get_context_data(**kwargs)
-        context.update({
-            'data': [
-
-            ],
+            'data': data,
         })
         return context

@@ -46,12 +46,12 @@
 {% block bottom %}
     <div id="menu">
 
-            {% for ress in Resource %}
+           {% comment %} {% for ress in Resource %}
                  <a href="{% url 'grafik_resource' ress.id %}">{{ ress.id }}</a>
-            {% endfor %}
+            {% endfor %}{% endcomment %}
 
-{#                <input type="button" onclick="c('hleb')" value="hleb" />#}
-{#				<input type="button" onclick="c('konoply')" value="konoplya" />#}
+             <input type="button" onclick="c('hleb')" value="hleb" />
+				<input type="button" onclick="c('konoply')" value="konoplya" />
     </div>
     Back to: <a href="{% url 'list_resource' %}">HOME</a><br>
 {% endblock %}

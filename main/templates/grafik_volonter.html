@@ -5,48 +5,48 @@
 {% endblock %}
 
 {% block content %}
+
+
+
+
     <script type="text/javascript">
 
 	$(function() {
 
         var data = [
-            {% for item in data %}
-                { label: "{{ item.name }}",  data: {{ item.value }} },
+            {% for vol in data %}
+                ['{{ vol.name }}', {{ vol.count }} ],
             {% endfor %}
-        ];
+];
+            $.plot("#placeholder", [data], {
+                series: {
+                    bars: {
+                        show: true,
+                        barWidth: 0.8,
+                        fill: true,
+                        align: "center",
 
-		var placeholder = $("#placeholder");
-        placeholder.unbind();
-			$.plot(placeholder, data, {
-				series: {
-					pie: {
-						show: true,
-						radius: 1,
-						label: {
-							show: true,
-							radius: 3/4,
-							formatter: labelFormatter,
-							background: {
-								opacity: 0.7
-							}
-						}
-					}
-				},
-				legend: {
-					show: true
-				}
-			});
+                    }
+                },
 
-		$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
-	});
+                xaxis: {
+                    mode: "categories",
+                    color: 'black',
+                    font: { size: 7, lineHeight: 13 }, // null (derived from CSS in placeholder) or object like { size: 11, lineHeight: 13, style: "italic", weight: "bold", family: "sans-serif", variant: "small-caps" }
+                    tickLength: 0
+                }
+            });
 
-	// A custom label formatter used by several of the plots
 
-	function labelFormatter(label, series) {
-		return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
-	}
-	</script>
-    <div id="grafik">
+            // Show the initial default chart
+            $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+        });
+    	</script>
+
+
+
+
+	    <div id="grafik">
 
 		<div class="demo-container">
 			<div id="placeholder" class="demo-placeholder"></div>
