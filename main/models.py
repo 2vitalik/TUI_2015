@@ -2,6 +2,9 @@
 from datetime import datetime, timedelta
 from django.db import models
 #////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
+from main.algorithms import create_resource_orders
+
+
 class Volonter(models.Model):
     GENDER_CHOICES = (
         (u'М', 'Male'),
@@ -145,13 +148,15 @@ class StoreHouse(models.Model):
     volume = models.IntegerField()
     rent = models.IntegerField()
     address = models.CharField(max_length=100)
+    free_volume = models.FloatField(default = volume)
 
     def __unicode__(self):
         return self.address
 class Stock(models.Model):
-    storeHouseId = models.ForeignKey('StoreHouse')
+    storeHouseId = models.ForeignKey('StoreHouse', null = True)
     resource = models.ForeignKey('Resource')
     amount = models.IntegerField(null=True)
+
 
     def __unicode__(self):
         return "%s, %s"%(self.storeHouseId.address, self.resource.name)
@@ -178,13 +183,7 @@ class Need(models.Model):
         super(Need, self).save(force_insert, force_update, using,
              update_fields)
         if created:
-
-            ResourceOrder.objects.create(
-                priority=0.5,
-                date_of_starting = datetime.now(),
-                date_of_finish = datetime.now() + timedelta(days=1),
-            )
-
+            create_resource_orders(self)
 
 
 
