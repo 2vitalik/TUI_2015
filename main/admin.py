@@ -4,7 +4,10 @@ from main.models import Volonter, GeographyPoint, Stock, \
     Resource, \
     PointOfConsuming, \
     Need, \
-    CategoryResource  #Skill, KindOfWork, MakingAWay, Route, Way,  Trip, Employment, Transport, KindOfTransport, ShippingDetalization, Shipping, Supply
+    CategoryResource, \
+    ResourceOrder, \
+    StoreHouse, \
+    Order
 class StockAdmin(admin.ModelAdmin):
     list_display = ('storeHouseId','resource','amount',)
 class GeographyPointAdmin(admin.ModelAdmin):
@@ -21,7 +24,7 @@ class VolonterAdmin(admin.ModelAdmin):
     search_fields = ('fio', )
     list_filter = ('gender', )
     filter_horizontal = ('categories', )
-    # ordering = ('pk',)
+
 
     def categories_field(self, obj):
         return ', '.join([o.category for o in obj.categories.all()])
@@ -41,15 +44,25 @@ class ResourceAdmin(admin.ModelAdmin):
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','address','fio','telephone',)
 class NeedAdmin(admin.ModelAdmin):
-    list_display = ('point_consuming','resources','amount',)
-
-    def resources(self, obj):
-        return '...'
+    list_display = ('point_consuming','resource','amount',)
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
+class ResourceOrderAdmin(admin.ModelAdmin):
+    list_display = ('pk','resource','store_house','amount','finished','date_created','date_finished',)
+class StoreHouseAdmin(admin.ModelAdmin):
+    list_display = ('volume','rent','address','geography_point',)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('needs_field',)
+    filter_horizontal = ('needs',)
+
+    def needs_field(self, obj):
+        return ', '.join([(o.resource, o.amount) for o in obj.needs.all()])
 
 
 
+admin.site.register(Order, OrderAdmin)
+admin.site.register(StoreHouse, StoreHouseAdmin)
+admin.site.register(ResourceOrder, ResourceOrderAdmin)
 admin.site.register(Need, NeedAdmin)
 admin.site.register(PointOfConsuming, PointOfConsumingAdmin)
 admin.site.register(Resource, ResourceAdmin)

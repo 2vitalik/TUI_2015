@@ -5,7 +5,6 @@ from django.views.generic import CreateView, UpdateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-import Resource
 from main.models import Volonter
 
 

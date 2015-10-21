@@ -15,7 +15,6 @@ class Volonter(models.Model):
     categories = models.ManyToManyField('CategoryResource')
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.address)
-
 class GeographyPoint(models.Model):
     x = models.FloatField()
     y = models.FloatField()
@@ -28,7 +27,6 @@ class CategoryResource(models.Model):
 
     def __unicode__(self):
         return self.category
-
 class Resource(models.Model):
     category_resource = models.ForeignKey('CategoryResource')
     name = models.CharField(max_length=30)
@@ -53,7 +51,6 @@ class Stock(models.Model):
 
     def __unicode__(self):
         return "%s, %s"%(self.storeHouseId.address, self.resource.name)
-
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True)
     address = models.CharField('geography_point.address', max_length=100)
@@ -62,6 +59,16 @@ class PointOfConsuming(models.Model):
 
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.address)
+class ResourceOrder(models.Model):
+    resource = models.ForeignKey('Resource')
+    store_house = models.ForeignKey('StoreHouse')
+    amount = models.IntegerField()
+    finished = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_finished = models.DateTimeField()
+
+    def __unicode__(self):
+        return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
 class Need(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming')
     resource = models.ForeignKey('Resource')
@@ -75,13 +82,14 @@ class Need(models.Model):
         created = self.pk is None
         super(Need, self).save(force_insert, force_update, using,
              update_fields)
-        if created:
 
-            ResourceOrder.objects.create(
-                priority=0.5,
-                date_of_starting = datetime.now(),
-                date_of_finish = datetime.now() + timedelta(days=1),
-            )
+            # ResourceOrder.objects.create(
+            #     priority=0.5,
+            #     date_of_starting = datetime.now(),
+            #     date_of_finish = datetime.now() + timedelta(days=1),
+            # )
+class Order(models.Model):
+    needs = models.ManyToManyField('Order')
 
 
 
