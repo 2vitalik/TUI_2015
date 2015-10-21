@@ -40,7 +40,7 @@ class StoreHouse(models.Model):
     geography_point = models.OneToOneField('GeographyPoint')
     volume = models.IntegerField()
     rent = models.IntegerField()
-    address = models.CharField(max_length=100)
+    address = models.CharField('geography_point.address',max_length=100)
 
     def __unicode__(self):
         return self.address
