@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 from django.db import models
 #////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
-from main.algorithms import create_resource_orders
+from main.algorithms import create_resource_orders, fill_store_houses
 
 
 class Volonter(models.Model):
@@ -143,6 +143,7 @@ class Resource(models.Model):
 
     def __unicode__(self):
         return "%s, %s" % (self.category_resource.category, self.name)
+
 class StoreHouse(models.Model):
     geography_point = models.OneToOneField('GeographyPoint')
     volume = models.IntegerField()
@@ -157,9 +158,16 @@ class Stock(models.Model):
     resource = models.ForeignKey('Resource')
     amount = models.IntegerField(null=True)
 
-
     def __unicode__(self):
         return "%s, %s"%(self.storeHouseId.address, self.resource.name)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        created = self.pk is None
+        super(Stock, self).save(force_insert, force_update, using,
+             update_fields)
+        if created:
+            fill_store_houses(self)
 
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True)
