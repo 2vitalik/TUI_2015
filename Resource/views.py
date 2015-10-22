@@ -1,16 +1,6 @@
-# # coding: utf-8
-# from httplib import HTTPResponse
-# from pyexpat import model
-# import random
-# from django.http.response import HttpResponse
-# from django.shortcuts import render
-# from django.core.urlresolvers import reverse_lazy
-# from django.views.generic import TemplateView, ListView, DetailView, CreateView
-# from Resource.admin import PointOfConsumingAdmin
-# from Resource.models import Resource, Need, PointOfConsuming
-# from main.models import Volonter
-#
-#
+# coding: utf-8
+
+
 # class MainView(TemplateView):
 #     template_name = 'list_resource.html'
 #
@@ -83,46 +73,4 @@
 #     context_object_name = 'PointOfConsuming'
 #     fields = ('id_geography_point','fio','telephone',)
 #     success_url = reverse_lazy('create_pointofconsuming')
-#
-# class CreateVolontersView(TemplateView):
-#     def get(self, request, *args, **kwargs):
-#         print 'Fill Volonters:'
-#         surnames = [u'РўСЂСЌРє', u'РўСЂРѕРµРІ', u'РђС‚РµРёСЃС‚РѕРІ', u'РўСЂСЋРєРѕРІРё', u'РЎРїР°Р№РґСЌСЂ', u'Р’РёРЅРЅРѕРІ']
-#         names = [u'Р’Р°СЃСЏ', u'РђРєР°РєРёР№', u'Р›РµРѕ', u'РђРґРѕР»СЊС„', u'Р�РѕСЃРёС„', u'Р”РёРјР°', u'Р�РіРѕСЂСЊ', u'РђРЅС‚РѕРЅ', u'Р–РѕСЂР°', u'Р’Р°СЃСЏ', u'РўСЂРёРѕРЅ', u'Р•РЅРѕС‚',]
-#         operators = [u'093', u'050', u'098', u'066', u'099']
-#         oblast = [u'Р’С–РЅРЅРёС†СЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р’РѕР»РёРЅСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р”РЅС–РїСЂРѕРїРµС‚СЂРѕРІСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р”РѕРЅРµС†СЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р—Р°РєР°СЂРїР°С‚СЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р—Р°РїРѕСЂС–Р·СЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р†РІР°РЅРѕ-Р¤СЂР°РЅРєС–РІСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РљРёС—РІСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РљС–СЂРѕРІРѕРіСЂР°РґСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р›СѓРіР°РЅСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р›СЊРІС–РІСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РњРёРєРѕР»Р°С—РІСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РћРґРµСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РџРѕР»С‚Р°РІСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р С–РІРЅРµРЅСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РЎСѓРјСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РўРµСЂРЅРѕРїС–Р»СЊСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РҐР°СЂРєС–РІСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РҐРµСЂСЃРѕРЅСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РҐРјРµР»СЊРЅРёС†СЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р§РµСЂРєР°СЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р§РµСЂРЅС–РіС–РІСЃСЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'Р§РµСЂРЅС–РІРµС†СЊРєР° РѕР±Р»Р°СЃС‚СЊ',
-#                    u'РђРІС‚РѕРЅРѕРјРЅР° Р РµСЃРїСѓР±Р»С–РєР° РљСЂРёРј']
-#         for i in range(20):
-#             telephone = u'+38' + random.choice(operators) + unicode(random.randint(1000000, 9999999))
-#             fio = random.choice(surnames) + u' ' + random.choice(names)
-#             address = random.choice(oblast)
-#             Volonter.objects.create(
-#                 fio=fio,
-#                 address=address,
-#                 telephone=telephone,
-#                 gender=u'Рњ',
-#             )
-#             print fio, telephone
-#         return HttpResponse('ok')
+

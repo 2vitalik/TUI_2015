@@ -16,8 +16,8 @@ input[type=checkbox] {
 .demo-container {
 	box-sizing: border-box;
 	width: 850px;
-	height: 450px;
-	padding: 20px 15px 15px 15px;
+	height: 550px;
+	padding: 20px 35px 15px 15px;
 	margin: 15px 0 30px 0;
 	border: 1px solid #ddd;
 	background: #fff;

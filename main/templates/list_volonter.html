@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %}
-    <h3 class="title_list">Список волонтёров</h3>
+    <h3 class="title_list">Список волонтерів /<a href="{% url 'grafik_volonter' %}"> Графік волонтерів</a></h3>
 {% endblock %}
 
 {% block content %}
@@ -27,6 +27,5 @@
     </div>
 {% endblock %}
 {% block bottom %}
-    Back to: <a href="{% url 'list_volonter' %}">list</a><br>
-    Go to: <a href="{% url 'grafik_volonter' %}">grafik</a>
+
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <h3 class="title_list">График волонтёров по виду деятельности</h3>
+    <h3 class="title_list"><a href="{% url 'list_volonter' %}">Список волонтерів</a> / Графік волонтерів</h3>
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,8 @@
 
         var data = [
             {% for vol in data %}
-                ['{{ vol.name }}', {{ vol.count }} ],
+
+                ["<div id='verticalText'>{{ vol.name }} ( {{ vol.count }} ) </div>", {{ vol.count }} ],
             {% endfor %}
 ];
             $.plot("#placeholder", [data], {
@@ -24,15 +25,16 @@
                         show: true,
                         barWidth: 0.8,
                         fill: true,
-                        align: "center",
+                        align: "left",
 
-                    }
+                        }
                 },
 
                 xaxis: {
                     mode: "categories",
                     color: 'black',
-                    font: { size: 7, lineHeight: 13 }, // null (derived from CSS in placeholder) or object like { size: 11, lineHeight: 13, style: "italic", weight: "bold", family: "sans-serif", variant: "small-caps" }
+                    labelHeight: 150,
+                    font: { size: 11,}, // null (derived from CSS in placeholder) or object like { size: 11, lineHeight: 13, style: "italic", weight: "bold", family: "sans-serif", variant: "small-caps" }
                     tickLength: 0
                 }
             });
@@ -53,9 +55,7 @@
 		</div>
 
 
-
 	</div>
 {% endblock %}
 {% block bottom %}
-    Back to: <a href="{% url 'list_volonter' %}">HOME</a><br>
 {% endblock %}

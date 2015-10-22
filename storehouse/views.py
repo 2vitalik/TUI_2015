@@ -39,5 +39,5 @@
 #     context_object_name = 'StoreHouse'
 #     fields = ('X', 'Y', 'V', 'Adress')
 #     success_url = reverse_lazy('list_StoreHouse')
-#
-# # Create your views here.
+
+# Create your views here.
