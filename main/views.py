@@ -7,7 +7,7 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.models import Volonter, Resource, CategoryResource
+from main.models import Volonter, Resource, CategoryResource, StoreHouse, Stock
 
 
 class MainView(TemplateView):
@@ -57,11 +57,11 @@ class VolonterCreateView(CreateView):
         return context
 
 
-class VolonterUpdateView(UpdateView):
-    template_name = 'update_volonter.html'
-    model = Volonter
-    context_object_name = 'Volonter'
-    fields = ('fio', 'address','telephone', 'gender')
+# class VolonterUpdateView(UpdateView):
+#     template_name = 'update_volonter.html'
+#     model = Volonter
+#     context_object_name = 'Volonter'
+#     fields = ('fio', 'address','telephone', 'gender')
 
 class VolonterGrafikView(ListView):
     template_name = 'grafik_volonter.html'
@@ -96,6 +96,23 @@ class VolonterGrafikView(ListView):
                    u'Автономна Республіка Крим',]
         data = []
         N = 1
+
+        ####################################
+        # data = list()
+        # resource = Resource.objects.get(pk=self.kwargs.get('pk'))
+        # store_houses = StoreHouse.objects.all()
+        # for store_house in store_houses:
+        #     stocks = Stock.objects.filter(store_house=store_house, resource=resource)
+        #     # total_amount = 0
+        #     # for stock in stocks:
+        #     #     total_amount += stock.amount
+        #     total_amount = sum([stock.amount for stock in stocks])
+        #     data.append({
+        #         'store_house': store_house,
+        #         'total_amount': total_amount,
+        #     })
+        ####################################
+
         for oblast in oblasti:
             count = Volonter.objects.filter(address__contains=oblast).count()
             data.append({
@@ -114,14 +131,26 @@ class ResourceGrafikView(ListView):
     template_name = 'grafik_resource.html'
     model = Resource
     context_object_name = 'Resource'
-    # def get_context_data(self, **kwargs):
-    #     context = super(ResourceGrafikView, self).get_context_data(**kwargs)
-    #     data = []
-    #     context.update({
-    #         'data': data,
-    #     })
-    #     return context
 
+    def get_context_data(self, **kwargs):
+        context = super(ResourceGrafikView, self).get_context_data(**kwargs)
+        data = list()
+        resource = Resource.objects.get(pk=self.kwargs.get('pk'))
+        store_houses = StoreHouse.objects.all()
+        for store_house in store_houses:
+            stocks = Stock.objects.filter(store_house=store_house, resource=resource)
+            # total_amount = 0
+            # for stock in stocks:
+            #     total_amount += stock.amount
+            total_amount = sum([stock.amount for stock in stocks])
+            data.append({
+                'store_house': store_house,
+                'total_amount': total_amount,
+            })
+        context.update({
+            'data': data,
+        })
+        return context
 
 class CreateVolontersView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -165,3 +194,7 @@ class CreateVolontersView(TemplateView):
             )
             print fio, telephone
         return HttpResponse('ok')
+class ResourceListView(ListView):
+    template_name = 'list_resource.html'
+    model = Resource
+    context_object_name = 'Resource'

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-    <h3 class="title_list">Список ресурсів /<a href="{% url 'grafik_resource' %}"> Графік ресурсів</a></h3>
+    <h3 class="title_list">Список ресурсів /<a href="{% url 'grafik_resource' 1 %}"> Графік ресурсів</a></h3>
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
     {% for resource in Resource %}
         <tr class="list_tr">
         <td>{{ resource.id }}</td>
-        <td> <a class="detail_list" href="{% url 'view_volonter' resource.id %}">{{ resource.name }}</a></td>
+        <td> {{ resource.name }}</td>
         <td>{{ resource.description }}</td>
         <td>////</td>
     </tr>

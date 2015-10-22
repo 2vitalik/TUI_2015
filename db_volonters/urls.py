@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView, VolonterGrafikView, \
-    CreateVolontersView, ResourceGrafikView
+from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterGrafikView, \
+    CreateVolontersView, ResourceGrafikView, ResourceListView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^Volonter/$',VolonterListView.as_view(), name='list_volonter'),
     url(r'^Volonter/(?P<pk>\d+)/$',VolonterDetailView.as_view(), name='view_volonter'),
     url(r'^Volonter/add/',VolonterCreateView.as_view(), name='create_volonter'),
-    url(r'^Volonter/(?P<pk>\d+)/edit/',VolonterUpdateView.as_view(), name='update_volonter'),
+    # url(r'^Volonter/(?P<pk>\d+)/edit/',VolonterUpdateView.as_view(), name='update_volonter'),
 
     # url(r'^StoreHouse/$',StoreHouseListView.as_view(), name= 'list_StoreHouse'),
     # url(r'^StoreHouse/(?P<pk>\d+)/$', StoreHouseDetailView.as_view(), name='view_StoreHouse' ),
@@ -42,13 +42,13 @@ urlpatterns = [
     # url(r'transport/', TransportListView.as_view(), name='list_transport'),
     # url(r'transport/(?P<pk>\d+)/$', TransportDetailView.as_view(), name='view_transport'),
     #grafik_recourse
+
     url(r'^volonter/grafik/$',VolonterGrafikView.as_view(),name = 'grafik_volonter'),
+    url(r'^resource/grafik/(?P<pk>\d+)$',ResourceGrafikView.as_view(),name = 'grafik_resource'),
 
-     url(r'^resource/grafik/$',ResourceGrafikView.as_view(),name = 'grafik_resource'),
-
-    # url(r'^Resource/$',
-    #     ResourceListView.as_view(),
-    #     name='list_resource'),
+    url(r'^resource/$',
+        ResourceListView.as_view(),
+        name='list_resource'),
     # url(r'^Resource/(?P<pk>\d+)/$',
     #     ResourceDetailView.as_view(),
     #     name = 'view_resource'),
@@ -79,4 +79,6 @@ urlpatterns = [
 
     url(r'^test/create_volonters$',
         CreateVolontersView.as_view()),
+
+
 ]

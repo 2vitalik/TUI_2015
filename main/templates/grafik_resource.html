@@ -5,8 +5,56 @@
 {% endblock %}
 {% block content %}
 
+    <script type="text/javascript">
+
+	$(function() {
+
+        var data = [
+            {% for vol in data %}
+
+                [ {{ vol.store_house }},{{ vol.total_amount }}],
+            {% endfor %}
+];
+            $.plot("#placeholder", [data], {
+                series: {
+                    bars: {
+                        show: true,
+                        barWidth: 0.8,
+                        fill: true,
+                        align: "left",
+
+                        }
+                },
+
+                xaxis: {
+                    mode: "categories",
+                    color: 'black',
+                    labelHeight: 150,
+                    font: { size: 11,}, // null (derived from CSS in placeholder) or object like { size: 11, lineHeight: 13, style: "italic", weight: "bold", family: "sans-serif", variant: "small-caps" }
+                    tickLength: 0
+                }
+            });
+
+
+            // Show the initial default chart
+            $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+        });
+    	</script>
+
+
+
+
+	    <div id="grafik">
+
+		<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder"></div>
+		</div>
+        <a href="{% url 'grafik_resource' 1 %}">sfsdfs</a>
+
+	</div>
+
 {% endblock %}
 
 {% block bottom %}
-    Back to: <a href="{% url 'list_resource' %}">HOME</a><br>
+{#    Back to: <a href="{% url 'list_resource' %}">HOME</a><br>#}
 {% endblock %}
