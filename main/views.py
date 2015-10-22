@@ -19,18 +19,14 @@ class MainView(TemplateView):
             'Volonter': Volonter.objects.all(),
         })
         return context
-
-
 class VolonterListView(ListView):
     template_name = 'list_volonter.html'
     model = Volonter
     context_object_name = 'Volonter'
-
 class VolonterDetailView(DetailView):
     template_name = 'view_volonter.html'
     model = Volonter
     context_object_name = 'Volonter'
-
 class VolonterCreateView(CreateView):
     template_name = 'create_volonter.html'
     model = Volonter
@@ -38,13 +34,11 @@ class VolonterCreateView(CreateView):
     fields = ('fio', 'address', 'birthday',
               'telephone', 'gender',)
     success_url = reverse_lazy('list_volonter')
-
 class VolonterUpdateView(UpdateView):
     template_name = 'update_volonter.html'
     model = Volonter
     context_object_name = 'Volonter'
     fields = ('fio', 'address','telephone', 'gender')
-
 class VolonterGrafikView(ListView):
     template_name = 'grafik_volonter.html'
     model = Volonter
@@ -90,8 +84,6 @@ class VolonterGrafikView(ListView):
             'data': data,
         })
         return context
-
-
 class ResourceGrafikView(ListView):
     template_name = 'grafik_resource.html'
     model = Resource
@@ -103,8 +95,6 @@ class ResourceGrafikView(ListView):
     #         'data': data,
     #     })
     #     return context
-
-
 class CreateVolontersView(TemplateView):
     def get(self, request, *args, **kwargs):
         print 'Fill Volonters:'
