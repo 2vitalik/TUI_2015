@@ -27,11 +27,14 @@ class GeographyPoint(models.Model):
 
     def __unicode__(self):
         return self.address
+
+
 class CategoryResource(models.Model):
     category = models.CharField(max_length=50)
 
     def __unicode__(self):
         return self.category
+
 
 class Resource(models.Model):
     category_resource = models.ForeignKey('CategoryResource')
@@ -43,17 +46,24 @@ class Resource(models.Model):
     def __unicode__(self):
         return "%s, %s" % (self.category_resource.category, self.name)
 
+
 class StoreHouse(models.Model):
     geography_point = models.OneToOneField('GeographyPoint')
     volume = models.IntegerField()
     rent = models.IntegerField()
-    address = models.CharField('geography_point.address',max_length=100)
     free_volume = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):
         return self.address
 
-    # todo: set free_volume=volume for new StoreHouses
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        created = self.pk is None
+        if created:
+            self.free_volume = self.volume
+        super(StoreHouse, self).save(force_insert, force_update, using,
+             update_fields)
+
 
 class Stock(models.Model):
     storeHouseId = models.ForeignKey('StoreHouse', null = True)
@@ -71,6 +81,7 @@ class Stock(models.Model):
         if created:
             fill_store_houses(self)
 
+
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True)
     address = models.CharField('geography_point.address', max_length=100)
@@ -79,6 +90,8 @@ class PointOfConsuming(models.Model):
 
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.address)
+
+
 class ResourceOrder(models.Model):
     resource = models.ForeignKey('Resource')
     store_house = models.ForeignKey('StoreHouse')
@@ -89,6 +102,8 @@ class ResourceOrder(models.Model):
 
     def __unicode__(self):
         return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
+
+
 class Need(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming')
     resource = models.ForeignKey('Resource')
@@ -104,7 +119,8 @@ class Need(models.Model):
     #          update_fields)
     #     if created:
     #         create_resource_orders(self)
-    
+
+
 class Order(models.Model):
     needs = models.ManyToManyField('Order')
 

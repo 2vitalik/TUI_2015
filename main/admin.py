@@ -50,7 +50,7 @@ class CategoryResourceAdmin(admin.ModelAdmin):
 class ResourceOrderAdmin(admin.ModelAdmin):
     list_display = ('pk','resource','store_house','amount','finished','date_created','date_finished',)
 class StoreHouseAdmin(admin.ModelAdmin):
-    list_display = ('volume','rent','address','geography_point',)
+    list_display = ('volume','rent','geography_point',)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('needs_field',)
     filter_horizontal = ('needs',)
