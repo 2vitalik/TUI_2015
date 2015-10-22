@@ -31,6 +31,7 @@ class VolonterDetailView(DetailView):
     model = Volonter
     context_object_name = 'Volonter'
 
+
 class VolonterCreateView(CreateView):
     template_name = 'create_volonter.html'
     model = Volonter
@@ -38,21 +39,23 @@ class VolonterCreateView(CreateView):
     fields = ('fio', 'address', 'birthday',
               'telephone', 'gender','categories',)
     success_url = reverse_lazy('list_volonter')
+
     def get_context_data(self, **kwargs):
-        volonter = Volonter.objects.all()
         context = super(VolonterCreateView, self).get_context_data(**kwargs)
-        categorys = CategoryResource.objects.all()
+        volonters = Volonter.objects.all()
+        categories = CategoryResource.objects.all()
         data = []
-        N=1
-        for category in categorys:
-            #count = Volonter.objects.filter(address__contains=oblast).count()
-            data.append({'name': category.category, 'number': N})
-            N=N+1
+        for category in categories:
+            data.append({
+                'name': category.category,
+                'number': category.id,
+            })
         context.update({
             'data': data,
-            'Volonter': volonter,
+            'Volonter': volonters,
         })
         return context
+
 
 class VolonterUpdateView(UpdateView):
     template_name = 'update_volonter.html'
