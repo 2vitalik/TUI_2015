@@ -17,7 +17,7 @@ class Volonter(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     categories = models.ManyToManyField('CategoryResource')
     def __unicode__(self):
-        return "%s, %s" % (self.fio, self.address)
+        return u"%s, %s" % (self.fio, self.address)
 
 
 class GeographyPoint(models.Model):
@@ -27,11 +27,14 @@ class GeographyPoint(models.Model):
 
     def __unicode__(self):
         return self.address
+
+
 class CategoryResource(models.Model):
     category = models.CharField(max_length=50)
 
     def __unicode__(self):
         return self.category
+
 
 class Resource(models.Model):
     category_resource = models.ForeignKey('CategoryResource')
@@ -41,27 +44,38 @@ class Resource(models.Model):
     price_one_unit = models.IntegerField()
 
     def __unicode__(self):
-        return "%s, %s" % (self.category_resource.category, self.name)
+        return u"%s, %s" % (self.category_resource.category, self.name)
+
 
 class StoreHouse(models.Model):
     geography_point = models.OneToOneField('GeographyPoint')
     volume = models.IntegerField()
     rent = models.IntegerField()
-    address = models.CharField('geography_point.address',max_length=100)
     free_volume = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):
-        return self.address
+        return self.geography_point.address
 
-    # todo: set free_volume=volume for new StoreHouses
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        created = self.pk is None
+        if created:
+            self.free_volume = self.volume
+        super(StoreHouse, self).save(force_insert, force_update, using,
+             update_fields)
+
+        virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+        for stock in virtual_stocks:
+            fill_store_houses(stock)
+
 
 class Stock(models.Model):
-    storeHouseId = models.ForeignKey('StoreHouse', null = True)
+    store_house = models.ForeignKey('StoreHouse', blank=True, null=True)
     resource = models.ForeignKey('Resource')
     amount = models.IntegerField(null=True)
 
     def __unicode__(self):
-        return "%s, %s"%(self.storeHouseId.address, self.resource.name)
+        return u"%s, %s"%(self.store_house, self.resource.name)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -71,6 +85,7 @@ class Stock(models.Model):
         if created:
             fill_store_houses(self)
 
+
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True)
     address = models.CharField('geography_point.address', max_length=100)
@@ -78,7 +93,9 @@ class PointOfConsuming(models.Model):
     telephone = models.CharField(max_length=20, null = False)
 
     def __unicode__(self):
-        return "%s, %s" % (self.fio, self.address)
+        return u"%s, %s" % (self.fio, self.address)
+
+
 class ResourceOrder(models.Model):
     resource = models.ForeignKey('Resource')
     store_house = models.ForeignKey('StoreHouse')
@@ -88,14 +105,16 @@ class ResourceOrder(models.Model):
     date_finished = models.DateTimeField()
 
     def __unicode__(self):
-        return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
+        return u"%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
+
+
 class Need(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming')
     resource = models.ForeignKey('Resource')
     amount = models.IntegerField()
 
     def __unicode__(self):
-        return "%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
+        return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
     # def save(self, force_insert=False, force_update=False, using=None,
     #          update_fields=None):
@@ -104,7 +123,8 @@ class Need(models.Model):
     #          update_fields)
     #     if created:
     #         create_resource_orders(self)
-    
+
+
 class Order(models.Model):
     needs = models.ManyToManyField('Order')
 

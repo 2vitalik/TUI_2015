@@ -9,28 +9,32 @@ def fill_store_houses(stock):
     from main.models import StoreHouse
     from main.models import Stock
 
-
     store_houses = StoreHouse.objects.all()
-    sort_store_houses = sorted(store_houses, key = lambda x: x.rent)
+    sort_store_houses = sorted(store_houses, key = lambda x: x.rent, reverse = True)
     resource = stock.resource
 
+    # virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+
     for store in sort_store_houses:
-        free = store.free_volume.store
+        free = store.free_volume
         volume = resource.volume_of_one_unit
         amount = stock.amount
         if volume*amount <= free:
-            stock.storeHouseId = StoreHouse.store.pk
+            stock.store_house = store
+            stock.save()
             free -= volume*amount
         elif volume > free:
             continue
         else:
             cur_amount = int(free/volume)
             residual_amount = amount - cur_amount
-            Stock.objects.create(storeHouseId = store.pk, resource = stock.storeHouseId, amount = cur_amount )
+            Stock.objects.create(store_house=store, resource=stock.store_house, amount=cur_amount)
             stock.amount = residual_amount
+            stock.save()
             free -= volume * cur_amount
 
-        StoreHouse.free_volume.store = free
+        store.free_volume = free
+        store.save()
 
 ########################################################################################################################
 # def create_resource_orders(need):
