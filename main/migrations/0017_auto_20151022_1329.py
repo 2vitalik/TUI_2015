@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='storehouse',
             name='free_volume',
-            field=models.FloatField(default=models.IntegerField()),
+            field=models.FloatField(null=True, blank=True),
         ),
         migrations.AlterField(
             model_name='stock',

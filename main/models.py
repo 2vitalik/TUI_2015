@@ -48,10 +48,13 @@ class StoreHouse(models.Model):
     volume = models.IntegerField()
     rent = models.IntegerField()
     address = models.CharField('geography_point.address',max_length=100)
-    free_volume = models.FloatField(default = volume)
+    free_volume = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):
         return self.address
+
+    # todo: set free_volume=volume for new StoreHouses
+
 class Stock(models.Model):
     storeHouseId = models.ForeignKey('StoreHouse', null = True)
     resource = models.ForeignKey('Resource')
