@@ -1,6 +1,9 @@
 # coding: utf-8
 from datetime import datetime, timedelta
 from django.db import models
+#////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
+from main.algorithms import fill_store_houses
+
 
 class Volonter(models.Model):
     GENDER_CHOICES = (
@@ -15,6 +18,8 @@ class Volonter(models.Model):
     categories = models.ManyToManyField('CategoryResource')
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.address)
+
+
 class GeographyPoint(models.Model):
     x = models.FloatField()
     y = models.FloatField()
@@ -27,6 +32,7 @@ class CategoryResource(models.Model):
 
     def __unicode__(self):
         return self.category
+
 class Resource(models.Model):
     category_resource = models.ForeignKey('CategoryResource')
     name = models.CharField(max_length=30)
@@ -36,21 +42,35 @@ class Resource(models.Model):
 
     def __unicode__(self):
         return "%s, %s" % (self.category_resource.category, self.name)
+
 class StoreHouse(models.Model):
     geography_point = models.OneToOneField('GeographyPoint')
     volume = models.IntegerField()
     rent = models.IntegerField()
     address = models.CharField('geography_point.address',max_length=100)
+    free_volume = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):
         return self.address
+
+    # todo: set free_volume=volume for new StoreHouses
+
 class Stock(models.Model):
-    storeHouseId = models.ForeignKey('StoreHouse')
+    storeHouseId = models.ForeignKey('StoreHouse', null = True)
     resource = models.ForeignKey('Resource')
     amount = models.IntegerField(null=True)
 
     def __unicode__(self):
         return "%s, %s"%(self.storeHouseId.address, self.resource.name)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        created = self.pk is None
+        super(Stock, self).save(force_insert, force_update, using,
+             update_fields)
+        if created:
+            fill_store_houses(self)
+
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True)
     address = models.CharField('geography_point.address', max_length=100)
@@ -77,19 +97,17 @@ class Need(models.Model):
     def __unicode__(self):
         return "%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        created = self.pk is None
-        super(Need, self).save(force_insert, force_update, using,
-             update_fields)
-
-            # ResourceOrder.objects.create(
-            #     priority=0.5,
-            #     date_of_starting = datetime.now(),
-            #     date_of_finish = datetime.now() + timedelta(days=1),
-            # )
+    # def save(self, force_insert=False, force_update=False, using=None,
+    #          update_fields=None):
+    #     created = self.pk is None
+    #     super(Need, self).save(force_insert, force_update, using,
+    #          update_fields)
+    #     if created:
+    #         create_resource_orders(self)
+    
 class Order(models.Model):
     needs = models.ManyToManyField('Order')
+
 
 
 
