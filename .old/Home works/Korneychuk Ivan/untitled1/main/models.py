@@ -33,7 +33,7 @@ class Skill(models.Model):
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Stock(models.Model):
-    #storeHouseId = models.ForeignKey('Storehouse')
+    #store_house = models.ForeignKey('Storehouse')
     #resource = models.ForeignKey('Resource')
     amount = models.IntegerField(null=True)
 

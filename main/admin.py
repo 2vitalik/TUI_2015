@@ -9,7 +9,7 @@ from main.models import Volonter, GeographyPoint, Stock, \
     StoreHouse, \
     Order
 class StockAdmin(admin.ModelAdmin):
-    list_display = ('storeHouseId','resource','amount',)
+    list_display = ('store_house','resource','amount',)
 class GeographyPointAdmin(admin.ModelAdmin):
     list_display = ('x','y','address',)
 class VolonterAdmin(admin.ModelAdmin):
@@ -39,7 +39,7 @@ class VolonterAdmin(admin.ModelAdmin):
         # print '; '.join(b)
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'category_resource', 'name', 'unit_of_mesure', 'volume_of_one_unit', 'price_one_unit',
+        'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit',
     )
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','address','fio','telephone',)
@@ -50,7 +50,7 @@ class CategoryResourceAdmin(admin.ModelAdmin):
 class ResourceOrderAdmin(admin.ModelAdmin):
     list_display = ('pk','resource','store_house','amount','finished','date_created','date_finished',)
 class StoreHouseAdmin(admin.ModelAdmin):
-    list_display = ('volume','rent','geography_point',)
+    list_display = ('geography_point', 'volume','free_volume','rent')
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('needs_field',)
     filter_horizontal = ('needs',)
