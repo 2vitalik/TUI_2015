@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from Resource.views import ResourceListView, ResourceDetailView, ResourceCreateView, NeedListView, NeedDetailView, \
-    NeedCreateView, PointOfConsumingListView, PointOfConsumingDetailView, PointOfConsumingCreateView, \
-    CreateVolontersView, ResourceGrafikView
-from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView, KindOfWorkListView, KindOfWorkDetailView, SkillListView, SkillDetailView, TransportListView, TransportDetailView, VolonterGrafikView
-from storehouse.views import StoreHouseListView, StoreHouseDetailView, StoreHouseUpdateView, StoreHouseCreateView
+# from Resource.views import ResourceListView, ResourceDetailView, ResourceCreateView, NeedListView, NeedDetailView, \
+#     NeedCreateView, PointOfConsumingListView, PointOfConsumingDetailView, PointOfConsumingCreateView, \
+#     CreateVolontersView
+from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView, VolonterGrafikView
+# KindOfWorkListView, KindOfWorkDetailView, SkillListView, SkillDetailView, TransportListView, TransportDetailView
+# from storehouse.views import StoreHouseListView, StoreHouseDetailView, StoreHouseUpdateView, StoreHouseCreateView
 
 
 urlpatterns = [
