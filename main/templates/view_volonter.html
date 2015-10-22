@@ -39,6 +39,13 @@
         <td>GENDER</td>
         <td align="center">{{ Volonter.gender }},{{ Volonter.get_gender_display }}</td>
     </tr>
+      <tr>
+        <td>Вид допомоги</td>
+        <td align="center">
+            {% for cat in Volonter.categories.all  %}
+            {{ cat }}<br>
+            {% endfor %}</td>
+    </tr>
   </table>
     </div>
 {% endblock %}
