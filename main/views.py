@@ -7,7 +7,7 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.models import Volonter, KindOfWork, Skill, Transport
+from main.models import Volonter, Resource
 
 
 class MainView(TemplateView):
