@@ -9,10 +9,11 @@ def fill_store_houses(stock):
     from main.models import StoreHouse
     from main.models import Stock
 
-
     store_houses = StoreHouse.objects.all()
-    sort_store_houses = sorted(store_houses, key = lambda x: x.rent)
+    sort_store_houses = sorted(store_houses, key = lambda x: x.rent, reverse = True)
     resource = stock.resource
+
+    # virtual_stocks = Stock.objects.filter(store_house__isnull=True)
 
     for store in sort_store_houses:
         free = store.free_volume

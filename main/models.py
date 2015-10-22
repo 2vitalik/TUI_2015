@@ -64,6 +64,10 @@ class StoreHouse(models.Model):
         super(StoreHouse, self).save(force_insert, force_update, using,
              update_fields)
 
+        virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+        for stock in virtual_stocks:
+            fill_store_houses(stock)
+
 
 class Stock(models.Model):
     store_house = models.ForeignKey('StoreHouse', blank=True, null=True)
