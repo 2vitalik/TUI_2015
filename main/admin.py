@@ -4,47 +4,10 @@ from main.models import Volonter, GeographyPoint, Stock, \
     Resource, \
     PointOfConsuming, \
     Need, \
-    CategoryResource  #Skill, KindOfWork, MakingAWay, Route, Way,  Trip, Employment, Transport, KindOfTransport, ShippingDetalization, Shipping, Supply
-# class SkillAdmin(admin.ModelAdmin):
-#     list_display = (
-#         'pk',
-#         'volonter',
-#         'kind',
-#         'proficiency',
-#     )
-#     def kind(self, obj):
-#         url = reverse('admin:main_kindofwork_change', args = [obj.kind.pk])
-#         return "Kind: <b><a href = '%s'>%s</a></b>" % (url, obj.kind.name)
-
-# class KindOfWorkAdmin(admin.ModelAdmin):
-#     list_display = (
-#         'name',
-#         'complexity',
-#     )
-# class SupplyAdmin(admin.ModelAdmin):
-#     list_display = ('pk','volonter','stock','amount','dateReal','dateRecomended',)
-# class ShippingAdmin(admin.ModelAdmin):
-#     list_display = ('pk', 'volonter','dateRecomended',)
-# class ShippingDetalizationAdmin(admin.ModelAdmin):
-#     list_display = ('pk','amount','shipping','stock',)
-# class KindOfTransportAdmin(admin.ModelAdmin):
-#     list_display = ('pk','name','kind','volume','speed','expenseOfFuel','passability','load')
-#     list_filter = ('kind',)
-# class TransportAdmin(admin.ModelAdmin):
-#     list_display = ('pk','kindOfTransport','number')
-#     list_filter = ('kindOfTransport',)
-# class EmploymentAdmin(admin.ModelAdmin):
-#     list_display = ('pk', 'transport', 'dateStart', 'dateFinish',)
-# class TripAdmin(admin.ModelAdmin):
-#     list_display = ('pk', 'transport',  'shipping', 'dateDeparture', 'perfomance',)
-# class WayAdmin(admin.ModelAdmin):
-#     list_display = ('gpointFrom','gpointTo','s','danger','passability','zagruzhenost',)
-# class RouteAdmin(admin.ModelAdmin):
-#     list_display = ('pk','storehouse','pointOfConsuming','gpointFrom','gpointTo','name',)
-# class MakingAWayAdmin(admin.ModelAdmin):
-#     list_display = ('pk','way','route','sequence',)
-
-
+    CategoryResource, \
+    ResourceOrder, \
+    StoreHouse, \
+    Order
 class StockAdmin(admin.ModelAdmin):
     list_display = ('storeHouseId','resource','amount',)
 class GeographyPointAdmin(admin.ModelAdmin):
@@ -61,7 +24,7 @@ class VolonterAdmin(admin.ModelAdmin):
     search_fields = ('fio', )
     list_filter = ('gender', )
     filter_horizontal = ('categories', )
-    # ordering = ('pk',)
+
 
     def categories_field(self, obj):
         return ', '.join([o.category for o in obj.categories.all()])
@@ -74,9 +37,6 @@ class VolonterAdmin(admin.ModelAdmin):
         # print ' '.join(a)
         # b = [o + ' m' for o in a]
         # print '; '.join(b)
-
-
-
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'category_resource', 'name', 'unit_of_mesure', 'volume_of_one_unit', 'price_one_unit',
@@ -84,31 +44,31 @@ class ResourceAdmin(admin.ModelAdmin):
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','address','fio','telephone',)
 class NeedAdmin(admin.ModelAdmin):
-    list_display = ('point_consuming','resources','amount',)
-
-    def resources(self, obj):
-        return '...'
+    list_display = ('point_consuming','resource','amount',)
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
+class ResourceOrderAdmin(admin.ModelAdmin):
+    list_display = ('pk','resource','store_house','amount','finished','date_created','date_finished',)
+class StoreHouseAdmin(admin.ModelAdmin):
+    list_display = ('volume','rent','address','geography_point',)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('needs_field',)
+    filter_horizontal = ('needs',)
+
+    def needs_field(self, obj):
+        return ', '.join([(o.resource, o.amount) for o in obj.needs.all()])
 
 
-# admin.site.register(MakingAWay, MakingAWayAdmin)
-# admin.site.register(Route, RouteAdmin)
-# admin.site.register(Way, WayAdmin)
+
+admin.site.register(Order, OrderAdmin)
+admin.site.register(StoreHouse, StoreHouseAdmin)
+admin.site.register(ResourceOrder, ResourceOrderAdmin)
 admin.site.register(Need, NeedAdmin)
 admin.site.register(PointOfConsuming, PointOfConsumingAdmin)
 admin.site.register(Resource, ResourceAdmin)
 admin.site.register(CategoryResource, CategoryResourceAdmin)
 admin.site.register(GeographyPoint, GeographyPointAdmin)
-# admin.site.register(Trip, TripAdmin)
-# admin.site.register(Employment, EmploymentAdmin)
-# admin.site.register(Transport, TransportAdmin)
-# admin.site.register(KindOfTransport, KindOfTransportAdmin)
-# admin.site.register(ShippingDetalization, ShippingDetalizationAdmin)
-# admin.site.register(Shipping,ShippingAdmin)
-# admin.site.register(Supply, SupplyAdmin)
 admin.site.register(Stock, StockAdmin)
 admin.site.register(Volonter, VolonterAdmin)
-# admin.site.register(Skill, SkillAdmin)
-# admin.site.register(KindOfWork, KindOfWorkAdmin)
+
 

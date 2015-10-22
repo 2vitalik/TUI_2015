@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 from django.db import models
 #////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
-from main.algorithms import create_resource_orders, fill_store_houses
+from main.algorithms import  fill_store_houses
 
 
 class Volonter(models.Model):
@@ -18,109 +18,6 @@ class Volonter(models.Model):
     categories = models.ManyToManyField('CategoryResource')
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.address)
-
-# class KindOfWork(models.Model):
-#     name = models.CharField(max_length=100)
-#     complexity = models.CharField(max_length=20, null= True)
-#
-#     def __unicode__(self):
-#         return self.name
-# class Skill(models.Model):
-#     volonter = models.ForeignKey('Volonter')
-#     kind = models.ForeignKey('KindOfWork', null=True)
-#     proficiency = models.CharField(max_length=20, null=True)
-#
-#     def __unicode__(self):
-#         return "%s, %s, %s" % (self.proficiency, self.volonter, self.kind)
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-# #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-# class Supply(models.Model):
-#     volonter = models.ForeignKey('Volonter')
-#     stock = models.ForeignKey('Stock')
-#     dateReal = models.DateField()
-#     dateRecomended = models.DateField()
-#     amount = models.IntegerField(null=True)
-#
-#
-#     def __unicode__(self):
-#         return "%s"%(self.amount)
-# class Shipping(models.Model):
-#     volonter = models.ForeignKey('Volonter')
-#     dateRecomended = models.DateField()
-#
-#     def __unicode__(self):
-#         return "%s" % self.pk
-# class ShippingDetalization(models.Model):
-#     amount = models.IntegerField()
-#     shipping = models.ForeignKey('Shipping')
-#     stock = models.ForeignKey('Stock')
-#
-#     def __unicode__(self):
-#         return "%s"%(self.amount)
-# #///////////////////////////////////////////transport///////////////////////////////////////////////////////////////////
-# class KindOfTransport(models.Model):
-#     name = models.CharField(max_length=50)
-#     kind = models.CharField(max_length=20)
-#     volume = models.CharField(max_length=10)
-#     speed = models.CharField(max_length=10)
-#     expenseOfFuel = models.CharField(max_length=10)
-#     passability = models.CharField(max_length=20)
-#     load = models.CharField(max_length=20)
-#
-#     def __unicode__(self):
-#         return "%s, %s" % (self.name, self.kind)
-# class Transport(models.Model):
-#     kindOfTransport = models.ForeignKey('KindOfTransport')
-#     number = models.CharField(max_length=10)
-#
-#     def __unicode__(self):
-#         return self.number
-# class Employment(models.Model):
-#     transport = models.OneToOneField('Transport', null=True)
-#     dateStart = models.DateField()
-#     dateFinish = models.DateField()
-#
-#     def __unicode__(self):
-#         return "%s, %s" % (self.dateStart, self.dateFinish)
-# class Trip(models.Model):
-#     transport = models.ForeignKey('Transport')
-#     route = models.ForeignKey('Route', null=True)
-#     shipping = models.ForeignKey('Shipping')
-#     dateDeparture = models.DateField()
-#     perfomance = models.BooleanField(default=False)
-# #/////////////////////////////////////////////way///////////////////////////////////////////////////////////////////////
-
-# #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-# class Way(models.Model):
-#     gpointFrom = models.ForeignKey('GeographyPoint', related_name='WaygpointFrom')
-#     gpointTo = models.ForeignKey('GeographyPoint', related_name='WaygpointTo')
-#     s = models.CharField(max_length=15)
-#     danger = models.CharField(max_length=20)
-#     passability = models.CharField(max_length=20)
-#     zagruzhenost = models.CharField(max_length=20)
-# #///////////////////////////////////////////////////////route///////////////////////////////////////////////////////////
-#
-#
-# class Route(models.Model):
-#     storehouse = models.ForeignKey('storehouse.StoreHouse', null=True)
-#     pointOfConsuming = models.ForeignKey('Resource.PointOfConsuming', null=True)
-#     gpointFrom = models.ForeignKey('GeographyPoint', related_name='RoutegpointFrom')
-#     gpointTo = models.ForeignKey('GeographyPoint', related_name='RoutegpointTo')
-#     name = models.CharField(max_length=30)
-#
-#     def __unicode__(self):
-#         return "%s"%self.pk
-#
-#
-# class MakingAWay(models.Model):
-#     way = models.ForeignKey('Way')
-#     route = models.ForeignKey('Route')
-#     sequence=models.IntegerField()
-#
-#     def __unicode__(self):
-#         return "%s" % self.sequence
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GeographyPoint(models.Model):
     x = models.FloatField()
     y = models.FloatField()
@@ -148,7 +45,7 @@ class StoreHouse(models.Model):
     geography_point = models.OneToOneField('GeographyPoint')
     volume = models.IntegerField()
     rent = models.IntegerField()
-    address = models.CharField(max_length=100)
+    address = models.CharField('geography_point.address',max_length=100)
     free_volume = models.FloatField(default = volume)
 
     def __unicode__(self):
@@ -177,6 +74,16 @@ class PointOfConsuming(models.Model):
 
     def __unicode__(self):
         return "%s, %s" % (self.fio, self.address)
+class ResourceOrder(models.Model):
+    resource = models.ForeignKey('Resource')
+    store_house = models.ForeignKey('StoreHouse')
+    amount = models.IntegerField()
+    finished = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_finished = models.DateTimeField()
+
+    def __unicode__(self):
+        return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
 class Need(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming')
     resource = models.ForeignKey('Resource')
@@ -192,6 +99,15 @@ class Need(models.Model):
              update_fields)
         if created:
             create_resource_orders(self)
+
+            # ResourceOrder.objects.create(
+            #     priority=0.5,
+            #     date_of_starting = datetime.now(),
+            #     date_of_finish = datetime.now() + timedelta(days=1),
+            # )
+class Order(models.Model):
+    needs = models.ManyToManyField('Order')
+
 
 
 
