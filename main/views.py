@@ -7,7 +7,7 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.models import Volonter, Resource
+from main.models import Volonter, Resource, CategoryResource
 
 
 class MainView(TemplateView):
@@ -34,10 +34,25 @@ class VolonterDetailView(DetailView):
 class VolonterCreateView(CreateView):
     template_name = 'create_volonter.html'
     model = Volonter
-    context_object_name = 'Volonter'
+    #context_object_name = 'Volonter'
     fields = ('fio', 'address', 'birthday',
-              'telephone', 'gender',)
+              'telephone', 'gender','categories',)
     success_url = reverse_lazy('list_volonter')
+    def get_context_data(self, **kwargs):
+        volonter = Volonter.objects.all()
+        context = super(VolonterCreateView, self).get_context_data(**kwargs)
+        categorys = CategoryResource.objects.all()
+        data = []
+        N=1
+        for category in categorys:
+            #count = Volonter.objects.filter(address__contains=oblast).count()
+            data.append({'name': category.category, 'number': N})
+            N=N+1
+        context.update({
+            'data': data,
+            'Volonter': volonter,
+        })
+        return context
 
 class VolonterUpdateView(UpdateView):
     template_name = 'update_volonter.html'

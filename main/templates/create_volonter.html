@@ -80,6 +80,14 @@
         <td>ПОЛ</td>
         <td><input type="radio" value="М" name="gender"> М <br><input type="radio" value="Ж" name="gender"> Ж</td>
     </tr>
+    <tr>
+        <td>Вид Работ</td>
+        <td>
+            {% for item in data %}
+            <input type="checkbox" name="categories" value="{{ item.number }}">{{ item.name }}<br>
+            {% endfor %}
+
+    </tr>
     <tr align="center">
         <td colspan="2"><input class="bt" type="submit" name="Save" value="Save"></td>
     </tr>
