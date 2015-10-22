@@ -278,3 +278,16 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 #grafik {
 	margin-left: 100px;
 }
+#verticalText {
+	-moz-transform: rotate(70deg);
+    -webkit-transform: rotate(70deg);
+    -o-transform: rotate(70deg);
+	margin-top: 75px;
+	margin-right: 100px;
+	width: 175px;
+	position: relative;
+	top: 0px;
+	right: 30px;
+	text-align: left;
+}
+

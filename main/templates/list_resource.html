@@ -1,22 +1,32 @@
 {% extends 'base.html' %}
 {% block title %}
-    <h3>Список ресурсов</h3>
+    <h3 class="title_list">Список ресурсів /<a href="{% url 'grafik_resource' %}"> Графік ресурсів</a></h3>
 {% endblock %}
 
 {% block content %}
-    <BR/><ul>
-    {% for Resources in Resource %}
-{#        <a href="/volonter/{{ volonter.id }}/"> #}
-       <li> <a href="{% url 'view_resource' Resources.id %}">
-                {{ Resources.name }}
-        </a></li>
+    <div id="list_table">
+  <table border="1">
+    <tr>
+        <td>ID</td>
+        <td>НАЗВА</td>
+        <td>НОУНАМЕ</td>
+        <td>Кількість</td>
+    </tr>
+
+    {% for resource in Resource %}
+        <tr class="list_tr">
+        <td>{{ resource.id }}</td>
+        <td> <a class="detail_list" href="{% url 'view_volonter' resource.id %}">{{ resource.name }}</a></td>
+        <td>{{ resource.description }}</td>
+        <td>////</td>
+    </tr>
+
     {% endfor %}
+  </table>
+    </div>
 
-
-    </ul>
-    <a href="{% url 'create_resource' %}">Добавить новый ресурс</a>
 {% endblock %}
 
 {% block bottom %}
-    Go to: <a href="{% url 'grafik_resource' 1 %}">grafik</a>
+
 {% endblock %}

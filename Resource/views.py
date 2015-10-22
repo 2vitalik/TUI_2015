@@ -84,6 +84,18 @@ class PointOfConsumingCreateView(CreateView):
     fields = ('id_geography_point','fio','telephone',)
     success_url = reverse_lazy('create_pointofconsuming')
 
+class ResourceGrafikView(ListView):
+    template_name = 'grafik_resource.html'
+    model = Resource
+    context_object_name = 'Resource'
+    # def get_context_data(self, **kwargs):
+    #     context = super(ResourceGrafikView, self).get_context_data(**kwargs)
+    #     data = []
+    #     context.update({
+    #         'data': data,
+    #     })
+    #     return context
+
 class CreateVolontersView(TemplateView):
     def get(self, request, *args, **kwargs):
         print 'Fill Volonters:'

@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from Resource.views import ResourceListView, ResourceDetailView, ResourceCreateView, NeedListView, NeedDetailView, \
     NeedCreateView, PointOfConsumingListView, PointOfConsumingDetailView, PointOfConsumingCreateView, \
-    CreateVolontersView
+    CreateVolontersView, ResourceGrafikView
 from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView, KindOfWorkListView, KindOfWorkDetailView, SkillListView, SkillDetailView, TransportListView, TransportDetailView, VolonterGrafikView
 from storehouse.views import StoreHouseListView, StoreHouseDetailView, StoreHouseUpdateView, StoreHouseCreateView
 
@@ -45,8 +45,10 @@ urlpatterns = [
 
     url(r'transport/', TransportListView.as_view(), name='list_transport'),
     url(r'transport/(?P<pk>\d+)/$', TransportDetailView.as_view(), name='view_transport'),
+    #grafik_recourse
+    url(r'^volonter/grafik/$',VolonterGrafikView.as_view(),name = 'grafik_volonter'),
 
-    url(r'^volonter/grafik/$',VolonterGrafikView.as_view(),name = 'grafic_volonter'),
+     url(r'^resource/grafik/$',ResourceGrafikView.as_view(),name = 'grafik_resource'),
 
     url(r'^Resource/$',
         ResourceListView.as_view(),

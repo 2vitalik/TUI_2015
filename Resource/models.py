@@ -19,12 +19,25 @@ class Need(models.Model):
     priority = models.FloatField(null = True)
     perfomance = models.IntegerField(null = True)
     id_order = models.ForeignKey('Order', null = True)
+
     def __unicode__(self):
         return "%i, %f, %i" % (self.number_of_resource, self.priority, self.perfomance)
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        created = self.pk is None
+        super(Need, self).save(force_insert, force_update, using,
+             update_fields)
+        if created:
+            Order.objects.create(
+                priority=0.5,
+                date_of_starting = datetime.now(),
+                date_of_finish = datetime.now() + timedelta(days=1),
+            )
+
 class Order(models.Model):
     geography_point = models.ForeignKey('main.GeographyPoint', null=True)
-    date_of_starting = models.DateField(null = False)
+    date_of_starting = models.DateField(null = False)  # auto_now_add=True
     date_of_finish = models.DateField(null = False)
     priority = models.FloatField(null = True)
     def __unicode__(self):
