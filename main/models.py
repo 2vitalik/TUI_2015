@@ -75,8 +75,7 @@ class Stock(models.Model):
     def __unicode__(self):
         return u"%s, %s"%(self.store_house, self.resource.name)
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    def save(self, force_insert=False, force_update=False, using=None,update_fields=None):
         created = self.pk is None
         super(Stock, self).save(force_insert, force_update, using,
              update_fields)

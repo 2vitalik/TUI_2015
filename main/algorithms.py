@@ -1,10 +1,7 @@
 from _ast import Store
 from setuptools.command.saveopts import saveopts
-
-
-
 def fill_store_houses(stock):
-
+    from main.models import Resource
     from main.models import StoreHouse
     from main.models import Stock
 
@@ -18,13 +15,14 @@ def fill_store_houses(stock):
 
     # to_add = []
     # virtual_stocks = Stock.objects.filter(store_house__isnull=True)
-
+    a = stock.pk
     for id, free_volume in storehouses_params:
+
         volume = resource.volume_of_one_unit
         amount = stock.amount
         if volume*amount <= free_volume:
-            stock.store_house = id
-            stock.save()
+            stock.store_house_id = id
+
             free_volume -= volume*amount
             break
         elif volume > free_volume:
@@ -34,13 +32,12 @@ def fill_store_houses(stock):
             cur_amount = int(free_volume/volume)
             residual_amount = amount - cur_amount
             # to_add.append([store, resource, cur_amount])
-            Stock.objects.create(store_house=id, resource=resource, amount=cur_amount)
+            Stock.objects.create(store_house_id=id, resource=resource, amount=cur_amount)
             stock.amount = residual_amount
-            stock.save()
             free_volume -= volume * cur_amount
-
+        stock.save()
     for i in range(len(sort_store_houses)):
-        sort_store_houses[i].free_volume = storehouses_params[i][[1]]
+        sort_store_houses[i].free_volume = storehouses_params[i][1]
     sort_store_houses.save()
 
 # def Add(to_add):
