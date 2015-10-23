@@ -56,15 +56,15 @@ class StoreHouse(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        created = self.pk is None
-        if created:
+        just_created = self.pk is None
+        if just_created:
             self.free_volume = self.volume
         super(StoreHouse, self).save(force_insert, force_update, using,
-             update_fields)
-
-        virtual_stocks = Stock.objects.filter(store_house__isnull=True)
-        for stock in virtual_stocks:
-            fill_store_houses(stock)
+                                     update_fields)
+        if just_created:
+            virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+            for stock in virtual_stocks:
+                fill_store_houses(stock)
 
 
 class Stock(models.Model):
@@ -78,7 +78,7 @@ class Stock(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,update_fields=None):
         created = self.pk is None
         super(Stock, self).save(force_insert, force_update, using,
-             update_fields)
+                                update_fields)
         if created:
             fill_store_houses(self)
 
