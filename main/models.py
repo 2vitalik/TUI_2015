@@ -40,7 +40,7 @@ class Resource(models.Model):
     category_resource = models.ForeignKey('CategoryResource')
     name = models.CharField(max_length=30)
     unit_of_mesure = models.CharField(max_length=30)
-    volume_of_one_unit = models.IntegerField()
+    volume_of_one_unit = models.FloatField()
     price_one_unit = models.IntegerField()
 
     def __unicode__(self):
