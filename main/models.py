@@ -3,8 +3,6 @@ from datetime import datetime, timedelta
 from django.db import models
 #////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
 from main.algorithms import fill_store_houses
-
-
 class Volonter(models.Model):
     GENDER_CHOICES = (
         (u'М', 'Male'),
