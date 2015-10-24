@@ -48,7 +48,7 @@ class NeedAdmin(admin.ModelAdmin):
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
 class ResourceOrderAdmin(admin.ModelAdmin):
-    list_display = ('pk','resource','store_house','amount','finished','date_created','date_finished',)
+    list_display = ('pk','resource','amount','finished','date_created','date_finished',)
 class StoreHouseAdmin(admin.ModelAdmin):
     list_display = ('geography_point', 'volume','free_volume','rent')
 class OrderAdmin(admin.ModelAdmin):

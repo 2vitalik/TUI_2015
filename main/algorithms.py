@@ -2,6 +2,7 @@
 import math
 
 
+
 def fill_store_houses(stock):
     from main.models import StoreHouse
     from main.models import Stock
@@ -35,21 +36,38 @@ def fill_store_houses(stock):
             store.free_volume -= unit_volume * current_amount
             store.save()
 
-
-# def Add(to_add):
-#     from main.models import Stock
-#     for add in to_add:
-#         Stock.objects.create(store_house = add[0], resource = add[1], amount = add[2])
-
-########################################################################################################################
-# def create_resource_orders(need):
 #     volonters = Volonter.objects.filter(fio__contains='')
-#     count = len(volonters)
-#     for volonter in volonters:
-#         print volonter.fio
+def create_resource_orders(need):
+    from datetime import timedelta,datetime
+    from main.models import Stock
+    from main.models import Need
+    from main.models import ResourceOrder
+    from main.models import StoreHouse
 
-   # ResourceOrder.objects.create(
-        # priority=0.5,
-        # date_of_starting = datetime.now(),
-        # date_of_finish = datetime.now() + timedelta(days=1),
-   # )
+    stocks = Stock.objects.all()
+    filter_stocks = stocks.filter(resource=need.resource)
+
+    store_houses = StoreHouse.objects.all()
+    filter_store_houses=[]
+    for store in store_houses:
+        for stock in filter_stocks:
+            if store.pk == stock.store_house:
+                filter_store_houses.append(store)
+            else:
+                continue
+    sorted_stores = sorted(filter_store_houses, key=lambda x: x.rent, reverse=True)
+
+
+
+
+    count_stock_res = sum([res.amount for res in filter_stocks])
+    if count_stock_res < need.amount:
+        ResourceOrder.objects.create(
+            resource = need.resource,
+            store_house = None,
+            amount = need.amount - count_stock_res,
+            finished = False,
+            date_of_finish = datetime.now() + timedelta(days=1),
+        )
+        need.amount = count_stock_res
+        need.save()

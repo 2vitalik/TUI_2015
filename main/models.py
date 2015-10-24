@@ -2,7 +2,9 @@
 from datetime import datetime, timedelta
 from django.db import models
 #////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
-from main.algorithms import fill_store_houses
+from main.algorithms import fill_store_houses, create_resource_orders
+
+
 class Volonter(models.Model):
     GENDER_CHOICES = (
         (u'М', 'Male'),
@@ -95,7 +97,6 @@ class PointOfConsuming(models.Model):
 
 class ResourceOrder(models.Model):
     resource = models.ForeignKey('Resource')
-    store_house = models.ForeignKey('StoreHouse')
     amount = models.IntegerField()
     finished = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -108,18 +109,18 @@ class ResourceOrder(models.Model):
 class Need(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming')
     resource = models.ForeignKey('Resource')
-    amount = models.IntegerField()
+    amount = models.IntegerField(null = False)
 
     def __unicode__(self):
         return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
-    # def save(self, force_insert=False, force_update=False, using=None,
-    #          update_fields=None):
-    #     created = self.pk is None
-    #     super(Need, self).save(force_insert, force_update, using,
-    #          update_fields)
-    #     if created:
-    #         create_resource_orders(self)
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        created = self.pk is None
+        super(Need, self).save(force_insert, force_update, using,
+             update_fields)
+        if created:
+            create_resource_orders(self)
 
 
 class Order(models.Model):
