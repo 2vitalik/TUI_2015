@@ -43,6 +43,7 @@ def create_resource_orders(need):
     from main.models import Need
     from main.models import ResourceOrder
     from main.models import StoreHouse
+    from main.models import Resource
 
     stocks = Stock.objects.all()
     filter_stocks = stocks.filter(resource=need.resource)
@@ -51,23 +52,40 @@ def create_resource_orders(need):
     filter_store_houses=[]
     for store in store_houses:
         for stock in filter_stocks:
-            if store.pk == stock.store_house:
+            if store == stock.store_house:
                 filter_store_houses.append(store)
             else:
                 continue
+    # фильтруем склады начиная с самого дорогого
     sorted_stores = sorted(filter_store_houses, key=lambda x: x.rent, reverse=True)
-
-
-
-
+    # сумируем кол-во ресурсов
     count_stock_res = sum([res.amount for res in filter_stocks])
+    # если нужно создаем ResourceOrder
     if count_stock_res < need.amount:
         ResourceOrder.objects.create(
             resource = need.resource,
-            store_house = None,
             amount = need.amount - count_stock_res,
             finished = False,
-            date_of_finish = datetime.now() + timedelta(days=1),
+            date_finished = datetime.now() + timedelta(days=1),
         )
         need.amount = count_stock_res
         need.save()
+    resource = need.resource
+    # пробегамся начиная с самого дорого склада, и любого запаса с этого склада, удаляем нулевые запасы
+    for store in sorted_stores:
+        for stock in filter_stocks:
+            if store == stock.store_house:
+                if need.amount < stock.amount:
+                    stock.amount -= need.amount
+                    stock.save()
+                    store.free_volume +=need.amount * resource.volume_of_one_unit
+                    store.save()
+                elif need.amount == stock.amount:
+                    store.free_volume +=need.amount * resource.volume_of_one_unit
+                    store.save()
+                    stock.delete()
+                else:
+                    need.amount-=stock.amount
+                    store.free_volume+=stock.amount * resource.volume_of_one_unit
+                    store.save()
+                    stock.delete()
