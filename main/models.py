@@ -103,7 +103,7 @@ class ResourceOrder(models.Model):
     date_finished = models.DateTimeField()
 
     def __unicode__(self):
-        return u"%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
+        return u"%s,%s,%s"%(self.resource.name,self.date_created, self.date_finished)
 
 
 class Need(models.Model):
@@ -118,7 +118,7 @@ class Need(models.Model):
              update_fields=None):
         created = self.pk is None
         super(Need, self).save(force_insert, force_update, using,
-             update_fields)
+                               update_fields)
         if created:
             create_resource_orders(self)
 

@@ -46,8 +46,7 @@ def create_resource_orders(need):
     from main.models import Resource
 
     stocks = Stock.objects.all()
-    filter_stocks = stocks.filter(resource=need.resource)
-
+    filter_stocks = stocks.filter(resource=need.resource).exclude(store_house = None)
     store_houses = StoreHouse.objects.all()
     filter_store_houses=[]
     for store in store_houses:
@@ -72,20 +71,31 @@ def create_resource_orders(need):
         need.save()
     resource = need.resource
     # пробегамся начиная с самого дорого склада, и любого запаса с этого склада, удаляем нулевые запасы
+    count = need.amount
     for store in sorted_stores:
         for stock in filter_stocks:
+            break_count = False
+            delete_stock = False
             if store == stock.store_house:
-                if need.amount < stock.amount:
-                    stock.amount -= need.amount
+                if count < stock.amount:
+                    stock.amount -= count
                     stock.save()
-                    store.free_volume +=need.amount * resource.volume_of_one_unit
+                    store.free_volume += count * resource.volume_of_one_unit
                     store.save()
-                elif need.amount == stock.amount:
-                    store.free_volume +=need.amount * resource.volume_of_one_unit
+                    break_count = True
+                elif count == stock.amount:
+                    store.free_volume += count * resource.volume_of_one_unit
                     store.save()
                     stock.delete()
+                    break_count = True
                 else:
-                    need.amount-=stock.amount
-                    store.free_volume+=stock.amount * resource.volume_of_one_unit
+                    count -= stock.amount
+                    store.free_volume += stock.amount * resource.volume_of_one_unit
                     store.save()
-                    stock.delete()
+                    delete_stock = True
+            if delete_stock is True:
+                stock.delete()
+            if break_count is True:
+                break
+        if break_count is True:
+                break
