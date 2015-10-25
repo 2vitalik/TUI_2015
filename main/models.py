@@ -10,9 +10,35 @@ class Volonter(models.Model):
         (u'М', 'Male'),
         (u'Ж', 'Female'),
     )
+    OBLAST_CHOICES = (
+         (u'Вінницька область',u'Вінницька область'),
+         (u'Волинська область',u'Волинська область'),
+         (u'Дніпропетровська область',u'Дніпропетровська область'),
+          (u'Донецька область',u'Донецька область'),
+           (u'Закарпатська область',u'Закарпатська область'),
+            (u'Запорізька область',u'Запорізька область'),
+             (u'Івано-Франківська область',u'Івано-Франківська область'),
+              (u'Київська область',u'Київська область'),
+               (u'Кіровоградська область',u'Кіровоградська область'),
+                (u'Луганська область',u'Луганська область'),
+                 (u'Львівська область',u'Львівська область'),
+                  (u'Миколаївська область',u'Миколаївська область'),
+                   (u'Одеська область',u'Одеська область'),
+                    (u'Полтавська область',u'Полтавська область'),
+                     (u'Рівненська область',u'Рівненська область'),
+                      (u'Сумська область',u'Сумська область'),
+                       (u'Тернопільська область',u'Тернопільська область'),
+                        (u'Харківська область',u'Харківська область'),
+                         (u'Херсонська область',u'Херсонська область'),
+                          (u'Хмельницька область',u'Хмельницька область'),
+                          (u'Черкаська область',u'Черкаська область'),
+                           (u'Чернігівська область',u'Чернігівська область'),
+                            (u'Чернівецька область',u'Чернівецька область'),
+                             (u'Автономна Республіка Крим',u'Автономна Республіка Крим'),
+    )
     fio = models.CharField(verbose_name=u'ФИО', max_length=200)
     birthday = models.DateField(null=True, blank=True)
-    address = models.TextField()
+    address = models.CharField(max_length=30, choices=OBLAST_CHOICES)
     telephone = models.CharField(max_length=20)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     categories = models.ManyToManyField('CategoryResource')
@@ -44,14 +70,13 @@ class Resource(models.Model):
         return "%s, %s" % (self.category_resource.category, self.name)
 
 class StoreHouse(models.Model):
-    geography_point = models.OneToOneField('GeographyPoint')
+    geography_point = models.OneToOneField('GeographyPoint', null=True)
     volume = models.IntegerField()
     rent = models.IntegerField()
-    address = models.CharField('geography_point.address',max_length=100)
-    free_volume = models.FloatField(blank=True, null=True)
+    free_volume = models.FloatField(blank=False, null=True)
 
     def __unicode__(self):
-        return self.address
+        return self.geography_point.address
 
     # todo: set free_volume=volume for new StoreHouses
 
@@ -73,12 +98,11 @@ class Stock(models.Model):
 
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True)
-    address = models.CharField('geography_point.address', max_length=100)
     fio = models.CharField(max_length=50, null = False)
     telephone = models.CharField(max_length=20, null = False)
 
     def __unicode__(self):
-        return "%s, %s" % (self.fio, self.address)
+        return "%s, %s" % (self.fio, self.geography_point.address)
 class ResourceOrder(models.Model):
     resource = models.ForeignKey('Resource')
     store_house = models.ForeignKey('StoreHouse')

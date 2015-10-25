@@ -42,7 +42,7 @@ class ResourceAdmin(admin.ModelAdmin):
         'name', 'category_resource', 'name', 'unit_of_mesure', 'volume_of_one_unit', 'price_one_unit',
     )
 class PointOfConsumingAdmin(admin.ModelAdmin):
-    list_display = ('geography_point','address','fio','telephone',)
+    list_display = ('geography_point','fio','telephone',)
 class NeedAdmin(admin.ModelAdmin):
     list_display = ('point_consuming','resource','amount',)
 class CategoryResourceAdmin(admin.ModelAdmin):
@@ -50,7 +50,7 @@ class CategoryResourceAdmin(admin.ModelAdmin):
 class ResourceOrderAdmin(admin.ModelAdmin):
     list_display = ('pk','resource','store_house','amount','finished','date_created','date_finished',)
 class StoreHouseAdmin(admin.ModelAdmin):
-    list_display = ('volume','rent','address','geography_point',)
+    list_display = ('volume','rent','geography_point',)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('needs_field',)
     filter_horizontal = ('needs',)

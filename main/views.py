@@ -7,7 +7,8 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.models import Volonter, Resource
+from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse
+from django.core.mail import send_mail
 
 
 class MainView(TemplateView):
@@ -137,3 +138,37 @@ class CreateVolontersView(TemplateView):
             )
             print fio, telephone
         return HttpResponse('ok')
+class CreateNeedsView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        storehouse = set(StoreHouse.objects.all())
+        ge_point = set(GeographyPoint.objects.all())
+
+        point_consuming1 = [e for e in ge_point if not e in storehouse]
+
+        resource1 = ['','','','','','','',]
+        amount1 = [5,10,15,20,25,30,35,40,45,50,]
+
+        for i in range(50):
+            point_consuming2 = random.choice(point_consuming1)
+            resource2 = random.choice(resource1)
+            amount2 = random.choice(amount1)
+            Need.objects.create(
+                point_consuming=point_consuming2,
+                resource=resource2,
+                amount=amount2,
+            )
+        return HttpResponse('ok')
+class SendMailView(TemplateView):
+    subject = '#'
+    message = '#'
+    email_from = '#'
+    email = 'tyrnir.informatikov@gmail.com'
+    send_mail(subject, message, email_from,[email,])
+
+
+
+
+
+
+
+
