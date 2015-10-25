@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterUpdateView, VolonterGrafikView, \
-    CreateVolontersView, ResourceGrafikView, CreateNeedsView, SendMailView
+    CreateVolontersView, ResourceGrafikView, CreateNeedsView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -81,5 +81,5 @@ urlpatterns = [
         CreateVolontersView.as_view()),
 
     url(r'^test/create_needs', CreateNeedsView.as_view()),
-    url(r'^send_mail', SendMailView.as_view()),
+    # url(r'^send_mail', SendMailView.as_view()),
 ]

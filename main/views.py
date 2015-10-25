@@ -158,12 +158,12 @@ class CreateNeedsView(TemplateView):
                 amount=amount2,
             )
         return HttpResponse('ok')
-class SendMailView(TemplateView):
-    subject = '#'
-    message = '#'
-    email_from = '#'
-    email = 'tyrnir.informatikov@gmail.com'
-    send_mail(subject, message, email_from,[email,])
+# class SendMailView(TemplateView):
+#     subject = '#'
+#     message = '#'
+#     email_from = '#'
+#     email = 'tyrnir.informatikov@gmail.com'
+#     send_mail(subject, message, email_from,[email,])
 
 
 
