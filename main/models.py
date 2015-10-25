@@ -53,6 +53,9 @@ class StoreHouse(models.Model):
     rent = models.IntegerField()
     free_volume = models.FloatField(blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = u'Склади'
+
     def __unicode__(self):
         return self.geography_point.address
 
@@ -88,11 +91,11 @@ class Stock(models.Model):
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True)
     address = models.CharField('geography_point.address', max_length=100)
-    fio = models.CharField(max_length=50, null = False)
-    telephone = models.CharField(max_length=20, null = False)
+    fio = models.CharField(max_length=50, null=False)
+    telephone = models.CharField(max_length=20, null=False)
 
     def __unicode__(self):
-        return u"%s, %s" % (self.fio, self.address)
+        return u"%s" % (self.fio)
 
 
 class ResourceOrder(models.Model):
@@ -106,10 +109,14 @@ class ResourceOrder(models.Model):
         return u"%s,%s,%s"%(self.resource.name,self.date_created, self.date_finished)
 
 
+
+
 class Need(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming')
     resource = models.ForeignKey('Resource')
-    amount = models.IntegerField(null = False)
+    amount = models.IntegerField(null=False)
+    order = models.ForeignKey('Order')
+    # finished
 
     def __unicode__(self):
         return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
@@ -124,8 +131,8 @@ class Need(models.Model):
 
 
 class Order(models.Model):
-    needs = models.ManyToManyField('Order')
-
+    # date_created, date_finished, finished,
+    pass
 
 
 

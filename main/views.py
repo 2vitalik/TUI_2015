@@ -1,13 +1,15 @@
 # coding: utf-8
 import random
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView, ListView, TemplateView
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.models import Volonter, Resource
+from main.models import Volonter, Resource, ResourceOrder
 
 
 class MainView(TemplateView):
@@ -137,3 +139,19 @@ class CreateVolontersView(TemplateView):
             )
             print fio, telephone
         return HttpResponse('ok')
+
+
+class FinishedView(RedirectView):
+    permanent = False
+    url = reverse_lazy('admin:main_resource_order_changelist')
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(FinishedView, self).dispatch(request, *args,**kwargs)
+
+    def get(self, request, *args, **kwargs):
+        resource_order_id = kwargs.get('resource_order_id')
+        resource_order = ResourceOrder.objects.get(pk=resource_order_id)
+        resource_order.choise_finished = not resource_order.choise_finished_
+        resource_order.save()
+        return super(FinishedView, self).get(request, *args,**kwargs)
