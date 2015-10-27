@@ -10,99 +10,73 @@ class Volonter(models.Model):
         (u'М', 'Male'),
         (u'Ж', 'Female'),
     )
-    OBLAST_CHOICES = (
-         (u'Вінницька область',u'Вінницька область'),
-         (u'Волинська область',u'Волинська область'),
-         (u'Дніпропетровська область',u'Дніпропетровська область'),
-         (u'Донецька область',u'Донецька область'),
-         (u'Закарпатська область',u'Закарпатська область'),
-         (u'Запорізька область',u'Запорізька область'),
-         (u'Івано-Франківська область',u'Івано-Франківська область'),
-         (u'Київська область',u'Київська область'),
-         (u'Кіровоградська область',u'Кіровоградська область'),
-         (u'Луганська область',u'Луганська область'),
-         (u'Львівська область',u'Львівська область'),
-         (u'Миколаївська область',u'Миколаївська область'),
-         (u'Одеська область',u'Одеська область'),
-         (u'Полтавська область',u'Полтавська область'),
-         (u'Рівненська область',u'Рівненська область'),
-         (u'Сумська область',u'Сумська область'),
-         (u'Тернопільська область',u'Тернопільська область'),
-         (u'Харківська область',u'Харківська область'),
-         (u'Херсонська область',u'Херсонська область'),
-         (u'Хмельницька область',u'Хмельницька область'),
-         (u'Черкаська область',u'Черкаська область'),
-         (u'Чернігівська область',u'Чернігівська область'),
-         (u'Чернівецька область',u'Чернівецька область'),
-         (u'Автономна Республіка Крим',u'Автономна Республіка Крим'),
-    )
-    fio = models.CharField(verbose_name=u'ПІП', max_length=200)
-    birthday = models.DateField(verbose_name=u'Дата народження',null=True, blank=True)
-    address = models.CharField(verbose_name=u'Область проживання',max_length=30, choices=OBLAST_CHOICES)
-    telephone = models.CharField(verbose_name=u'Телефон',max_length=20)
-    gender = models.CharField(verbose_name=u'Стать',max_length=1, choices=GENDER_CHOICES)
-    categories = models.ManyToManyField('CategoryResource', verbose_name=u'Категорія ресурсів')
-    class Meta:
-        verbose_name_plural = u'Волонтери'
+    fio = models.CharField(verbose_name=u'ФИО', max_length=200)
+    birthday = models.DateField(null=True, blank=True)
+    address = models.TextField()
+    telephone = models.CharField(max_length=20)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    categories = models.ManyToManyField('CategoryResource')
     def __unicode__(self):
         return u"%s, %s" % (self.fio, self.address)
 
+
 class GeographyPoint(models.Model):
-    # todo: add field for "дорога/пункт"
-    ROAD_CHOICE = (
-        (u'Населений пункт',u'Населений пункт'),
-        (u'Дорога',u'Дорога'),
-    )
     x = models.FloatField()
     y = models.FloatField()
     address = models.CharField(max_length=100)
-    road = models.CharField(max_length=20, verbose_name=u'Вид доріг',choices=ROAD_CHOICE)
-    class Meta:
-        verbose_name_plural = u'Географічні точки'
+
     def __unicode__(self):
-        return "%s, %s"%(self.address, self.road)
+        return self.address
+
 
 class CategoryResource(models.Model):
-    category = models.CharField(max_length=50, verbose_name=u'Категорія')
-    class Meta:
-        verbose_name_plural = u'Категорії ресурсів'
+    category = models.CharField(max_length=50)
+
     def __unicode__(self):
         return self.category
 
 
 class Resource(models.Model):
-    category_resource = models.ForeignKey('CategoryResource',verbose_name=u'Категорія ресурса')
-    name = models.CharField(max_length=30,verbose_name=u'Назва ресурсу')
-    unit_of_mesure = models.CharField(max_length=30,verbose_name=u'Одиниця вимірювання')
-    volume_of_one_unit = models.IntegerField(verbose_name=u'Об"єм однієї одиниці')
-    price_one_unit = models.IntegerField(verbose_name=u'Ціна однієї одиниці')
-    class Meta:
-        verbose_name_plural = u'Ресурси'
+    category_resource = models.ForeignKey('CategoryResource')
+    name = models.CharField(max_length=30)
+    unit_of_mesure = models.CharField(max_length=30)
+    volume_of_one_unit = models.FloatField()
+    price_one_unit = models.IntegerField()
+
     def __unicode__(self):
         return u"%s, %s" % (self.category_resource.category, self.name)
 
 
 class StoreHouse(models.Model):
-    geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
-    volume = models.IntegerField(verbose_name=u'Об"єм складу')
-    rent = models.IntegerField(verbose_name=u'Ціна за м^2')
-    free_volume = models.FloatField(blank=False, null=True, verbose_name=u'Вільний об"єм')
-    class Meta:
-        verbose_name_plural = u'Склади'
+    geography_point = models.OneToOneField('GeographyPoint')
+    volume = models.IntegerField()
+    rent = models.IntegerField()
+    free_volume = models.FloatField(blank=True, null=True)
+
     def __unicode__(self):
         return self.geography_point.address
 
-    # todo: set free_volume=volume for new StoreHouses
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        created = self.pk is None
+        if created:
+            self.free_volume = self.volume
+        super(StoreHouse, self).save(force_insert, force_update, using,
+             update_fields)
+
+        virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+        for stock in virtual_stocks:
+            fill_store_houses(stock)
+
 
 class Stock(models.Model):
-    storeHouseId = models.ForeignKey('StoreHouse', null = True, verbose_name=u'Склад')
-    resource = models.ForeignKey('Resource', verbose_name=u'Ресурс')
-    amount = models.IntegerField(null=True, verbose_name=u'Кількість одиниць ресурсу')
+    store_house = models.ForeignKey('StoreHouse', blank=True, null=True)
+    resource = models.ForeignKey('Resource')
+    amount = models.IntegerField(null=True)
 
     def __unicode__(self):
-        return "%s, %s"%(self.storeHouseId.address, self.resource.name)
-    class Meta:
-        verbose_name_plural = u'Запас'
+        return u"%s, %s"%(self.store_house, self.resource.name)
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         created = self.pk is None
@@ -113,37 +87,34 @@ class Stock(models.Model):
 
 
 class PointOfConsuming(models.Model):
-    geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
-    fio = models.CharField(max_length=50, null = False,verbose_name=u'ПІП заказника')
-    telephone = models.CharField(max_length=20, null = False, verbose_name=u'Телефон заказника')
-    class Meta:
-        verbose_name_plural = u'Споживач'
+    geography_point = models.OneToOneField('GeographyPoint', null=True)
+    address = models.CharField('geography_point.address', max_length=100)
+    fio = models.CharField(max_length=50, null = False)
+    telephone = models.CharField(max_length=20, null = False)
+
     def __unicode__(self):
-        return "%s, %s" % (self.fio, self.geography_point.address)
+        return u"%s, %s" % (self.fio, self.address)
+
 
 class ResourceOrder(models.Model):
-    resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
-    store_house = models.ForeignKey('StoreHouse',verbose_name=u'На який склад')
-    amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
-    finished = models.BooleanField(default=False,verbose_name=u'Виконано:')
-    date_created = models.DateTimeField(auto_now_add=True, verbose_name=u'Дата створення')
-    date_finished = models.DateTimeField(verbose_name=u'Дата повного виконання')
-    class Meta:
-        verbose_name_plural = u'Замовлення ресурсів'
+    resource = models.ForeignKey('Resource')
+    store_house = models.ForeignKey('StoreHouse')
+    amount = models.IntegerField()
+    finished = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_finished = models.DateTimeField()
+
     def __unicode__(self):
-        return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
+        return u"%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
+
 
 class Need(models.Model):
-    point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'Точка споживання')
-    resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
-    amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
-    order = models.ForeignKey('Order', verbose_name=u'Замовлення', null=True)
-    priority = models.IntegerField( verbose_name=u'Пріорітет')
-    data_recomended = models.DateField( verbose_name=u'Дата рекомендованої доставки')
-    class Meta:
-        verbose_name_plural = u'Потреба'
-    # def __unicode__(self):
-    #     return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
+    point_consuming = models.ForeignKey('PointOfConsuming')
+    resource = models.ForeignKey('Resource')
+    amount = models.IntegerField()
+
+    def __unicode__(self):
+        return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
     # def save(self, force_insert=False, force_update=False, using=None,
     #          update_fields=None):
@@ -153,10 +124,10 @@ class Need(models.Model):
     #     if created:
     #         create_resource_orders(self)
 
+
 class Order(models.Model):
-    point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'Точка споживання')
-    class Meta:
-        verbose_name_plural = u'Замовлення'
+    needs = models.ManyToManyField('Order')
+
 
 
 

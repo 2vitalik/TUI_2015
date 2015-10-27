@@ -77,8 +77,8 @@ urlpatterns = [
     #     name = 'create_pointofconsuming'),
 
 
-    url(r'^test/create_volonters',CreateVolontersView.as_view()),
-    url(r'^test/create_needs', CreateNeedsView.as_view()),
-    url(r'^send_mail', SendMailView.as_view()),
-    url(r'^test/create_pointofconsuming', CreatePointOfConsumingView.as_view())
+    url(r'^test/create_volonters$',
+        CreateVolontersView.as_view()),
+
+
 ]
