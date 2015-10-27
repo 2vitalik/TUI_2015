@@ -17,7 +17,7 @@ from django.core.mail import send_mail
 
 
 class MainView(TemplateView):
-    template_name = 'list_volonter.html'
+    template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
         context = super(MainView, self).get_context_data(**kwargs)
@@ -31,6 +31,14 @@ class VolonterListView(ListView):
     template_name = 'list_volonter.html'
     model = Volonter
     context_object_name = 'Volonter'
+
+    def get_context_data(self, **kwargs):
+        context = super(VolonterListView, self).get_context_data(**kwargs)
+        context.update({
+            'Volonter': Volonter.objects.all(),
+        })
+        return context
+
 
 class VolonterDetailView(DetailView):
     template_name = 'view_volonter.html'
