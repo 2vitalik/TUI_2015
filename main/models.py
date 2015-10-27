@@ -130,7 +130,8 @@ class Need(models.Model):
     resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
     amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
     order = models.ForeignKey('Order', verbose_name=u'Замовлення', null=True)
-    #add priority
+    priority = models.IntegerField( verbose_name=u'Пріорітет')
+    data_recomended = models.DateField( verbose_name=u'Дата рекомендованої доставки')
     class Meta:
         verbose_name_plural = u'Потреба'
     # def __unicode__(self):

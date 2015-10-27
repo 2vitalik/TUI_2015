@@ -44,10 +44,9 @@ class ResourceAdmin(admin.ModelAdmin):
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','fio','telephone',)
 class NeedAdmin(admin.ModelAdmin):
-    list_display = ('point_consuming','resource','amount',)
-    # filter_horizontal = ('resource',)
-    # def order_field(self, obj):
-    #     return ', '.join([o.order for o in obj.resou])
+    list_display = ('point_consuming','resource','amount','orders','priority','data_recomended',)
+    def orders(self, obj):
+        return ', '.join([o.order for o in obj.order.all()])
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
 class ResourceOrderAdmin(admin.ModelAdmin):
