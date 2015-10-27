@@ -10,7 +10,7 @@ from main.models import Volonter, GeographyPoint, Stock, \
     StoreHouse, \
     Order
 class StockAdmin(admin.ModelAdmin):
-    list_display = ('store_house','resource','amount',)
+    list_display = ('storeHouseId','resource','amount',)
 
 
 class GeographyPointAdmin(admin.ModelAdmin):
@@ -70,7 +70,7 @@ class ResourceOrderAdmin(admin.ModelAdmin):
                     'finished',
                     'date_created',
                     'date_finished',
-    ),
+    )
 
     def choise_finished(self, obj):
         img = ''

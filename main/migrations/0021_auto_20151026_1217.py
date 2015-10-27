@@ -12,7 +12,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-<<<<<<< HEAD
             name='storehouse',
             options={'verbose_name_plural': '\u0421\u043a\u043b\u0430\u0434\u0438'},
         ),
@@ -24,7 +23,6 @@ class Migration(migrations.Migration):
             model_name='need',
             name='order',
             field=models.ForeignKey(to='main.Order', null=True),
-=======
             name='categoryresource',
             options={'verbose_name_plural': '\u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0456\u0457 \u0440\u0435\u0441\u0443\u0440\u0441\u0456\u0432'},
         ),
@@ -229,6 +227,6 @@ class Migration(migrations.Migration):
             model_name='volonter',
             name='telephone',
             field=models.CharField(max_length=20, verbose_name='\u0422\u0435\u043b\u0435\u0444\u043e\u043d'),
->>>>>>> origin/Ivan
+
         ),
     ]
