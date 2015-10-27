@@ -28,11 +28,11 @@
       <div id="nav"> <strong>Navigation</strong>
         <ul>
 
-          <li class="active"> <a href="#">ГОЛОВНА</a> </li>
-            <li class="active"> <a href="#">Стать волонтёром</a> </li>
-          <li class="parent"> <a href="#">ЗВІТИ</a>
+          <li class="active"> <a href="/">ГОЛОВНА</a> </li>
+            <li class="active"> <a href="{% url 'create_volonter' %}">Стать волонтёром</a> </li>
+          <li class="parent"> <a href="{% url 'list_volonter' %}">ЗВІТИ</a>
             <ul>
-              <li> <a href="{% url 'list_volonter' %}">Волонтеи</a> </li>
+              <li> <a href="{% url 'list_volonter' %}">Волонтери</a> </li>
 {#              <li> <a href="{% url 'list_StoreHouse' %}">Склады</a> </li>#}
               <li> <a href="{% url 'list_resource' %}">Ресурси</a> </li>
             </ul>

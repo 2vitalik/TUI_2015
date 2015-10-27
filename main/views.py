@@ -27,7 +27,7 @@ class VolonterListView(ListView):
     context_object_name = 'Volonter'
 
     def get_context_data(self, **kwargs):
-        context = super(MainView, self).get_context_data(**kwargs)
+        context = super(VolonterListView, self).get_context_data(**kwargs)
         context.update({
             'Volonter': Volonter.objects.all(),
         })
