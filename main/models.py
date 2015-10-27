@@ -58,7 +58,7 @@ class GeographyPoint(models.Model):
     x = models.FloatField()
     y = models.FloatField()
     address = models.CharField(max_length=100)
-    road = models.CharField(max_length=20, verbose_name=u'Вид доріг',choices=ROAD_CHOICE)
+    road = models.CharField(max_length=20, verbose_name=u'Вид доріг',choices=ROAD_CHOICE, null=True)
     class Meta:
         verbose_name_plural = u'Географічні точки'
     def __unicode__(self):
@@ -151,8 +151,8 @@ class Need(models.Model):
     resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
     amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
     order = models.ForeignKey('Order', verbose_name=u'Замовлення', null=True)
-    priority = models.IntegerField( verbose_name=u'Пріорітет')
-    data_recomended = models.DateField( verbose_name=u'Дата рекомендованої доставки')
+    priority = models.IntegerField( verbose_name=u'Пріорітет', null=True)
+    data_recomended = models.DateField( verbose_name=u'Дата рекомендованої доставки', null=True)
     class Meta:
         verbose_name_plural = u'Потреба'
     # def __unicode__(self):

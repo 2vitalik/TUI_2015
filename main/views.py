@@ -1,5 +1,6 @@
 # coding: utf-8
 import random
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -99,6 +100,7 @@ class ResourceGrafikView(ListView):
     #         'data': data,
     #     })
     #     return context
+
 class CreateVolontersView(TemplateView):
     def get(self, request, *args, **kwargs):
         print 'Fill Volonters:'
@@ -157,14 +159,6 @@ class CreateNeedsView(TemplateView):
                 amount=amount2,
             )
         return HttpResponse('ok')
-class SendMailView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        subject = '#'
-        message = '#'
-        email_from = 'tyrnir.informatikov@gmail.com'
-        email = 'tyrnir.informatikov@gmail.com'
-        send_mail(subject, message, email_from, [email])
-
 class CreatePointOfConsumingView(TemplateView):
     def get(self, request, *args, **kwargs):
         ge_points = GeographyPoint.objects.all()
@@ -210,6 +204,16 @@ class CreatePointOfConsumingView(TemplateView):
                 telephone = telephone1,
             )
         return HttpResponse('ok')
+
+
+class SendMailView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        subject = '#'
+        message = '#'
+        email_from = 'tyrnir.informatikov@gmail.com'
+        email = 'tyrnir.informatikov@gmail.com'
+        send_mail(subject, message, email_from, [email])
+
 
 class FinishedView(RedirectView):
     permanent = False
