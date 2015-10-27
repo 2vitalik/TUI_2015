@@ -136,7 +136,6 @@ class PointOfConsuming(models.Model):
 
 class ResourceOrder(models.Model):
     resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
-    store_house = models.ForeignKey('StoreHouse',verbose_name=u'На який склад')
     amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
     finished = models.BooleanField(default=False,verbose_name=u'Виконано:')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=u'Дата створення')
@@ -147,7 +146,6 @@ class ResourceOrder(models.Model):
         return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
 
 class Need(models.Model):
-    point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'Точка споживання')
     resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
     amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
     order = models.ForeignKey('Order', verbose_name=u'Замовлення', null=True)
@@ -159,7 +157,7 @@ class Need(models.Model):
     #     return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
     def __unicode__(self):
-        return "%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
+        return "%s, %s, %s" % (self.order.point_consuming.fio, self.resource, self.amount)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -172,6 +170,7 @@ class Need(models.Model):
 
 class Order(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'Точка споживання')
+    # ...
     class Meta:
         verbose_name_plural = u'Замовлення'
 

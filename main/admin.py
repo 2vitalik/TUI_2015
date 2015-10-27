@@ -56,7 +56,7 @@ class ResourceAdmin(admin.ModelAdmin):
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','fio','telephone',)
 class NeedAdmin(admin.ModelAdmin):
-    list_display = ('point_consuming','resource','amount','order','priority','data_recomended',)
+    list_display = ('resource','amount','order','priority','data_recomended',)
 
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
@@ -66,7 +66,7 @@ class ResourceOrderAdmin(admin.ModelAdmin):
     list_display = ('pk',
                     'resource',
                     'amount',
-                    'finished',
+                    'choise_finished',
                     'date_created',
                     'date_finished',
     )
@@ -75,16 +75,18 @@ class ResourceOrderAdmin(admin.ModelAdmin):
         img = ''
         text = ''
         if obj.finished:
-            img = '<img scr="/static/admin/img/icon-no.gif" alt="No_Finished">'
-            text = 'add to store house'
+            img = '<img src="/static/admin/img/icon-yes.gif" alt="Finished">'
+            text = 'finished'
+            return "%s-%s" % (img,text)
         else:
-            img = '<img scr="/static/admin/img/icon-yes.gif" alt="Finished">'
-            text = 'Mistake!'
-        url = reverse('finished', args=[obj.pk])
-        return "%s <a href='%s'>%s</a>" % (img, url, text)
+            img = '<img src="/static/admin/img/icon-no.gif" alt="No_Finished">'
+            text = '-add'
+            url = reverse('finished', args=[obj.pk])
+            return "%s <a href='%s'>%s</a>" % (img, url, text)
+
     choise_finished.allow_tags = True
-    choise_finished.admin_order_field = 'finish'
-    choise_finished.short_description = 'Finish'
+    choise_finished.admin_order_field = 'finished'
+    choise_finished.short_description = 'Finished'
 
 
 class StoreHouseAdmin(admin.ModelAdmin):
