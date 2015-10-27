@@ -3,13 +3,13 @@ import math
 from datetime import timedelta,datetime
 
 
+
 def fill_store_houses(stock):
     from main.models import StoreHouse
     from main.models import Stock
 
     if stock.store_house:
         return
-
     resource = stock.resource
     unit_volume = resource.volume_of_one_unit
 
@@ -41,41 +41,41 @@ def fill_store_houses(stock):
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def create_resource_orders(need):
+    pass
     from main.models import Stock
     from main.models import Need
     from main.models import ResourceOrder
-    from main.models import StoreHouse
-    from main.models import Resource
 
-    stocks = Stock.objects.filter(resource=need.resource).exclude(store_house=None)
-    stores = []
-    for stock in stocks:
-        if stock.store_house not in stores:
-            stores.append(stock.store_house)
 
-    needs = Need.objects.filter(resource=need.resource)
-    resource_orders = ResourceOrder.objects.filter(resource = need.resource).exclude(finished = True)
+    # stocks = Stock.objects.filter(resource=need.resource).exclude(store_house=None)
+    # stores = []
+    # for stock in stocks:
+    #     if stock.store_house not in stores:
+    #         stores.append(stock.store_house)
+    #
+    # needs = Need.objects.filter(resource=need.resource)
+    # resource_orders = ResourceOrder.objects.filter(resource = need.resource).exclude(finished = True)
+    #
+    # total_stock_amount = sum([stock.amount for stock in stocks])
+    # # cуммируем кол-во запасов
+    # total_need_amount = sum([need.amount for need in needs])
+    # # суммируем кол-во потребностей
+    # total_resorce_order = sum(resource_order.amount for resource_order in resource_orders)
+    # # суммируем кол-во заказов
+    #
+    #
+    # # если нужно создаем ResourceOrder
+    # if total_stock_amount < total_need_amount:
 
-    total_stock_amount = sum([stock.amount for stock in stocks])
-    # cуммируем кол-во запасов
-    total_need_amount = sum([need.amount for need in needs])
-    # суммируем кол-во потребностей
-    total_resorce_order = sum(resource_order.amount for resource_order in resource_orders)
-    # суммируем кол-во заказов
-    # todo: 1. total_need_amount
-
-    # если нужно создаем ResourceOrder
-    if total_stock_amount + total_resorce_order < total_need_amount:
-        ResourceOrder.objects.create(
+    ResourceOrder.objects.create(
             resource=need.resource,
-            amount=total_need_amount - total_stock_amount - total_resorce_order,
+            amount=need.amount,
             finished=False,
             date_created = datetime.now(),
             date_finished= datetime.now() + timedelta(days=1),
         )
 
-    # todo: 2. process resource order
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+ #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def shipment_store_houses():
     pass
 #     from datetime import timedelta,datetime

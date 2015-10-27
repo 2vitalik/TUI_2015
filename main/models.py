@@ -5,6 +5,7 @@ from django.db import models
 from main.algorithms import fill_store_houses, create_resource_orders
 
 
+
 class Volonter(models.Model):
     GENDER_CHOICES = (
         (u'М', 'Male'),
@@ -63,6 +64,7 @@ class GeographyPoint(models.Model):
     def __unicode__(self):
         return "%s, %s"%(self.address, self.road)
 
+
 class CategoryResource(models.Model):
     category = models.CharField(max_length=50, verbose_name=u'Категорія')
     class Meta:
@@ -105,22 +107,23 @@ class StoreHouse(models.Model):
             for stock in virtual_stocks:
                 fill_store_houses(stock)
 
+
 class Stock(models.Model):
     storeHouseId = models.ForeignKey('StoreHouse', null = True, verbose_name=u'Склад')
     resource = models.ForeignKey('Resource', verbose_name=u'Ресурс')
     amount = models.IntegerField(null=True, verbose_name=u'Кількість одиниць ресурсу')
 
     def __unicode__(self):
-        return "%s, %s"%(self.storeHouseId.address, self.resource.name)
+        return u"%s, %s"%(self.store_house, self.resource.name)
     class Meta:
         verbose_name_plural = u'Запас'
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    
+    def save(self, force_insert=False, force_update=False, using=None,update_fields=None):
         created = self.pk is None
-        super(Stock, self).save(force_insert, force_update, using,
-             update_fields)
+        super(Stock, self).save(force_insert, force_update, using, update_fields)
         if created:
             fill_store_houses(self)
+
 
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
@@ -129,7 +132,7 @@ class PointOfConsuming(models.Model):
     class Meta:
         verbose_name_plural = u'Споживач'
     def __unicode__(self):
-        return "%s, %s" % (self.fio, self.geography_point.address)
+        return "%s, %s" % (self.fio, self.address)
 
 class ResourceOrder(models.Model):
     resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
@@ -156,7 +159,7 @@ class Need(models.Model):
     #     return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
+        return "%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -165,6 +168,7 @@ class Need(models.Model):
                                update_fields)
         if created:
             create_resource_orders(self)
+
 
 class Order(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'Точка споживання')

@@ -77,9 +77,6 @@ urlpatterns = [
     #     name = 'create_pointofconsuming'),
 
 
-    url(r'^test/create_volonters$',
-        CreateVolontersView.as_view()),
-
     url(r'^actions/finished/(?P<resource_order_id>\d+)/',
         FinishedView.as_view(),
         name='finished'),

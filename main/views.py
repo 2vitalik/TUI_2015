@@ -1,14 +1,15 @@
 # coding: utf-8
 import random
-from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView, ListView, TemplateView
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from main.algorithms import create_stock
+
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order
 from django.core.mail import send_mail
 
@@ -210,10 +211,18 @@ class CreatePointOfConsumingView(TemplateView):
             )
         return HttpResponse('ok')
 
+class FinishedView(RedirectView):
+    permanent = False
+    url = reverse_lazy('admin:main_resourceorder_changelist')
 
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(FinishedView, self).dispatch(request, *args,**kwargs)
 
-
-
-
-
-
+    def get(self, request, *args, **kwargs):
+        resource_order_id = kwargs.get('resource_order_id')
+        resource_order = ResourceOrder.objects.get(pk=resource_order_id)
+        resource_order.finished = not resource_order.finished
+        resource_order.save()
+        create_stock(resource_order)
+        return super(FinishedView, self).get(request, *args,**kwargs)
