@@ -1,16 +1,15 @@
 # coding: utf-8
 import random
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView, ListView, TemplateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order
 from django.core.mail import send_mail
+
 
 
 class MainView(TemplateView):
@@ -98,6 +97,7 @@ class ResourceGrafikView(ListView):
     #         'data': data,
     #     })
     #     return context
+
 class CreateVolontersView(TemplateView):
     def get(self, request, *args, **kwargs):
         print 'Fill Volonters:'
@@ -156,14 +156,6 @@ class CreateNeedsView(TemplateView):
                 amount=amount2,
             )
         return HttpResponse('ok')
-class SendMailView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        subject = '#'
-        message = '#'
-        email_from = 'tyrnir.informatikov@gmail.com'
-        email = 'tyrnir.informatikov@gmail.com'
-        send_mail(subject, message, email_from, [email])
-
 class CreatePointOfConsumingView(TemplateView):
     def get(self, request, *args, **kwargs):
         ge_points = GeographyPoint.objects.all()
@@ -210,6 +202,13 @@ class CreatePointOfConsumingView(TemplateView):
             )
         return HttpResponse('ok')
 
+class SendMailView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        subject = '#'
+        message = '#'
+        email_from = 'tyrnir.informatikov@gmail.com'
+        email = 'tyrnir.informatikov@gmail.com'
+        send_mail(subject, message, email_from, [email])
 
 
 
