@@ -1,60 +1,117 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <h3 class="title_list">График ресурсов<script>document.write(nor)</script></h3>
+    <h3 class="title_list">Графік ресурсів ({{ select_res.name }}) /  <a href="{% url 'list_resource' %}">Спиок ресурсів</a></h3>
 {% endblock %}
 {% block content %}
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
 	$(function() {
+        N = 0
+        {% for itm in data %}
+            N += {{ itm.total_amount }}
+        {% endfor %}
+        if(N != 0) {
+            var data = [
+                {% for item in data %}
+                    {label: "{{ item.store_house }} ( {{ item.total_amount }} )", data:{{ item.total_amount }}},
+                {% endfor %}
+            ];
+        } else{
+            var data = [{label:'NULL',data:1}];
+        }
+		var placeholder = $("#placeholder");
 
-        var data = [
-            {% for vol in data %}
+			placeholder.unbind();
 
-                [ {{ vol.store_house }},{{ vol.total_amount }}],
-            {% endfor %}
-];
-            $.plot("#placeholder", [data], {
-                series: {
-                    bars: {
-                        show: true,
-                        barWidth: 0.8,
-                        fill: true,
-                        align: "left",
-
-                        }
-                },
-
-                xaxis: {
-                    mode: "categories",
-                    color: 'black',
-                    labelHeight: 150,
-                    font: { size: 11,}, // null (derived from CSS in placeholder) or object like { size: 11, lineHeight: 13, style: "italic", weight: "bold", family: "sans-serif", variant: "small-caps" }
-                    tickLength: 0
-                }
-            });
-
-
-            // Show the initial default chart
-            $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
-        });
-    	</script>
+			$.plot(placeholder, data, {
+				series: {
+					pie: {
+						show: true,
+                        innerRadius: 0.5,
+					}
+				}
+			});
 
 
+			placeholder.bind("plothover", function(event, pos, obj) {
 
+				if (!obj) {
+					return;
+				}
+
+				var percent = parseFloat(obj.series.percent).toFixed(2);
+				$("#hover").html("<span style='font-weight:bold; color:" + obj.series.color + "'>" + obj.series.label + " (" + percent + "%)</span>");
+			});
+
+			placeholder.bind("plotclick", function(event, pos, obj) {
+
+				if (!obj) {
+					return;
+				}
+
+				percent = parseFloat(obj.series.percent).toFixed(2);
+				alert(""  + obj.series.label + ": " + percent + "%");
+			});
+		});
+
+		$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+
+	function labelFormatter(label, series) {
+		return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+	}
+
+</script>
 
 	    <div id="grafik">
 
 		<div class="demo-container">
 			<div id="placeholder" class="demo-placeholder"></div>
 		</div>
-        <a href="{% url 'grafik_resource' 1 %}">sfsdfs</a>
-
+{#        {% for ide in res %}#}
+{#        <a href="{% url 'grafik_resource' ide.pk %} ">{{ ide.name }} ({{ ide.category_resource }})</a><br>#}
+{#        {% endfor %}#}
 	</div>
+    <div id="view_tab">
+    <table border="0">
+    <tr>
+        <td class="lef_start">ID</td>
+        <td class="ri_start">{{select_res.pk}}</td>
+    </tr>
+    <tr>
+        <td class="lef">category_resource</td>
+        <td class="ri">{{ select_res.category_resource }}</td>
+    </tr>
+    <tr>
+        <td class="lef">name</td>
+        <td class="ri">{{ select_res.name }}</td>
+    </tr>
+    <tr>
+        <td class="lef_v"><p class="trrt">Запас</p></td>
+        <td class="ri_v">
+        {% for item in data %}
+             <p class="kind_res">{{ item.store_house }} ({{ item.total_amount }})</p>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td class="lef">unit of mesure</td>
+        <td class="ri">{{select_res.unit_of_mesure }}</td>
+    </tr>
+     <tr>
+        <td class="lef">volume_of_one_unit</td>
+        <td class="ri">{{ select_res.volume_of_one_unit }}</td>
+    </tr>
+    <tr>
+        <td class="lef_end">price_one_unit</td>
+        <td class="ri_end">{{ select_res.price_one_unit }}</td>
+    </tr>
 
+  </table>
+    </div>
 {% endblock %}
 
 {% block bottom %}
-{#    Back to: <a href="{% url 'list_resource' %}">HOME</a><br>#}
+
 {% endblock %}

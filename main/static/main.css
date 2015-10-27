@@ -28,7 +28,7 @@ Choose the colour you wish to use => colour-azure.css is default
 /*******************************************************************************************************************
 *  BASE                                                                                                            
 *******************************************************************************************************************/
-html{background:#f2f2f2;}
+html{background: #000000}
 body{color:#727272; font:normal 13px "Helvetice Neue",Arial,Tahoma,Verdana;}
 p{line-height:1.5em; margin-bottom:15px;}
 p strong{color:#000000;}
@@ -53,26 +53,31 @@ h4{font-size:1.6em;}
 /*******************************************************************************************************************
 *  HEADER                                                                                                          
 *******************************************************************************************************************/
-header{height:84px; line-height:84px; background:#1a1a1a; position:relative; z-index:100;}
+header{height:40px; line-height:40px; background:#1a1a1a; position:relative; z-index:100;}
 header a#logo{font-size:1.2em; font-weight:bold; display:block; position:absolute; top:0; left:20px; color:#fff; text-transform:uppercase; text-decoration:none;}
 header a#logo:hover{text-decoration:none; color:#f7f7f7;}
 header #nav{position:absolute; top:0; right:0;}
 header #nav > strong{display:none;}
 header #nav > ul > li{float:left; background:url("img/nav-sep.png") no-repeat 0 50%; position:relative;}
 header #nav > ul > li.parent > a{background:url("img/nav-more.png") no-repeat 20px 50%; padding-left:40px;}
-header #nav > ul > li > ul{display:none; min-width:100%; position:absolute; top:62px; left:20px; line-height:normal; white-space:nowrap;}
+header #nav > ul > li > ul{display:none; min-width:100%; position:absolute; top:41px; left:0px; line-height:normal; white-space:nowrap;}
 header #nav > ul > li > ul > li{margin-bottom:1px;}
 header #nav > ul > li > ul > li > a{color:#c3c3c3; text-decoration:none; padding:10px 20px; display:block; background:url("img/subnav-bg.png");}
 header #nav > ul > li > ul > li > a:hover{background:#000; color:#fff; text-decoration:none;}
 header #nav > ul > li:first-child{background:none;}
-header #nav > ul > li > a{float:left; color:#a2a2a2; display:block; height:84px; text-transform:uppercase; text-decoration:none; font-weight:bold; padding:0 20px; -webkit-transition:all 0.3s ease-in-out; -moz-transition:all 0.3s ease-in-out; -o-transition:all 0.3s ease-in-out; -ms-transition:all 0.3s ease-in-out; transition:all 0.3s ease-in-out;}
+header #nav > ul > li > a{float:left; color:#a2a2a2; display:block; height:40px; text-transform:uppercase; text-decoration:none; font-weight:bold; padding:0 20px; -webkit-transition:all 0.3s ease-in-out; -moz-transition:all 0.3s ease-in-out; -o-transition:all 0.3s ease-in-out; -ms-transition:all 0.3s ease-in-out; transition:all 0.3s ease-in-out;}
 header #nav > ul > li.active > a{cursor:pointer; text-decoration:none;}
 header #nav > ul > li > a:hover{color:#fff; text-decoration:none;}
 
-#intro{border-bottom:1px solid #fff; position:relative; z-index:90;}
-#intro .inner{padding:55px 0;}
+#intro{ position:relative; z-index:90;}
+#intro .inner{
+	padding:55px 0;
+	background-color: black;
+	height: 195px;
+	/*border-bottom: 10px solid #ff9600;*/
+}
 #intro p{color:#fff; margin-bottom:20px; padding-right:20%;}
-#intro .button{text-shadow:-1px -1px 0 #ff6d00;
+#intro .button{text-shadow:-1px -1px 0 #000000;
 	text-transform:none; border:0;
 	font-size:13px;
 	background-color:#ff9a01;
@@ -82,12 +87,12 @@ header #nav > ul > li > a:hover{color:#fff; text-decoration:none;}
 	display:inline-block;
 	padding:15px 40px;
 	text-decoration:none;
-	box-shadow:0 2px 2px #2596b7;
-	border-top:1px solid #ffe702;
-	background:-moz-linear-gradient(top, #ffc101 0%, #ff9a01);
-	background:-webkit-gradient(linear, left top, left bottom, from(#ffc101), to(#ff9a01));
+	box-shadow:0 2px 2px #000000;
+	/*border-top:1px solid #ffe702;*/
+	background:-moz-linear-gradient(top, #214c90 0%, #229dc9);
+	background:-webkit-gradient(linear, left top, left bottom, from(#214c90), to(#229dc9));
 }
-#intro .button:hover{background:-moz-linear-gradient(top, #ff9a01 0%, #ffc101); background:-webkit-gradient(linear, left top, left bottom, from(#ff9a01), to(#ffc101));}
+#intro .button:hover{background:-moz-linear-gradient(top, #18015a 0%, #214c90); background:-webkit-gradient(linear, left top, left bottom, from(#18015a), to(#214c90));}
 #intro .button span{color:#b1b1b1; font-weight:100;}
 
 /*******************************************************************************************************************
@@ -188,7 +193,7 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 #content{
 	width:auto ;
 	position:relative;
-	background-color: azure;
+	background-color: #ffffff;
 	padding-left: 50%;
    	margin-left: -500px;
 
@@ -207,31 +212,85 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 	min-height: 20px;
 	height: auto;
 }
+#content .bl_title a{
+	color: #214c90;
+	text-decoration: none;
+}
+#content .bl_title a:hover{
+	color: #229dc9;
+	text-decoration: none;
+}
 #content .bl_bottom{
 	text-align: right;
 	width: 1000px;
 	min-height: 20px;
 	height: auto;
 }
-#list_table table{
-	width: 1000px;
-	border-color: #24528d;
-	background-color: #24528d;
+/*///////////////////////////////////////////////////////////////////////start style table*/
+.list_tr{
+	border-bottom: 1px solid #2b2b2b;
 }
-#list_table td{
-	padding-top: 4px;
-	padding-bottom: 4px;
-	padding-left: 4px;
-	padding-right: 4px;
-	background-color: #ffffff;
+#list_table table{
+	width: 900px;
+	margin-left: 50px;
+	/*border-color: #24528d;*/
+	/*background-color: #24528d;*/
+}
+
+table{
+
+	    border-spacing:0px;
+}
+
+.top_left{
+	width: 302px;
+	height: 61px;
+	color: #e5e5e5;
+	background: url("img/top_left.gif") repeat-x;
+	text-align: center;
+	font:normal 20px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.top_cen{
+	width: 302px;
+	height: 61px;
+	color: #e5e5e5;
+	background: url("img/top_cen.gif") repeat-x;
+	text-align: center;
+	font:normal 20px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.top_right{
+	width: 300px;
+	height: 61px;
+	color: #e5e5e5;
+	background: url("img/top_right.gif") repeat-x;
+	text-align: center;
+	font:normal 20px "Helvetice Neue",Arial,Tahoma,Verdana;
+}
+.cell{
+	width: 300px;
+	height: 36px;
+	background: url("img/cell.gif") repeat-x;
+	text-align: center;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+}
+.cell_c{
+	width: 300px;
+	height: 36px;
+	background: url("img/cell_c.gif") repeat-x;
+	text-align: center;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
 
 }
+/*///////////////////////////////////////////////////////////////////////end style table*/
+
 .detail_list{
-	color:#424242;
+	color:#214c90;
 	text-decoration: none;
 }
 .detail_list:hover{
-	color:#214c90;
+	color:#229dc9;
 	text-decoration: none;
 }
 .detail_list:active{
@@ -239,8 +298,17 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 	text-decoration: none;
 }
 .title_list{
+	border-top: 2px solid #000000;
+	border-bottom: 2px solid #000000;
+	border-left: 5px solid #000000;
+	border-right: 5px solid #000000;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background-color: #e5e5e5;
 	text-align: center;
 }
+
+
 #create_table table{
 	width: 400px;
 	margin-left: 300px;
@@ -261,22 +329,22 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 #view_tab table{
 	width: 600px;
 	margin-left: 200px;
-	border: 200px;
-	border-color: #24528d;
-	background-color: #24528d;
-	<!--background-color: #24528d;-->
+	/*border: 200px;*/
+	/*border-color: #24528d;*/
+	/*background-color: #24528d;*/
+	/*<!--background-color: #24528d;-->*/
 }
-#view_tab td{
-	padding-top: 4px;
-	padding-bottom: 4px;
-	padding-left: 4px;
-	padding-right: 4px;
-	background-color: #ffffff;
+/*#view_tab td{*/
+	/*padding-top: 4px;*/
+	/*padding-bottom: 4px;*/
+	/*padding-left: 4px;*/
+	/*padding-right: 4px;*/
+	/*background-color: #ffffff;*/
 
 
-}
+/*}*/
 #grafik {
-	margin-left: 100px;
+	margin-left: 80px;
 }
 #verticalText {
 	-moz-transform: rotate(70deg);
@@ -290,4 +358,104 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 	right: 30px;
 	text-align: left;
 }
+#test1 {
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	/*border: 1px solid #000000;*/
+   	margin-left: -683px;
+	width: 1366px;
+	height: 305px;
+}
+.lef_start{
+	width: 150px;
+	height: 36px;
+	color: #e5e5e5;
+	background: url("img/T1.gif") repeat-x;
+	text-align: center;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.ri_start{
+	width: 450px;
+	height: 36px;
+	color: #2d2d2d;
+	background: url("img/tt1.gif") repeat-x;
+	text-align: center;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.lef{
+	width: 150px;
+	height: 36px;
+	color: #e5e5e5;
+	background: url("img/T2.gif") repeat-x;
+	text-align: center;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.ri{
+	width: 450px;
+	height: 36px;
+	color: #2d2d2d;
+	background: url("img/tt2.gif") repeat-x;
+	text-align: center;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.lef_end{
+	width: 150px;
+	height: 36px;
+	color: #e5e5e5;
+	background: url("img/T3.gif") repeat-x;
+	text-align: center;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.ri_end{
+	width: 450px;
+	height: 36px;
+	color: #2d2d2d;
+	background: url("img/tt3.gif") repeat-x;
+	text-align: center;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.trrt{
+	position:relative;
+	top: 7px;
+	height: 20px;
 
+}
+.lef_v{
+	width: 150px;
+	color: #e5e5e5;
+	background: url("img/T2.gif") repeat-y;
+	text-align: center;
+	vertical-align: top;
+
+
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.ri_v{
+	width: 450px;
+	/*max-height: auto;*/
+	/*min-height: 36px;*/
+	color: #2d2d2d;
+	background: url("img/tt2.gif") repeat-y;
+	text-align: center;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	border-spacing: 0px;
+}
+.kind_res{
+	position: relative;
+	top:7px;
+	padding-top: 0px;
+	text-align: center;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 36px;
+	/*border: 1px solid #000000;*/
+}

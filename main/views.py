@@ -135,13 +135,17 @@ class ResourceGrafikView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ResourceGrafikView, self).get_context_data(**kwargs)
         data = list()
+
         resource = Resource.objects.get(pk=self.kwargs.get('pk'))
+        rescol = Resource.objects.all()
         store_houses = StoreHouse.objects.all()
         for store_house in store_houses:
             stocks = Stock.objects.filter(store_house=store_house, resource=resource)
             # total_amount = 0
             # for stock in stocks:
             #     total_amount += stock.amount
+
+
             total_amount = sum([stock.amount for stock in stocks])
             data.append({
                 'store_house': store_house,
@@ -149,6 +153,8 @@ class ResourceGrafikView(ListView):
             })
         context.update({
             'data': data,
+            'res': rescol,
+            'select_res': resource,
         })
         return context
 

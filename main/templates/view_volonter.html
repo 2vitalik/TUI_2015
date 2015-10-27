@@ -18,34 +18,36 @@
 
 </ul>-->
     <div id="view_tab">
-    <table border="1">
+    <table border="0">
     <tr>
-        <td WIDTH="120px">ID</td>
-        <td align="center">{{Volonter.id}}</td>
+        <td class="lef_start">ID</td>
+        <td class="ri_start">{{Volonter.id}}</td>
     </tr>
     <tr>
-        <td>ФИО</td>
-        <td align="center">{{ Volonter.fio }}</td>
+        <td class="lef">ФИО</td>
+        <td class="ri">{{ Volonter.fio }}</td>
     </tr>
     <tr>
-        <td>День рождения</td>
-        <td align="center">{{ Volonter.birthday|date:"d.m.Y" }}</td>
+        <td  class="lef">День рождения</td>
+        <td class="ri">{{ Volonter.birthday|date:"d.m.Y" }}</td>
+    </tr>
+    <tr >
+        <td  class="lef_v"  height="36px"><p class="trrt">Вид допомоги</p></td>
+        <td  class="ri_v">
+            {% for cat in Volonter.categories.all  %}
+            <p class="kind_res">{{ cat }}</p>
+            {% endfor %}</td>
+
     </tr>
     <tr>
-        <td>ADDRESS</td>
-        <td align="center">{{Volonter.address }}</td>
+        <td class="lef">ADDRESS</td>
+        <td class="ri">{{Volonter.address }}</td>
     </tr>
      <tr>
-        <td>GENDER</td>
-        <td align="center">{{ Volonter.gender }},{{ Volonter.get_gender_display }}</td>
+        <td  class="lef_end">GENDER</td>
+        <td class="ri_end">{{ Volonter.gender }},{{ Volonter.get_gender_display }}</td>
     </tr>
-      <tr>
-        <td>Вид допомоги</td>
-        <td align="center">
-            {% for cat in Volonter.categories.all  %}
-            {{ cat }}<br>
-            {% endfor %}</td>
-    </tr>
+
   </table>
     </div>
 {% endblock %}
