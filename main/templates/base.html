@@ -12,6 +12,7 @@
 	<script language="javascript" type="text/javascript" src="{% static 'jquery.flot.js' %}"></script>
     <script language="javascript" type="text/javascript" src="{% static 'jquery.flot.pie.js' %}"></script>
     <script language="javascript" type="text/javascript" src="{% static 'jquery.flot.categories.js' %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static 'jquery.cross-slide.js' %}"></script>
 <script src="{% static 'custom.js' %}"></script>
 <!--[if lt IE 9]>
 <script src="js/css3-mediaqueries.min.js"></script>
@@ -21,23 +22,21 @@
   </head>
 <body>
 <header class="clearFix">
-  <div class="wrap"> <a id="logo" href="/">HelpATO.UA</a>
+  <div class="wrap"> <a id="logo" href="/">Help4You.org.ru.ua</a>
     <hr>
     <nav>
       <div id="nav"> <strong>Navigation</strong>
         <ul>
-          <li class="active"> <a href="#">Главная</a> </li>
-          <li> <a href="#">Transport</a> </li>
-          <li class="parent"> <a href="#">Отчёты</a>
+          <li class="active"> <a href="#">ГОЛОВНА</a> </li>
+          <li class="parent"> <a href="#">ЗВІТИ</a>
             <ul>
-              <li> <a href="{% url 'list_volonter' %}">Волонтёры</a> </li>
+              <li> <a href="{% url 'list_volonter' %}">Волонтеи</a> </li>
 {#              <li> <a href="{% url 'list_StoreHouse' %}">Склады</a> </li>#}
-{#              <li> <a href="{% url 'list_resource' %}">Ресурсы</a> </li>#}
-              <li> <a href="#">Заказы</a> </li>
+              <li> <a href="{% url 'list_resource' %}">Ресурси</a> </li>
             </ul>
           </li>
           <li> <a href="#">MAP</a> </li>
-          <li> <a href="/admin">ADMIN</a> </li>
+          <li> <a href="/admin">ДЛЯ АДМІНІСТРАції</a> </li>
         </ul>
       </div>
     </nav>
@@ -46,7 +45,34 @@
 <hr>
 <div id="intro">
   <div class="inner">
+
+        <!-- start script to change imagines -->
+    <script type="text/javascript">
+        $(function() {
+        $('#test1').crossSlide({
+        sleep: 5,
+
+        fade: 1
+        }, [
+            { src: '{% static 'images/1fon.jpg' %}' },
+            { src: '{% static 'images/3fon.jpg' %}' },
+            { src: '{% static 'images/32fon.jpg' %}' },
+            { src: '{% static 'images/42fon.jpg' %}' },
+{#            { src: '{% static 'images/01.jpg' %}' },#}
+{#            { src: '{% static 'images/02.jpg' %}' },#}
+{#            { src: '{% static 'images/03.jpg' %}' },#}
+{#            { src: '{% static 'images/04.jpg' %}' }#}
+        ]);
+
+        });
+
+    </script>
+
+    <div align="center" id="test1">Если изображения не видно, обновите страницу</div >
+<!-- end script to change imagines -->
     <div class="wrap clearFix">
+
+
       <h1>Хочешь стать волонтёром? <strong>Зарегистрируйся!</strong></h1>
       <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
       <a href="{% url 'create_volonter' %}" class="button">Стать волонтёром!</a>
@@ -57,8 +83,11 @@
 </div>
 <!-- / #intro -->
 <hr>
+
+
+
 <div id="content">
-  <div class="bl_title">{% block title %}{% endblock %}</div>
+<div class="bl_title">{% block title %}{% endblock %}</div>
   <div class="bl_content">{% block content %}{% endblock %}</div>
   <div class="bl_bottom">{% block bottom %}{% endblock %}</div>
 </div>
@@ -66,7 +95,7 @@
 <hr class="noPrint">
 <div id="twitter">
   <div class="wrap clearFix"> <span class="icon"></span>
-    <p>Ми у<a href="https://twitter.com/help4you_ua" target="_blank">Twitter</a> і <a href="https://www.facebook.com/tyrnir.informatikov" target="_blank">Facebook</a></p>
+    <p>Ми у <a href="https://twitter.com/help4you_ua" target="_blank">Twitter</a> і <a href="https://www.facebook.com/tyrnir.informatikov" target="_blank">Facebook</a></p>
   </div>
 </div>
 <hr>

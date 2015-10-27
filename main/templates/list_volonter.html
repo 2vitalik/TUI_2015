@@ -6,20 +6,18 @@
 
 {% block content %}
     <div id="list_table">
-  <table border="1">
+  <table border="0">
     <tr>
-        <td>ID</td>
-        <td>NAME</td>
-        <td>ADDRESS</td>
-        <td>NUMBER</td>
+        <td class="top_left">NAME</td>
+        <td class="top_cen" >ADDRESS</td>
+        <td class="top_right" >NUMBER</td>
     </tr>
 
     {% for volonters in Volonter %}
         <tr class="list_tr">
-        <td>{{ volonters.id }}</td>
-        <td> <a class="detail_list" href="{% url 'view_volonter' volonters.id %}">{{ volonters.fio }}</a></td>
-        <td>{{ volonters.address }}</td>
-        <td>{{ volonters.telephone }}</td>
+        <td class="cell"> <a class="detail_list" href="{% url 'view_volonter' volonters.id %}">{{ volonters.fio }}</a></td>
+        <td class="cell_c">{{ volonters.address }}</td>
+        <td class="cell">{{ volonters.telephone }}</td>
     </tr>
 
     {% endfor %}
