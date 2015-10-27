@@ -1,3 +1,4 @@
+from audioop import reverse
 from django.contrib import admin
 from django.core.urlresolvers import reverse
 from main.models import Volonter, GeographyPoint, Stock, \
@@ -41,22 +42,64 @@ class ResourceAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'category_resource', 'name', 'unit_of_mesure', 'volume_of_one_unit', 'price_one_unit',
     )
+
+
+
+
+
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','address','fio','telephone',)
+
+
 class NeedAdmin(admin.ModelAdmin):
     list_display = ('point_consuming','resource','amount',)
+
+
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
-class ResourceOrderAdmin(admin.ModelAdmin):
-    list_display = ('pk','resource','store_house','amount','finished','date_created','date_finished',)
-class StoreHouseAdmin(admin.ModelAdmin):
-    list_display = ('volume','rent','address','geography_point',)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ('needs_field',)
-    filter_horizontal = ('needs',)
 
-    def needs_field(self, obj):
-        return ', '.join([(o.resource, o.amount) for o in obj.needs.all()])
+
+class ResourceOrderAdmin(admin.ModelAdmin):
+    pass
+    list_display = (
+                    'pk',
+                    'resource',
+                    'amount',
+                    'choise_finished',
+                    'date_created',
+                    'date_finished',
+    )
+
+    def choise_finished(self, obj):
+        img = ''
+        text = ''
+        if obj.finished:
+            img = '<img src="/static/admin/img/icon-yes.gif" alt="Finished">'
+            text = 'finished'
+            return "%s-%s" % (img,text)
+        else:
+            img = '<img src="/static/admin/img/icon-no.gif" alt="No_Finished">'
+            text = '-add'
+            url = reverse('finished', args=[obj.pk])
+            return "%s <a href='%s'>%s</a>" % (img, url, text)
+
+
+    choise_finished.allow_tags = True
+    choise_finished.admin_order_field = 'finished'
+    choise_finished.short_description = 'Finished'
+
+
+class StoreHouseAdmin(admin.ModelAdmin):
+    list_display = ('geography_point', 'volume','free_volume','rent')
+
+
+class OrderAdmin(admin.ModelAdmin):
+    pass
+    # list_display = ('needs_field',)
+    # filter_horizontal = ('needs',)
+
+    # def needs_field(self, obj):
+    #     return ', '.join([(o.resource, o.amount) for o in obj.needs.all()])
 
 
 
