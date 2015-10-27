@@ -132,7 +132,7 @@ class PointOfConsuming(models.Model):
     class Meta:
         verbose_name_plural = u'Споживач'
     def __unicode__(self):
-        return "%s, %s" % (self.fio, self.address)
+        return "%s, %s" % (self.fio, self.geography_point.address)
 
 class ResourceOrder(models.Model):
     resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
