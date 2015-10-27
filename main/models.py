@@ -4,7 +4,7 @@ from django.db import models
 #////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
 from main.algorithms import fill_store_houses, create_resource_orders
 #////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
-from main.algorithms import fill_store_houses
+
 
 
 class Volonter(models.Model):
@@ -50,13 +50,19 @@ class Volonter(models.Model):
         return "%s, %s" % (self.fio, self.address)
 
 class GeographyPoint(models.Model):
+    # todo: add field for "дорога/пункт"
+    ROAD_CHOICE = (
+        (u'Населений пункт',u'Населений пункт'),
+        (u'Дорога',u'Дорога'),
+    )
     x = models.FloatField()
     y = models.FloatField()
     address = models.CharField(max_length=100)
+    road = models.CharField(max_length=20, verbose_name=u'Вид доріг',choices=ROAD_CHOICE)
     class Meta:
         verbose_name_plural = u'Географічні точки'
     def __unicode__(self):
-        return self.address
+        return "%s, %s"%(self.address, self.road)
 
 
 class CategoryResource(models.Model):
