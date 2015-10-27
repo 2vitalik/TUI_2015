@@ -1,5 +1,6 @@
 # coding: utf-8
 import random
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
@@ -11,7 +12,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from main.algorithms import create_stock
 
-from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order
+from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder
 from django.core.mail import send_mail
 
 
