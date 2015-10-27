@@ -10,10 +10,9 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView,
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.models import Volonter, Resource, CategoryResource, StoreHouse, Stock
 from main.algorithms import create_stock
-
-from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder
+from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
+    CategoryResource, Stock
 from django.core.mail import send_mail
 
 
