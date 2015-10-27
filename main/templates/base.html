@@ -27,7 +27,9 @@
     <nav>
       <div id="nav"> <strong>Navigation</strong>
         <ul>
+
           <li class="active"> <a href="#">ГОЛОВНА</a> </li>
+            <li class="active"> <a href="#">Стать волонтёром</a> </li>
           <li class="parent"> <a href="#">ЗВІТИ</a>
             <ul>
               <li> <a href="{% url 'list_volonter' %}">Волонтеи</a> </li>
@@ -75,9 +77,10 @@
 
       <h1>Хочешь стать волонтёром? <strong>Зарегистрируйся!</strong></h1>
       <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-      <a href="{% url 'create_volonter' %}" class="button">Стать волонтёром!</a>
-      <a href="https://docs.google.com/spreadsheets/d/1kkL6Gd3DPs0UZxhqt8xnQtJRTeXEjOQ5ZgN6E9_rQ_Q/edit#gid=0" target="_blank" class="button">Необходимо</a>
-      <a href="#" class="button">Попросить помощь!</a>
+        {% block button %}{% endblock %}
+{#      <a href="{% url 'create_volonter' %}" class="button">Стать волонтёром!</a>#}
+{#      <a href="https://docs.google.com/spreadsheets/d/1kkL6Gd3DPs0UZxhqt8xnQtJRTeXEjOQ5ZgN6E9_rQ_Q/edit#gid=0" target="_blank" class="button">Необходимо</a>#}
+{#      <a href="#" class="button">Попросить помощь!</a>#}
   </div>
   </div>
 </div>

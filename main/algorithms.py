@@ -1,128 +1,50 @@
-# coding: utf-8
-import math
-from datetime import timedelta,datetime
+from _ast import Store
+from setuptools.command.saveopts import saveopts
+
 
 
 def fill_store_houses(stock):
+
+    from main.models import Resource
     from main.models import StoreHouse
     from main.models import Stock
-
-    if stock.store_house:
-        return
-
-    resource = stock.resource
-    unit_volume = resource.volume_of_one_unit
 
     store_houses = StoreHouse.objects.all()
-    sorted_store_houses = sorted(store_houses, key=lambda x: x.rent)
+    sort_store_houses = sorted(store_houses, key = lambda x: x.rent, reverse = True)
+    resource = stock.resource
 
-    for store in sorted_store_houses:
-        if unit_volume * stock.amount <= store.free_volume:
-            # запас полностью помещается на этот склад
+    # virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+
+    for store in sort_store_houses:
+        free = store.free_volume
+        volume = resource.volume_of_one_unit
+        amount = stock.amount
+        if volume*amount <= free:
             stock.store_house = store
             stock.save()
-            store.free_volume -= unit_volume * stock.amount
-            store.save()
-            return
-        elif unit_volume > store.free_volume:
-            continue  # даже минимальная единица объёма не помещается на этом складе
+            free -= volume*amount
+        elif volume > free:
+            continue
         else:
-            current_amount = int(math.floor(store.free_volume / unit_volume))
-            Stock.objects.create(store_house=store,
-                                 resource=resource,
-                                 amount=current_amount)
-            stock.amount -= current_amount
+            cur_amount = int(free/volume)
+            residual_amount = amount - cur_amount
+            Stock.objects.create(store_house=store, resource=stock.store_house, amount=cur_amount)
+            stock.amount = residual_amount
             stock.save()
-            store.free_volume -= unit_volume * current_amount
-            store.save()
+            free -= volume * cur_amount
 
+        store.free_volume = free
+        store.save()
+
+########################################################################################################################
+# def create_resource_orders(need):
 #     volonters = Volonter.objects.filter(fio__contains='')
+#     count = len(volonters)
+#     for volonter in volonters:
+#         print volonter.fio
 
-
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-def create_resource_orders(need):
-    from main.models import Stock
-    from main.models import Need
-    from main.models import ResourceOrder
-    from main.models import StoreHouse
-    from main.models import Resource
-
-    stocks = Stock.objects.filter(resource=need.resource).exclude(store_house=None)
-    stores = []
-    for stock in stocks:
-        if stock.store_house not in stores:
-            stores.append(stock.store_house)
-
-    needs = Need.objects.filter(resource=need.resource)
-    resource_orders = ResourceOrder.objects.filter(resource = need.resource).exclude(finished = True)
-
-    total_stock_amount = sum([stock.amount for stock in stocks])
-    # cуммируем кол-во запасов
-    total_need_amount = sum([need.amount for need in needs])
-    # суммируем кол-во потребностей
-    total_resorce_order = sum(resource_order.amount for resource_order in resource_orders)
-    # суммируем кол-во заказов
-    # todo: 1. total_need_amount
-
-    # если нужно создаем ResourceOrder
-    if total_stock_amount + total_resorce_order < total_need_amount:
-        ResourceOrder.objects.create(
-            resource=need.resource,
-            amount=total_need_amount - total_stock_amount - total_resorce_order,
-            finished=False,
-            date_created = datetime.now(),
-            date_finished= datetime.now() + timedelta(days=1),
-        )
-
-    # todo: 2. process resource order
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-def shipment_store_houses():
-    pass
-#     from datetime import timedelta,datetime
-#     from main.models import Stock
-#     from main.models import Need
-#     from main.models import ResourceOrder
-#     from main.models import StoreHouse
-#     from main.models import Resource
-#     stocks = Stock.objects.filter(resource=need.resource).exclude(store_house=None)
-#     stores = []
-#     for stock in stocks:
-#         if stock.store_house not in stores:
-#             stores.append(stock.store_house)
-#     # сортируем склады начиная с самого дорогого
-#     sorted_stores = sorted(stores, key=lambda x: x.rent, reverse=True)
-#     resource = need.resource
-#     # пробегаемся начиная с самого дорого склада, и любого запаса с этого склада, удаляем нулевые запасы
-#     count = need.amount
-#     break_count = False
-#     for store in sorted_stores:
-#         for stock in stocks:
-#             break_count = False
-#             delete_stock = False
-#             if store == stock.store_house:
-#                 if count < stock.amount:
-#                     stock.amount -= count
-#                     stock.save()
-#                     store.free_volume += count * resource.volume_of_one_unit
-#                     store.save()
-#                     break_count = True
-#                 elif count == stock.amount:
-#                     store.free_volume += count * resource.volume_of_one_unit
-#                     store.save()
-#                     stock.delete()
-#                     break_count = True
-#                 else:
-#                     count -= stock.amount
-#                     store.free_volume += stock.amount * resource.volume_of_one_unit
-#                     store.save()
-#                     delete_stock = True
-#             if delete_stock is True:
-#                 stock.delete()
-#             if break_count is True:
-#                 break
-#         if break_count is True:
-#             break
-
-def create_stock(resource_order):
-    from main.models import Stock
-    Stock.objects.create(resource=resource_order.resource, amount=resource_order.amount)
+   # ResourceOrder.objects.create(
+        # priority=0.5,
+        # date_of_starting = datetime.now(),
+        # date_of_finish = datetime.now() + timedelta(days=1),
+   # )

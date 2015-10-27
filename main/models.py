@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 from django.db import models
 #////////////////////////////////////////////////volonters//////////////////////////////////////////////////////////////
-from main.algorithms import fill_store_houses, create_resource_orders
+from main.algorithms import fill_store_houses
 
 
 class Volonter(models.Model):
@@ -53,23 +53,20 @@ class StoreHouse(models.Model):
     rent = models.IntegerField()
     free_volume = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        verbose_name_plural = u'Склади'
-
     def __unicode__(self):
         return self.geography_point.address
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        just_created = self.pk is None
-        if just_created:
+        created = self.pk is None
+        if created:
             self.free_volume = self.volume
         super(StoreHouse, self).save(force_insert, force_update, using,
-                                     update_fields)
-        if just_created:
-            virtual_stocks = Stock.objects.filter(store_house__isnull=True)
-            for stock in virtual_stocks:
-                fill_store_houses(stock)
+             update_fields)
+
+        virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+        for stock in virtual_stocks:
+            fill_store_houses(stock)
 
 
 class Stock(models.Model):
@@ -80,10 +77,11 @@ class Stock(models.Model):
     def __unicode__(self):
         return u"%s, %s"%(self.store_house, self.resource.name)
 
-    def save(self, force_insert=False, force_update=False, using=None,update_fields=None):
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
         created = self.pk is None
         super(Stock, self).save(force_insert, force_update, using,
-                                update_fields)
+             update_fields)
         if created:
             fill_store_houses(self)
 
@@ -91,48 +89,45 @@ class Stock(models.Model):
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True)
     address = models.CharField('geography_point.address', max_length=100)
-    fio = models.CharField(max_length=50, null=False)
-    telephone = models.CharField(max_length=20, null=False)
+    fio = models.CharField(max_length=50, null = False)
+    telephone = models.CharField(max_length=20, null = False)
 
     def __unicode__(self):
-        return u"%s" % (self.fio)
+        return u"%s, %s" % (self.fio, self.address)
 
 
 class ResourceOrder(models.Model):
     resource = models.ForeignKey('Resource')
+    store_house = models.ForeignKey('StoreHouse')
     amount = models.IntegerField()
     finished = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_finished = models.DateTimeField()
 
     def __unicode__(self):
-        return u"%s,%s,%s"%(self.resource.name,self.date_created, self.date_finished)
-
-
+        return u"%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
 
 
 class Need(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming')
     resource = models.ForeignKey('Resource')
-    amount = models.IntegerField(null=False)
-    order = models.ForeignKey('Order')
-    # finished
+    amount = models.IntegerField()
 
     def __unicode__(self):
         return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        created = self.pk is None
-        super(Need, self).save(force_insert, force_update, using,
-                               update_fields)
-        if created:
-            create_resource_orders(self)
+    # def save(self, force_insert=False, force_update=False, using=None,
+    #          update_fields=None):
+    #     created = self.pk is None
+    #     super(Need, self).save(force_insert, force_update, using,
+    #          update_fields)
+    #     if created:
+    #         create_resource_orders(self)
 
 
 class Order(models.Model):
-    # date_created, date_finished, finished,
-    pass
+    needs = models.ManyToManyField('Order')
+
 
 
 

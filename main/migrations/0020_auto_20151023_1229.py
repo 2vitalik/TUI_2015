@@ -11,8 +11,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='resourceorder',
-            name='store_house',
+        migrations.AlterField(
+            model_name='resource',
+            name='volume_of_one_unit',
+            field=models.FloatField(),
         ),
     ]

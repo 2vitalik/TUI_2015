@@ -1,4 +1,3 @@
-from audioop import reverse
 from django.contrib import admin
 from django.core.urlresolvers import reverse
 from main.models import Volonter, GeographyPoint, Stock, \
@@ -11,12 +10,8 @@ from main.models import Volonter, GeographyPoint, Stock, \
     Order
 class StockAdmin(admin.ModelAdmin):
     list_display = ('store_house','resource','amount',)
-
-
 class GeographyPointAdmin(admin.ModelAdmin):
     list_display = ('x','y','address',)
-
-
 class VolonterAdmin(admin.ModelAdmin):
     list_display = (
         'fio',
@@ -42,58 +37,20 @@ class VolonterAdmin(admin.ModelAdmin):
         # print ' '.join(a)
         # b = [o + ' m' for o in a]
         # print '; '.join(b)
-
-
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit',
     )
-
-
-
-
-
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','address','fio','telephone',)
-
-
 class NeedAdmin(admin.ModelAdmin):
     list_display = ('point_consuming','resource','amount',)
-
-
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
-
-
 class ResourceOrderAdmin(admin.ModelAdmin):
-    list_display = ('pk',
-                    'resource',
-                    'amount',
-                    'finished',
-                    'date_created',
-                    'date_finished',
-    ),
-
-    def choise_finished(self, obj):
-        img = ''
-        text = ''
-        if obj.finished:
-            img = '<img scr="/static/admin/img/icon-no.gif" alt="No_Finished">'
-            text = 'add to store house'
-        else:
-            img = '<img scr="/static/admin/img/icon-yes.gif" alt="Finished">'
-            text = 'Mistake!'
-        url = reverse('finished', args=[obj.pk])
-        return "%s <a href='%s'>%s</a>" % (img, url, text)
-    choise_finished.allow_tags = True
-    choise_finished.admin_order_field = 'finish'
-    choise_finished.short_description = 'Finish'
-
-
+    list_display = ('pk','resource','store_house','amount','finished','date_created','date_finished',)
 class StoreHouseAdmin(admin.ModelAdmin):
     list_display = ('geography_point', 'volume','free_volume','rent')
-
-
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('needs_field',)
     filter_horizontal = ('needs',)
