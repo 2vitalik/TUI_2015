@@ -1,15 +1,16 @@
 # coding: utf-8
 import random
-from django.contrib.admin.views.decorators import staff_member_required
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView
+from django.views.generic import CreateView, UpdateView, ListView, TemplateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.models import Volonter, Resource, ResourceOrder
+from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order
+from django.core.mail import send_mail
 
 
 class MainView(TemplateView):
@@ -139,19 +140,80 @@ class CreateVolontersView(TemplateView):
             )
             print fio, telephone
         return HttpResponse('ok')
-
-
-class FinishedView(RedirectView):
-    permanent = False
-    url = reverse_lazy('admin:main_resource_order_changelist')
-
-    @method_decorator(staff_member_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super(FinishedView, self).dispatch(request, *args,**kwargs)
-
+class CreateNeedsView(TemplateView):
     def get(self, request, *args, **kwargs):
-        resource_order_id = kwargs.get('resource_order_id')
-        resource_order = ResourceOrder.objects.get(pk=resource_order_id)
-        resource_order.choise_finished = not resource_order.choise_finished_
-        resource_order.save()
-        return super(FinishedView, self).get(request, *args,**kwargs)
+        point_consuming1 = PointOfConsuming.objects.all()
+        resource1 = list(Resource.objects.all())
+        amount1 = [5,10,15,20,25,30,35,40,45,50,]
+
+        for i in range(50):
+            point_consuming2 = random.choice(point_consuming1)
+            resource2 = random.choice(resource1)
+            amount2 = random.choice(amount1)
+            Need.objects.create(
+                point_consuming=point_consuming2,
+                resource=resource2,
+                amount=amount2,
+            )
+        return HttpResponse('ok')
+class SendMailView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        subject = '#'
+        message = '#'
+        email_from = 'tyrnir.informatikov@gmail.com'
+        email = 'tyrnir.informatikov@gmail.com'
+        send_mail(subject, message, email_from, [email])
+
+class CreatePointOfConsumingView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        ge_points = GeographyPoint.objects.all()
+        storehouses = StoreHouse.objects.all()
+        surnames = [u'Трэк', u'Троев', u'Атеистов', u'Трюкови', u'Спайдэр', u'Виннов']
+        names = [u'Вася', u'Акакий', u'Лео', u'Адольф', u'Иосиф', u'Дима', u'Игорь', u'Антон', u'Жора', u'Вася', u'Трион', u'Енот',]
+        operators = [u'093', u'050', u'098', u'066', u'099']
+        point_cons = []
+        for point in ge_points:
+            is_store = False
+            is_point_con = False
+            try:
+                store = point.storehouse
+                is_store = True
+            except ObjectDoesNotExist:
+                pass
+            try:
+                point_con = point.pointofconsuming
+                is_point_con = True
+            except ObjectDoesNotExist:
+                pass
+
+            if not is_store and not is_point_con:
+                point_cons.append(point)
+
+        # order = Order()
+        # for need in order.need_set.all():
+        #     pass
+
+        # p = GeographyPoint()
+        # p.storehouse
+        # p.pointofconsuming
+
+        for i in range(20):
+            print i
+            telephone1 = u'+38' + random.choice(operators) + unicode(random.randint(1000000, 9999999))
+            fio1 = random.choice(surnames) + u' ' + random.choice(names)
+            point_cons1 = random.choice(list(point_cons))
+            point_cons.remove(point_cons1)
+            PointOfConsuming.objects.create(
+                geography_point = point_cons1,
+                fio = fio1,
+                telephone = telephone1,
+            )
+        return HttpResponse('ok')
+
+
+
+
+
+
+
+
