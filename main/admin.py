@@ -48,13 +48,14 @@ class ResourceAdmin(admin.ModelAdmin):
 
 
 class PointOfConsumingAdmin(admin.ModelAdmin):
-    list_display = ('geography_point','address','fio','telephone',)
-
-
+    list_display = ('geography_point','fio','telephone',)
 class NeedAdmin(admin.ModelAdmin):
     list_display = ('point_consuming','resource','amount',)
 
 
+    list_display = ('point_consuming','resource','amount','orders','priority','data_recomended',)
+    def orders(self, obj):
+        return ', '.join([o.order for o in obj.order.all()])
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
 
@@ -93,13 +94,16 @@ class StoreHouseAdmin(admin.ModelAdmin):
     list_display = ('geography_point', 'volume','free_volume','rent')
 
 
+    list_display = ('volume','rent','geography_point',)
 class OrderAdmin(admin.ModelAdmin):
     pass
     # list_display = ('needs_field',)
     # filter_horizontal = ('needs',)
+    list_display = ('need',)
 
     # def needs_field(self, obj):
     #     return ', '.join([(o.resource, o.amount) for o in obj.needs.all()])
+
 
 
 
