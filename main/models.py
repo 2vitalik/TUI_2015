@@ -102,10 +102,9 @@ class StoreHouse(models.Model):
             self.free_volume = self.volume
         super(StoreHouse, self).save(force_insert, force_update, using,
                                      update_fields)
-        if just_created:
-            virtual_stocks = Stock.objects.filter(store_house__isnull=True)
-            for stock in virtual_stocks:
-                fill_store_houses(stock)
+        virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+        for stock in virtual_stocks:
+             fill_store_houses(stock)
 
 
 class Stock(models.Model):
@@ -123,6 +122,7 @@ class Stock(models.Model):
         super(Stock, self).save(force_insert, force_update, using, update_fields)
         if created:
             fill_store_houses(self)
+
 
 
 class PointOfConsuming(models.Model):
@@ -145,12 +145,15 @@ class ResourceOrder(models.Model):
     def __unicode__(self):
         return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
 
+
 class Need(models.Model):
     resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
     amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
     order = models.ForeignKey('Order', verbose_name=u'Замовлення', null=True)
-    priority = models.IntegerField( verbose_name=u'Пріорітет', null=True)
-    data_recomended = models.DateField( verbose_name=u'Дата рекомендованої доставки', null=True)
+    finished = models.BooleanField(default=False, null = False)
+    priority = models.IntegerField(verbose_name=u'Пріорітет', null=True)
+    data_recomended = models.DateField(verbose_name=u'Дата рекомендованої доставки', null=True)
+
     class Meta:
         verbose_name_plural = u'Потреба'
     # def __unicode__(self):
@@ -170,7 +173,8 @@ class Need(models.Model):
 
 class Order(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'Точка споживання')
-    # ...
+    date_order = models.DateField(auto_now_add = True, null = True)
+
     class Meta:
         verbose_name_plural = u'Замовлення'
 
