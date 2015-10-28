@@ -26,7 +26,6 @@ class MainView(TemplateView):
         })
         return context
 
-
 class VolonterListView(ListView):
     template_name = 'list_volonter.html'
     model = Volonter
@@ -39,12 +38,10 @@ class VolonterListView(ListView):
         })
         return context
 
-
 class VolonterDetailView(DetailView):
     template_name = 'view_volonter.html'
     model = Volonter
     context_object_name = 'Volonter'
-
 
 class VolonterCreateView(CreateView):
     template_name = 'create_volonter.html'
@@ -69,13 +66,6 @@ class VolonterCreateView(CreateView):
             'Volonter': volonters,
         })
         return context
-
-
-# class VolonterUpdateView(UpdateView):
-#     template_name = 'update_volonter.html'
-#     model = Volonter
-#     context_object_name = 'Volonter'
-#     fields = ('fio', 'address','telephone', 'gender')
 
 class VolonterGrafikView(ListView):
     template_name = 'grafik_volonter.html'
@@ -139,7 +129,6 @@ class VolonterGrafikView(ListView):
             'data': data,
         })
         return context
-
 
 class ResourceGrafikView(ListView):
     template_name = 'grafik_resource.html'
@@ -214,6 +203,7 @@ class CreateVolontersView(TemplateView):
             )
             print fio, telephone
         return HttpResponse('ok')
+
 class CreateNeedsView(TemplateView):
     def get(self, request, *args, **kwargs):
         point_consuming1 = PointOfConsuming.objects.all()
@@ -230,6 +220,7 @@ class CreateNeedsView(TemplateView):
                 amount=amount2,
             )
         return HttpResponse('ok')
+
 class CreatePointOfConsumingView(TemplateView):
     def get(self, request, *args, **kwargs):
         ge_points = GeographyPoint.objects.all()
@@ -276,7 +267,6 @@ class CreatePointOfConsumingView(TemplateView):
             )
         return HttpResponse('ok')
 
-
 class SendMailView(TemplateView):
     def get(self, request, *args, **kwargs):
         subject = '#'
@@ -284,7 +274,6 @@ class SendMailView(TemplateView):
         email_from = 'tyrnir.informatikov@gmail.com'
         email = 'tyrnir.informatikov@gmail.com'
         send_mail(subject, message, email_from, [email])
-
 
 class FinishedView(RedirectView):
     permanent = False
