@@ -214,6 +214,7 @@ class CreateVolontersView(TemplateView):
             )
             print fio, telephone
         return HttpResponse('ok')
+
 class CreateNeedsView(TemplateView):
     def get(self, request, *args, **kwargs):
         point_consuming1 = PointOfConsuming.objects.all()
@@ -230,6 +231,7 @@ class CreateNeedsView(TemplateView):
                 amount=amount2,
             )
         return HttpResponse('ok')
+
 class CreatePointOfConsumingView(TemplateView):
     def get(self, request, *args, **kwargs):
         ge_points = GeographyPoint.objects.all()
