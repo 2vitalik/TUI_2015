@@ -108,7 +108,7 @@ class StoreHouse(models.Model):
 
 
 class Stock(models.Model):
-    storeHouseId = models.ForeignKey('StoreHouse', null = True, verbose_name=u'Склад')
+    store_house = models.ForeignKey('StoreHouse', null = True, verbose_name=u'Склад')
     resource = models.ForeignKey('Resource', verbose_name=u'Ресурс')
     amount = models.IntegerField(null=True, verbose_name=u'Кількість одиниць ресурсу')
 

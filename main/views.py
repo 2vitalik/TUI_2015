@@ -154,7 +154,7 @@ class ResourceGrafikView(ListView):
         rescol = Resource.objects.all()
         store_houses = StoreHouse.objects.all()
         for store_house in store_houses:
-            stocks = Stock.objects.filter(storeHouseId=store_house, resource=resource)
+            stocks = Stock.objects.filter(store_house=store_house, resource=resource)
             # total_amount = 0
             # for stock in stocks:
             #     total_amount += stock.amount

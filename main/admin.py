@@ -10,7 +10,7 @@ from main.models import Volonter, GeographyPoint, Stock, \
     StoreHouse, \
     Order
 class StockAdmin(admin.ModelAdmin):
-    list_display = ('storeHouseId','resource','amount',)
+    list_display = ('store_house','resource','amount',)
 
 
 class GeographyPointAdmin(admin.ModelAdmin):
