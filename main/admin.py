@@ -38,13 +38,13 @@ class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','fio','telephone',)
 
 class NeedAdmin(admin.ModelAdmin):
-    list_display = ('resource','amount','order','priority','data_recomended',)
+    list_display = ('resource','amount','order','priority','finished','date_recomended',)
 
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
 
 class ResourceOrderAdmin(admin.ModelAdmin):
-    list_display = ('pk',
+    list_display = (
                     'resource',
                     'amount',
                     'choise_finished',
@@ -73,10 +73,7 @@ class StoreHouseAdmin(admin.ModelAdmin):
     list_display = ('geography_point', 'volume','free_volume','rent')
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'point_consuming', 'needs',)
-
-    def needs(self, obj):
-        return ', '.join(["%s/%s" % (o.resource, o.amount) for o in obj.need_set.all()])
+    list_display = ('point_consuming', 'date_order',)
 
 class PotentialAdmin(admin.ModelAdmin):
     list_display = ('volonter','category','period',)
