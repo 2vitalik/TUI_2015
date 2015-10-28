@@ -70,7 +70,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('amount', models.IntegerField()),
-                ('shipping', models.ForeignKey(to='main.Shipping')),
+                ('shipping', models.ForeignKey(to='main.models.Delivery')),
             ],
         ),
         migrations.CreateModel(
@@ -106,7 +106,7 @@ class Migration(migrations.Migration):
                 ('dateDeparture', models.DateField()),
                 ('perfomance', models.BooleanField(default=False)),
                 ('route', models.ForeignKey(to='main.Route', null=True)),
-                ('shipping', models.ForeignKey(to='main.Shipping')),
+                ('shipping', models.ForeignKey(to='main.models.Delivery')),
                 ('transport', models.ForeignKey(to='main.Transport')),
             ],
         ),
