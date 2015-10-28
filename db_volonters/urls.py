@@ -15,20 +15,27 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth.views import login, logout
 from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterGrafikView, \
     CreateVolontersView, ResourceGrafikView, CreateNeedsView, SendMailView, CreatePointOfConsumingView,FinishedView, \
-    ResourceListView, NeedListView, NeedCreateView
+    ResourceListView, NeedListView, NeedCreateView, CreateOrderView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^test/$', MainView.as_view()),
     url(r'^$', MainView.as_view()),
 
+    url(r'^login/', login, name='login'),
+    url(r'^logout/', logout, name='logout'),
+
     url(r'^Volonter/$',VolonterListView.as_view(), name='list_volonter'),
     url(r'^Volonter/(?P<pk>\d+)/$',VolonterDetailView.as_view(), name='view_volonter'),
     url(r'^Volonter/add/',VolonterCreateView.as_view(), name='create_volonter'),
+
+    url(r'^order/add/$',CreateOrderView.as_view(), name='create_order'),
+
     url(r'^need/$',NeedListView.as_view(), name='list_need'),
-    url(r'^need/add/',NeedCreateView.as_view(), name='create_need'),
+    url(r'^need/add/$',NeedCreateView.as_view(), name='create_need'),
     # url(r'^Volonter/(?P<pk>\d+)/edit/',VolonterUpdateView.as_view(), name='update_volonter'),
 
     # url(r'^StoreHouse/$',StoreHouseListView.as_view(), name= 'list_StoreHouse'),

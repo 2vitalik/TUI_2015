@@ -37,8 +37,14 @@
               <li> <a href="{% url 'list_resource' %}">Ресурси</a> </li>
             </ul>
           </li>
+
           <li> <a href="#">MAP</a> </li>
           <li> <a href="/admin">ДЛЯ АДМІНІСТРАції</a> </li>
+            {% if user.is_authenticated %}
+                <li>hello, {{ user.get_full_name }} <a href="{% url 'logout' %}?next=/">logout</a> </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">login</a> </li>
+            {% endif %}
         </ul>
       </div>
     </nav>

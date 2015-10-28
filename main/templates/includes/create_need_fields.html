@@ -1,0 +1,32 @@
+ <div id="create_table_{{ i }}" class="create_table" style="{% if i != 1 %}display: none;{% endif %}">
+    <table>
+    <tr>
+        <td class="lef">Resurs</td>
+        <td class="ri">
+
+            <select size="1" name="resource_{{ i }}">
+
+            <option disabled>Выберите ресурс</option>
+
+            {% for res in resurs %}
+            <option value="{{ res.pk }}">{{ res.name }}</option>
+            {% endfor %}
+
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="lef">Кількість</td>
+        <td class="ri"><input type="text" name="amount_{{ i }}"></td>
+    </tr>
+       <tr>
+        <td class="lef">Prior</td>
+        <td class="ri"><input type="text" name="priority_{{ i }}"></td>
+    </tr>
+    <tr>
+        <td>
+            <a href="#" onclick="$('#create_table_{{ i|add:"1" }}').show(); return false;">Add more</a>
+        </td>
+    </tr>
+    </table>
+</div>

@@ -154,7 +154,7 @@ class ResourceGrafikView(ListView):
         rescol = Resource.objects.all()
         store_houses = StoreHouse.objects.all()
         for store_house in store_houses:
-            stocks = Stock.objects.filter(storeHouseId = store_house.id, resource=resource)
+            stocks = Stock.objects.filter(storeHouseId = store_house, resource=resource)
             total_amount = 0
             for stock in stocks:
                 total_amount += stock.amount
@@ -327,6 +327,35 @@ class NeedCreateView(CreateView):
         context.update({
             'resurs': ress,
             'orders': orders,
+        })
+        return context
+
+
+class CreateOrderView(TemplateView):
+    template_name = 'create_order.html'
+
+
+    def post(self, request, *args, **kwargs):
+        order = Order.objects.create(point_consuming=request.user.pointofconsuming)
+        for i in range(1, 5):
+            if request.POST.get('amount_%d' % i):
+                Need.objects.create(
+                    amount=request.POST.get('amount_%d' % i),
+                    resource=request.POST.get('resource_%d' % i),
+                    priority=request.POST.get('priority_%d' % i),
+                    order=order,
+                )
+        return reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateOrderView, self).get_context_data(**kwargs)
+
+        ress = Resource.objects.all()
+        orders = Order.objects.all()
+        context.update({
+            'resurs': ress,
+            'orders': orders,
+            'numbers': range(1, 5),
         })
         return context
 
