@@ -114,7 +114,7 @@ class Stock(models.Model):
     amount = models.IntegerField(null=True, verbose_name=u'Кількість одиниць ресурсу')
 
     def __unicode__(self):
-        return u"%s, %s"%(self.store_house, self.resource.name)
+        return u"%s, %s"%(self.storeHouseId, self.resource.name)
     class Meta:
         verbose_name_plural = u'Запас'
     

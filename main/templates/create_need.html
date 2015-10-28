@@ -5,13 +5,48 @@
 {% endblock %}
 
 {% block content %}
-   <form method="post" action="{% url 'create_resource' %}">
-      {% csrf_token %}
-      <li>Ресурс: <input type="text" name="name">
-      <li>Вес: <input type="text" name="weight">
-      <li>Обьем: <input type="text" name="volume">
-      <li>Кол-во: <input type="text" name="count">
-      <input type="submit" name="Save" value = "Save!">
+ <div id="create_table">
+    <form class="zforma" method="POST" action="{% url 'create_need' %}">
+        {% csrf_token %}
+    <table>
+    <tr>
+        <td class="lef">Resurs</td>
+        <td class="ri">
+
+            <select size="1" name="resource">
+
+            <option disabled>Выберите ресурс</option>
+
+            {% for res in resurs %}
+            <option value="{{ res.pk }}">{{ res.name }}</option>
+            {% endfor %}
+
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="lef">Кількість</td>
+        <td class="ri"><input type="text" name="amount"></td>
+    </tr>
+    <tr>
+        <td class="lef">Заказ</td>
+        <td class="ri"><select size="1" name="order">
+            <option disabled>Выберите заказ</option>
+            {% for orde in orders %}
+            <option value="{{ orde.pk }}">{{ orde.point_consuming }}</option>
+            {% endfor %}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="lef">Prior</td>
+        <td class="ri"><input type="text" name="priority"></td>
+    </tr>
+       <tr  class="CreateVoll">
+        <td class colspan="2"><input class="bt" height="40px" type="submit" name="Save" value="Save"></td>
+    </tr>
+    </table>
+
    </form>
-    <a href = "{% url 'list_resource' %}">Назад</a>
+   </div>
 {% endblock %}

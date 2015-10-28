@@ -4,8 +4,26 @@
     <h3 class="title_list">ГОЛОВНА</h3>
 {% endblock %}
 {% block button %}
-     <a href="{% url 'create_volonter' %}" class="button">Стать волонтёром!</a>
+{#     <a href="{% url 'create_volonter' %}" class="button">Стать волонтёром!</a>#}
 {% endblock %}
-
+{% block content %}
+    <div id="infobl">
+        <div id="blF">
+        <p class="blFtitle">Волонтерська підтримка</p>
+        <p class="cont"><br><br>Якщо ви хочете допомогти людям, які цього потребують то зареєструйтеся волонтером</p>
+            <a href="{% url 'create_volonter' %}" class="button">Стати волонтером</a>
+        </div>
+        <div id="blF">
+        <p class="blFtitle">Потреби</p>
+        <p class="cont"><br><br>Якщо ви хочете допомогти людям, які цього потребують то зареєструйтеся волонтером</p>
+            <a href="{% url 'list_need' %}" class="button">Потреби!</a>
+        </div>
+        <div id="blF">
+        <p class="blFtitle">Замовити допомогу</p>
+        <p class="cont"><br><br>Якщо ви хочете допомогти людям, які цього потребують то зареєструйтеся волонтером</p>
+            <a href="{% url 'create_need' %}" class="button">Замовити допомогу</a>
+        </div>
+    </div>
+{% endblock content %}
 {#      <a href="https://docs.google.com/spreadsheets/d/1kkL6Gd3DPs0UZxhqt8xnQtJRTeXEjOQ5ZgN6E9_rQ_Q/edit#gid=0" target="_blank" class="button">Необходимо</a>#}
 {#      <a href="#" class="button">Попросить помощь!</a>#}

@@ -154,13 +154,13 @@ class ResourceGrafikView(ListView):
         rescol = Resource.objects.all()
         store_houses = StoreHouse.objects.all()
         for store_house in store_houses:
-            stocks = Stock.objects.filter(store_house=store_house, resource=resource)
-            # total_amount = 0
-            # for stock in stocks:
-            #     total_amount += stock.amount
+            stocks = Stock.objects.filter(storeHouseId = store_house.id, resource=resource)
+            total_amount = 0
+            for stock in stocks:
+                total_amount += stock.amount
 
 
-            total_amount = sum([stock.amount for stock in stocks])
+            # total_amount = sum([stock.amount for stock in stocks])
             data.append({
                 'store_house': store_house,
                 'total_amount': total_amount,
@@ -306,3 +306,27 @@ class ResourceListView(ListView):
     template_name = 'list_resource.html'
     model = Resource
     context_object_name = 'Resource'
+
+class NeedListView(ListView):
+    template_name = 'list_need.html'
+    model = Need
+    context_object_name = 'Needs'
+
+class NeedCreateView(CreateView):
+    template_name = 'create_need.html'
+    model = Need
+    context_object_name = 'Needs'
+    fields = ('resource', 'amount','order', 'priority')
+    success_url = reverse_lazy('list_need')
+
+    def get_context_data(self, **kwargs):
+        context = super(NeedCreateView, self).get_context_data(**kwargs)
+
+        ress = Resource.objects.all()
+        orders = Order.objects.all()
+        context.update({
+            'resurs': ress,
+            'orders': orders,
+        })
+        return context
+

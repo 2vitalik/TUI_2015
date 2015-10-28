@@ -34,12 +34,12 @@
         {% csrf_token %}
     <table>
     <tr>
-        <td>ФИО</td>
-        <td><input type="text" name="fio"></td>
+        <td class="CreateVoll">ФИО</td>
+        <td class="CreateVolr"><input type="text" name="fio"></td>
     </tr>
        <tr>
-        <td>АДРЕС</td>
-        <td><select size="1" name="address">
+        <td class="CreateVoll">АДРЕС</td>
+        <td class="CreateVolr"><select size="1" name="address">
             <option disabled>Выберите город</option>
             <option value="Винницкая область">Вінницька область</option>
             <option value="Волынская область">Волинська область</option>
@@ -69,26 +69,26 @@
         </td>
     </tr>
     <tr>
-        <td>ТЕЛЕФОН</td>
-        <td><input width="500px" type="text" name="telephone" placeholder="+380(***)(*******)"></td>
+        <td class="CreateVoll">ТЕЛЕФОН</td>
+        <td class="CreateVolr"><input width="500px" type="text" name="telephone" placeholder="+380(***)(*******)"></td>
     </tr>
     <tr >
-        <td>ДЕНЬ РОЖДЕНИЯ</td>
-        <td ><input width="500px" type="date" name="birthday"></td>
+        <td class="CreateVoll">ДАТА НАРОДЖЕННЯ</td>
+        <td class="CreateVolr"><input width="500px" type="date" name="birthday"></td>
      </tr>
      <tr >
-        <td>ПОЛ</td>
-        <td><input type="radio" value="М" name="gender"> М <br><input type="radio" value="Ж" name="gender"> Ж</td>
+        <td class="CreateVoll">СТАТЬ</td>
+        <td class="CreateVolr"><input type="radio" value="М" name="gender"> М <br><input type="radio" value="Ж" name="gender"> Ж</td>
     </tr>
     <tr>
-        <td>Вид Работ</td>
-        <td>
+        <td class="CreateVoll">Вид допомоги</td>
+        <td class="CreateVolr">
             {% for item in data %}
             <input type="checkbox" name="categories" value="{{ item.number }}">{{ item.name }}<br>
             {% endfor %}
 
     </tr>
-    <tr align="center">
+    <tr class="CreateVoll">
         <td colspan="2"><input class="bt" type="submit" name="Save" value="Save"></td>
     </tr>
     </table>
