@@ -56,7 +56,7 @@ class ResourceAdmin(admin.ModelAdmin):
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','fio','telephone',)
 class NeedAdmin(admin.ModelAdmin):
-    list_display = ('resource','amount','order','priority','data_recomended',)
+    list_display = ('resource','amount','order','priority','date_recomended',)
 
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)

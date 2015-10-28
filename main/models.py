@@ -108,12 +108,12 @@ class StoreHouse(models.Model):
 
 
 class Stock(models.Model):
-    store_house = models.ForeignKey('StoreHouse', null = True, verbose_name=u'Склад')
+    store_house = models.ForeignKey('StoreHouse', null=True, verbose_name=u'Склад')
     resource = models.ForeignKey('Resource', verbose_name=u'Ресурс')
     amount = models.IntegerField(null=True, verbose_name=u'Кількість одиниць ресурсу')
 
     def __unicode__(self):
-        return u"%s, %s"%(self.store_house, self.resource.name)
+        return u"%s, %s" % (self.store_house, self.resource.name)
     class Meta:
         verbose_name_plural = u'Запас'
     
@@ -143,21 +143,19 @@ class ResourceOrder(models.Model):
     class Meta:
         verbose_name_plural = u'Замовлення ресурсів'
     def __unicode__(self):
-        return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
+        return "%s,%s"%(self.resource.name, self.amount)
 
 
 class Need(models.Model):
     resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
     amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
     order = models.ForeignKey('Order', verbose_name=u'Замовлення', null=True)
-    finished = models.BooleanField(default=False, null = False)
+    finished = models.BooleanField(default=False, null=False)
     priority = models.IntegerField(verbose_name=u'Пріорітет', null=True)
-    data_recomended = models.DateField(verbose_name=u'Дата рекомендованої доставки', null=True)
+    date_recomended = models.DateField(verbose_name=u'Дата рекомендованої доставки', null=True)
 
     class Meta:
         verbose_name_plural = u'Потреба'
-    # def __unicode__(self):
-    #     return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
     def __unicode__(self):
         return "%s, %s, %s" % (self.order.point_consuming.fio, self.resource, self.amount)
