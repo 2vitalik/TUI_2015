@@ -23,7 +23,7 @@ from main.views import MainView, VolonterListView, VolonterDetailView, VolonterC
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^test/$', MainView.as_view()),
-    url(r'^$', MainView.as_view()),
+    url(r'^$', MainView.as_view(), name='home'),
 
     url(r'^login/', login, name='login'),
     url(r'^logout/', logout, name='logout'),

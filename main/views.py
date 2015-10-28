@@ -2,9 +2,9 @@
 import random
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView
 from django.views.generic.base import TemplateView
@@ -338,16 +338,16 @@ class CreateOrderView(TemplateView):
 
 
     def post(self, request, *args, **kwargs):
-        order = Order.objects.create(point_consuming=request.user.pointofconsuming)
+        order = Order.objects.create(point_consuming=request.user.point_consuming)
         for i in range(1, 5):
             if request.POST.get('amount_%d' % i):
                 Need.objects.create(
                     amount=request.POST.get('amount_%d' % i),
-                    resource=request.POST.get('resource_%d' % i),
+                    resource_id=int(request.POST.get('resource_%d' % i)),
                     priority=request.POST.get('priority_%d' % i),
                     order=order,
                 )
-        return reverse_lazy('home')
+        return redirect('home')
 
     def get_context_data(self, **kwargs):
         context = super(CreateOrderView, self).get_context_data(**kwargs)
