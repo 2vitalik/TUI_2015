@@ -9,7 +9,7 @@ from main.models import Volonter, GeographyPoint, Stock, \
     ResourceOrder, \
     StoreHouse, \
     Order, Potential, Perfomance, Delivery, DeliveryDetalization, Shipping, ShippingDetalization, KindOfTransport, \
-    Transport, Employment, Trip, Roat
+    Transport, Employment, Trip, Way, Roat, MakingRoat
 
 
 class StockAdmin(admin.ModelAdmin):
@@ -17,7 +17,7 @@ class StockAdmin(admin.ModelAdmin):
 
 
 class GeographyPointAdmin(admin.ModelAdmin):
-    list_display = ('x','y','address',)
+    list_display = ('x','y','address','road',)
 
 
 class VolonterAdmin(admin.ModelAdmin):
@@ -131,15 +131,20 @@ class EmploymentAdmin(admin.ModelAdmin):
 class TripAdmin(admin.ModelAdmin):
     list_display = ('transport','shipping','date_start','perfomance',)
 
-class RoatAdmin(admin.ModelAdmin):
+class WayAdmin(admin.ModelAdmin):
     list_display = ('point_from','point_to','roat_length','danger','passability','load',)
 
+class RoatAdmin(admin.ModelAdmin):
+    list_display = ('name','storehouse','point_consuming',)
+
+class MakingARoatAdmin(admin.ModelAdmin):
+    list_display = ('roat','way',)
 
 
 
-
-
+admin.site.register(MakingRoat, MakingARoatAdmin)
 admin.site.register(Roat, RoatAdmin)
+admin.site.register(Way, WayAdmin)
 admin.site.register(Trip, TripAdmin)
 admin.site.register(Employment, EmploymentAdmin)
 admin.site.register(Transport, TransportAdmin)

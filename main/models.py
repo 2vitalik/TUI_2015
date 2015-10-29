@@ -6,6 +6,7 @@ from django.db import models
 from main.algorithms import fill_store_houses, create_resource_orders
 
 
+
 class Volonter(models.Model):
     GENDER_CHOICES = (
         (u'М', 'Male'),
@@ -172,12 +173,10 @@ class Need(models.Model):
 
     class Meta:
         verbose_name_plural = u'Потреба'
-    # todo:  
-    # def __unicode__(self):
-    #     return u"%s, %s, %s" % (self.point_consuming.fio, self.resource, self.amount)
 
     def __unicode__(self):
-        return "%s, %s, %s" % (self.order, self.resource, self.amount)
+        return "%s,%s,%s"%(self.resource.name, self.order.name, self.amount)
+
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -202,13 +201,14 @@ class Perfomance(models.Model):
 
 class Order(models.Model):
     point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'Точка споживання')
-    date_order = models.DateField(auto_now_add=True, null=True)
+    name = models.CharField(max_length=30, verbose_name=u'Назва', null=True)
+    date_order = models.DateField(auto_now_add=True,null = True)
 
     class Meta:
         verbose_name_plural = u'Замовлення'
 
     def __unicode__(self):
-        return "%s,%s"%(self.point_consuming.geography_point.address, self.date_order)
+        return "%s,%s,%s"%(self.name, self.point_consuming.geography_point.address, self.date_order)
 
 
 class Potential(models.Model):
@@ -285,20 +285,18 @@ class KindOfTransport(models.Model):
     passability = models.FloatField( verbose_name=u'Проходимість')
 
     class Meta:
-        verbose_name_plural = u'Вид транпорту'
-
+        verbose_name_plural = u'Вид транспорту'
     def __unicode__(self):
         return "%s,%s"%(self.name,self.category)
 
 class Transport(models.Model):
     kind_of_transport = models.ForeignKey('KindOfTransport', verbose_name=u'Вид автомобіля')
-    number = models.CharField(max_length=10, verbose_name=u'Гос. номер')
-
+    number = models.CharField(max_length=10, verbose_name=u'Держ. номер')
     class Meta:
         verbose_name_plural = u'Транспорт'
 
     def __unicode__(self):
-        return "%s,%s,%s"%(self.king_of_transport.category, self.king_of_transport.passability, self.number)
+        return "%s,%s,%s"%(self.kind_of_transport.category, self.kind_of_transport.passability, self.number)
 
 
 class Employment(models.Model):
@@ -314,6 +312,7 @@ class Employment(models.Model):
 
 
 class Trip(models.Model):
+    roat = models.ForeignKey('Roat', verbose_name=u'Маршрут',null=True)
     transport = models.ForeignKey('Transport', verbose_name=u'Транспорт')
     shipping = models.ForeignKey('Shipping', verbose_name=u'Відгрузка')
     date_start = models.DateField(auto_now_add=True,verbose_name=u'Дата початку')
@@ -325,15 +324,47 @@ class Trip(models.Model):
     def __unicode__(self):
         return "%s,%s,%s"%(self.transport.number, self.shipping, self.date_start)
 
-
-class Roat(models.Model):
-    point_from = models.ForeignKey('GeographyPoint', verbose_name=u'', related_name='point_from')
-    point_to = models.ForeignKey('GeographyPoint', verbose_name=u'', related_name='point_to')
-    roat_length = models.IntegerField(verbose_name=u'')
-    danger = models.IntegerField(verbose_name=u'')
-    passability = models.IntegerField(verbose_name=u'')
-    load = models.IntegerField(verbose_name=u'')
+class Way(models.Model):
+    point_from = models.ForeignKey('GeographyPoint', verbose_name=u'Звідки', related_name='point_from')
+    point_to = models.ForeignKey('GeographyPoint', verbose_name=u'Куди', related_name='point_to')
+    roat_length = models.IntegerField(verbose_name=u'Довжина')
+    danger = models.IntegerField(verbose_name=u'Небезпечність')
+    passability = models.IntegerField(verbose_name=u'Проходимість')
+    load = models.IntegerField(verbose_name=u'Заповненість')
     class Meta:
         verbose_name_plural = u'Дороги'
     def __unicode__(self):
         return "%s,%s,%s,"%(self.point_from.address,self.point_to.address,self.roat_length)
+
+class Roat(models.Model):
+    name = models.CharField(max_length=100,verbose_name=u'Назва', null=True)
+    storehouse = models.ForeignKey('StoreHouse', verbose_name=u'Від складу',null=True)
+    point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'До пункту', null=True)
+
+    class Meta:
+        verbose_name_plural = u'Маршрут'
+    def __unicode__(self):
+        return self.name
+
+class MakingRoat(models.Model):
+    roat = models.ForeignKey('Roat', verbose_name=u'Маршрут')
+    way = models.ForeignKey('Way', verbose_name=u'Дорога')
+
+    def __unicode__(self):
+         return "%s"%(self.roat.name)
+    class Meta:
+        verbose_name_plural = u'Збірка маршруту'
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -210,7 +210,7 @@ class CreateNeedsView(TemplateView):
         resource1 = list(Resource.objects.all())
         amount1 = [5,10,15,20,25,30,35,40,45,50,]
 
-        for i in range(50):
+        for i in range(10):
             point_consuming2 = random.choice(point_consuming1)
             resource2 = random.choice(resource1)
             amount2 = random.choice(amount1)
@@ -254,7 +254,7 @@ class CreatePointOfConsumingView(TemplateView):
         # p.storehouse
         # p.pointofconsuming
 
-        for i in range(20):
+        for i in range(10):
             print i
             telephone1 = u'+38' + random.choice(operators) + unicode(random.randint(1000000, 9999999))
             fio1 = random.choice(surnames) + u' ' + random.choice(names)
@@ -269,7 +269,7 @@ class CreatePointOfConsumingView(TemplateView):
 
 class SendMailView(TemplateView):
     def get(self, request, *args, **kwargs):
-        subject = '#'
+        subject = u'Хочу стати волонтером'
         message = '#'
         email_from = 'tyrnir.informatikov@gmail.com'
         email = 'tyrnir.informatikov@gmail.com'
