@@ -1,6 +1,7 @@
+# coding: utf-8
 from audioop import reverse
 from django.contrib import admin
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from main.models import Volonter, GeographyPoint, Stock, \
     Resource, \
     PointOfConsuming, \
@@ -11,13 +12,6 @@ from main.models import Volonter, GeographyPoint, Stock, \
     Order, Potential, Perfomance, Delivery, DeliveryDetalization, Shipping, ShippingDetalization, KindOfTransport, \
     Transport, Employment, Trip, Way, Roat, MakingRoat
 
-
-class StockAdmin(admin.ModelAdmin):
-    list_display = ('storeHouseId','resource','amount',)
-
-class GeographyPointAdmin(admin.ModelAdmin):
-    list_display = ('x','y','address','road',)
-
 class VolonterAdmin(admin.ModelAdmin):
     list_display = (
         'fio',
@@ -25,9 +19,31 @@ class VolonterAdmin(admin.ModelAdmin):
         'address',
         'telephone',
         'gender',
+        'activeted',
             )
     search_fields = ('fio', )
     list_filter = ('gender', )
+    def activeted(self, obj):
+        img = ''
+        text = ''
+        if obj.activeted:
+            img = u'<img src="/static/admin/img/icon-yes.gif" alt="Активований">'
+            text = u'Видалити'
+            url = reverse('DeleteCandidateVolonterView', args=[obj.pk])
+        else:
+            img = u'<img src="/static/admin/img/icon-no.gif" alt="Не активований">'
+            text = u'Активувати'
+            url = reverse('ActivateCandidateVolonterView', args=[obj.pk])
+        return "%s <a href='%s'>%s</a>" % (img, url, text)
+    activeted.allow_tags = True
+    activeted.admin_order_field = 'activeted'
+    activeted.short_description = 'Activeted'
+
+class StockAdmin(admin.ModelAdmin):
+    list_display = ('storeHouseId','resource','amount',)
+
+class GeographyPointAdmin(admin.ModelAdmin):
+    list_display = ('x','y','address','road',)
 
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
@@ -73,7 +89,7 @@ class StoreHouseAdmin(admin.ModelAdmin):
     list_display = ('geography_point', 'volume','free_volume','rent')
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('point_consuming', 'date_order',)
+    list_display = ('point_consuming', 'date_order','name',)
 
 class PotentialAdmin(admin.ModelAdmin):
     list_display = ('volonter','category','period',)
@@ -113,6 +129,11 @@ class RoatAdmin(admin.ModelAdmin):
 
 class MakingARoatAdmin(admin.ModelAdmin):
     list_display = ('roat','way',)
+
+
+
+
+
 
 
 

@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterGrafikView, \
-    CreateVolontersView, ResourceGrafikView, CreateNeedsView, SendMailView, CreatePointOfConsumingView,FinishedView, \
-    ResourceListView
+    CreateVolontersView, ResourceGrafikView, CreateNeedsView, CreatePointOfConsumingView,FinishedView, \
+    ResourceListView, DeleteCandidateVolonterView, ActivateCandidateVolonterView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -81,8 +81,8 @@ urlpatterns = [
     url(r'^actions/finished/(?P<resource_order_id>\d+)/',
         FinishedView.as_view(),
         name='finished'),
-    url(r'^test/create_volonters',CreateVolontersView.as_view()),
     url(r'^test/create_needs', CreateNeedsView.as_view()),
-    url(r'^send_mail', SendMailView.as_view()),
-    url(r'^test/create_pointofconsuming', CreatePointOfConsumingView.as_view())
-]
+    url(r'^test/create_pointofconsuming', CreatePointOfConsumingView.as_view()),
+    url(r'actions/delete/(?P<volonter_id>\d+)/', DeleteCandidateVolonterView.as_view()),
+    url(r'actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view()),
+ ]
