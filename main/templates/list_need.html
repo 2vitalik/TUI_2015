@@ -8,14 +8,14 @@
     <tr>
         <td class="top_left">РЕСУРС</td>
         <td class="top_cen" >КІЛЬКІСТЬ</td>
-        <td class="top_right" >ДАТА</td>
+        <td class="top_right" >ЗАКАЗ</td>
     </tr>
 
     {% for need in Needs %}
         <tr class="list_tr">
         <td class="cell"> {{ need.resource }}</td>
         <td class="cell_c">{{ need.amount }}</td>
-        <td class="cell">{{ need.data_recomended }}</td>
+        <td class="cell">{{ need.order }}</td>
     </tr>
 
     {% endfor %}

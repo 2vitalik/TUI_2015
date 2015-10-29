@@ -335,16 +335,16 @@ table{
 #create_table table{
 	width: 400px;
 	margin-left: 300px;
-	border: 200px;
+	/*border: 200px;*/
 	margin-top:15px;
-	<!--background-color: #24528d;-->
+	/*<!--background-color: #24528d;-->*/
 }
 #create_table td{
 	/*padding-top: 4px;*/
 	/*padding-bottom: 4px;*/
-	padding-left: 4px;
-	padding-right: 4px;
-	<!--background-color: #ffffff;-->
+	/*padding-left: 4px;*/
+	/*padding-right: 4px;*/
+	/*<!--background-color: #ffffff;-->*/
 
 
 }
@@ -358,15 +358,35 @@ table{
 	/*background-color: #24528d;*/
 	/*<!--background-color: #24528d;-->*/
 }
-/*#view_tab td{*/
-	/*padding-top: 4px;*/
-	/*padding-bottom: 4px;*/
-	/*padding-left: 4px;*/
-	/*padding-right: 4px;*/
-	/*background-color: #ffffff;*/
+.logBlock{
+	position:relative;
+	left:265px;
+	background-color:#6ea414;
+	width: 400px;
+	height: 200px;
+	border:1px solid #2d2d2d;
+}
+
+.f_username{
+	position:absolute;
+	top:50px;
+	/*padding-top: 25px;*/
+	margin-left: 90px;
+}
+
+.f_password{
+	position:absolute;
+	top:50px;
+	/*margin-left: -100px;*/
+}
+
+.f_but{
+	position:absolute;
+	top:50px;
+	margin-left: 90px;
+}
 
 
-/*}*/
 #grafik {
 	margin-left: 80px;
 }
