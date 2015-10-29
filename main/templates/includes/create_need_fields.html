@@ -19,14 +19,18 @@
         <td class="lef">Кількість</td>
         <td class="ri"><input type="text" name="amount_{{ i }}"></td>
     </tr>
+    <tr>
+        <td class="lef">DATA</td>
+        <td class="ri"><input type="date" name="data_{{ i }}"></td>
+    </tr>
        <tr>
         <td class="lef">Prior</td>
         <td class="ri"><input type="text" name="priority_{{ i }}"></td>
     </tr>
     <tr>
         <td>
-            <a href="#" onclick="$('#create_table_{{ i|add:"1" }}').show(); return false;">Add more</a>
-        </td>
+            <a class="addmore" id="a_{{ i }}" href="#" onclick="$('#create_table_{{ i|add:"1" }}').show(); $('#a_{{ i }}').hide(); return false;"></a>
+               </td>
     </tr>
     </table>
 </div>

@@ -194,6 +194,7 @@ h3{
     -webkit-margin-end: 0px;
 	text-shadow:0px 0px 0px #fff;
 }
+/*block  контента общий*/
 #content{
 	/*width:1366px ;*/
 	position:relative;
@@ -202,10 +203,8 @@ h3{
 	padding-left: 50%;
    	margin-left: -650px;
 
-
-
 }
-
+/*блок контента в блоке контента*/
 #content .bl_content{
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -215,6 +214,7 @@ h3{
    	/*padding-left: 50%;*/
 
 }
+/*блок заголовка в блоке контента*/
 #content .bl_title{
 	position: absolute;
 	top:-45px;
@@ -231,6 +231,7 @@ h3{
 	z-index: 100;
 	padding-bottom: 15px;
 }
+/*ссылки в блоке заголовка*/
 #content .bl_title a{
 	color: #214c90;
 	text-decoration: none;
@@ -288,19 +289,20 @@ table{
 	text-align: center;
 	font:normal 20px "Helvetice Neue",Arial,Tahoma,Verdana;
 }
+/*€чейка таблицы простотра списков волонтЄры,ресурсы, потребности*/
 .cell{
 	width: 300px;
 	height: 36px;
 	background: url("img/cell.gif") repeat-x;
 	text-align: center;
-	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	font:normal 14px "Helvetice Neue",Arial,Tahoma,Verdana;
 }
 .cell_c{
 	width: 300px;
 	height: 36px;
 	background: url("img/cell_c.gif") repeat-x;
 	text-align: center;
-	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	font:normal 14px "Helvetice Neue",Arial,Tahoma,Verdana;
 
 }
 /*///////////////////////////////////////////////////////////////////////end style table*/
@@ -331,22 +333,16 @@ table{
 	text-align: center;
 }
 
+.order_but {
+	margin-left: 460px;
 
-#create_table table{
+}
+.create_table table{
 	width: 400px;
-	margin-left: 300px;
+	margin-left: 280px;
 	/*border: 200px;*/
 	margin-top:15px;
 	/*<!--background-color: #24528d;-->*/
-}
-#create_table td{
-	/*padding-top: 4px;*/
-	/*padding-bottom: 4px;*/
-	/*padding-left: 4px;*/
-	/*padding-right: 4px;*/
-	/*<!--background-color: #ffffff;-->*/
-
-
 }
 
 #view_tab table{
@@ -357,33 +353,6 @@ table{
 	/*border-color: #24528d;*/
 	/*background-color: #24528d;*/
 	/*<!--background-color: #24528d;-->*/
-}
-.logBlock{
-	position:relative;
-	left:265px;
-	background-color:#6ea414;
-	width: 400px;
-	height: 200px;
-	border:1px solid #2d2d2d;
-}
-
-.f_username{
-	position:absolute;
-	top:50px;
-	/*padding-top: 25px;*/
-	margin-left: 90px;
-}
-
-.f_password{
-	position:absolute;
-	top:50px;
-	/*margin-left: -100px;*/
-}
-
-.f_but{
-	position:absolute;
-	top:50px;
-	margin-left: 90px;
 }
 
 
@@ -429,42 +398,6 @@ table{
 	font:normal 15px "Helvetice Neue",Arial,Tahoma,Verdana;
 	border-spacing: 0px;
 }
-/*.lef{*/
-	/*width: 150px;*/
-	/*height: 36px;*/
-	/*color: #e5e5e5;*/
-	/*background: url("img/T2.gif") repeat-x;*/
-	/*text-align: center;*/
-	/*font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;*/
-	/*border-spacing: 0px;*/
-/*}*/
-/*.ri{*/
-	/*width: 450px;*/
-	/*height: 36px;*/
-	/*color: #2d2d2d;*/
-	/*background: url("img/tt2.gif") repeat-x;*/
-	/*text-align: center;*/
-	/*font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;*/
-	/*border-spacing: 0px;*/
-/*}*/
-/*.lef_end{*/
-	/*width: 150px;*/
-	/*height: 36px;*/
-	/*color: #e5e5e5;*/
-	/*background: url("img/T3.gif") repeat-x;*/
-	/*text-align: center;*/
-	/*font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;*/
-	/*border-spacing: 0px;*/
-/*}*/
-/*.ri_end{*/
-	/*width: 450px;*/
-	/*height: 36px;*/
-	/*color: #2d2d2d;*/
-	/*background: url("img/tt3.gif") repeat-x;*/
-	/*text-align: center;*/
-	/*font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;*/
-	/*border-spacing: 0px;*/
-/*}*/
 .trrt{
 	position:relative;
 	top: 7px;
@@ -514,7 +447,6 @@ table{
 	background-color: #cacaca;
 	color: #727272;
 	border: 1px solid #2d2d2d;
-
 }
 #blF{
 	display: inline-block;
@@ -582,9 +514,67 @@ table{
 	color:#fff;
 	border-color:#000;
 }
-/*#site{*/
-	/*width: 1366px;*/
-	/*height: auto;*/
-	/*margin-left: -750px;*/
-   	/*padding-left: 50%;*/
-/*}*/
+
+/*       ---------------------------------------------- start style block login panel login.html*/
+/*поле им€ пользовател€*/
+.nameofuser{
+	position: absolute;
+	width: 400px;
+	text-align: center;
+	top: 20px;
+	left: 0px;
+}
+/*поле пароль*/
+.passofuser{
+	position: absolute;
+	width: 400px;
+	text-align: center;
+	top: 85px;
+	left: 0px;
+}
+/*поле инпут им€ пользовател€*/
+.f_username{
+	position:absolute;
+	top:50px;
+	/*padding-top: 25px;*/
+	margin-left: 90px;
+}
+/*поле инпут пароль*/
+.f_password{
+	position:absolute;
+	top:110px;
+	margin-left: 90px;
+	/*margin-left: -100px;*/
+}
+/* кнопка */
+.f_but{
+	position:absolute;
+	top:150px;
+	margin-left: 170px;
+}
+/* блок формы*/
+.logBlock{
+	position:relative;
+	left:265px;
+	background-color:#aeaeae;
+	width: 400px;
+	height: 200px;
+	border:1px solid #2d2d2d;
+}
+
+/*       ----------------------------------------------------------------------- end login panel*/
+/*надпись имени текущего пользовател€ в верху сайта*/
+.infoaboutuser{
+	display: inline-block;
+	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
+	margin-left:15px;
+}
+.addmore{
+	display: block;
+	width: 50px;
+	height: 50px;
+	background-color: #86b319;
+	position:relative;
+	left:410px;
+	top:-100px;
+}

@@ -154,7 +154,7 @@ class ResourceGrafikView(ListView):
         rescol = Resource.objects.all()
         store_houses = StoreHouse.objects.all()
         for store_house in store_houses:
-            stocks = Stock.objects.filter(storeHouseId = store_house, resource=resource)
+            stocks = Stock.objects.filter(store_house = store_house, resource=resource)
             total_amount = 0
             for stock in stocks:
                 total_amount += stock.amount
@@ -281,7 +281,7 @@ class CreatePointOfConsumingView(TemplateView):
 
 class SendMailView(TemplateView):
     def get(self, request, *args, **kwargs):
-        subject = '#'
+        subject = u'Я хочу стати волонтером'
         message = '#'
         email_from = 'tyrnir.informatikov@gmail.com'
         email = 'tyrnir.informatikov@gmail.com'
@@ -339,12 +339,13 @@ class CreateOrderView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         order = Order.objects.create(point_consuming=request.user.point_consuming)
-        for i in range(1, 5):
+        for i in range(1, 20):
             if request.POST.get('amount_%d' % i):
                 Need.objects.create(
                     amount=request.POST.get('amount_%d' % i),
                     resource_id=int(request.POST.get('resource_%d' % i)),
                     priority=request.POST.get('priority_%d' % i),
+                    date_recomended=request.POST.get('data_%d' % i),
                     order=order,
                 )
         return redirect('home')
@@ -357,7 +358,7 @@ class CreateOrderView(TemplateView):
         context.update({
             'resurs': ress,
             'orders': orders,
-            'numbers': range(1, 5),
+            'numbers': range(1, 20),
         })
         return context
 

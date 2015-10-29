@@ -84,7 +84,7 @@ class Resource(models.Model):
     name = models.CharField(max_length=30,verbose_name=u'Назва ресурсу')
     unit_of_mesure = models.CharField(max_length=30,verbose_name=u'Одиниця вимірювання')
     volume_of_one_unit = models.FloatField(verbose_name=u'Об"єм однієї одиниці')
-    price_one_unit = models.IntegerField(verbose_name=u'Ціна однієї одиниці')
+    price_one_unit = models.FloatField(verbose_name=u'Ціна однієї одиниці')
 
     class Meta:
         verbose_name_plural = u'Ресурси'
