@@ -327,10 +327,10 @@ class Trip(models.Model):
 class Way(models.Model):
     point_from = models.ForeignKey('GeographyPoint', verbose_name=u'Звідки', related_name='point_from')
     point_to = models.ForeignKey('GeographyPoint', verbose_name=u'Куди', related_name='point_to')
-    roat_length = models.IntegerField(verbose_name=u'Довжина')
-    danger = models.IntegerField(verbose_name=u'Небезпечність')
-    passability = models.IntegerField(verbose_name=u'Проходимість')
-    load = models.IntegerField(verbose_name=u'Заповненість')
+    roat_length = models.FloatField(verbose_name=u'Довжина')
+    danger = models.FloatField(verbose_name=u'Небезпечність')
+    passability = models.FloatField(verbose_name=u'Проходимість')
+    load = models.FloatField(verbose_name=u'Заповненість')
     class Meta:
         verbose_name_plural = u'Дороги'
     def __unicode__(self):
