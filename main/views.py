@@ -1,19 +1,22 @@
 # coding: utf-8
+from datetime import datetime, timedelta
 import random
+import urllib2
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView
+from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView, View
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.algorithms import create_stock
+from main.algorithms import create_stock, create_graf
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
     CategoryResource, Stock
 from django.core.mail import send_mail
+import hashlib
 
 
 class MainView(TemplateView):
@@ -296,4 +299,35 @@ class ResourceListView(ListView):
     model = Resource
     context_object_name = 'Resource'
 
+class MoneyView(View):
+    def get(self, request, *args, **kwargs):
+        data = """<oper>cmt</oper>
+<wait>0</wait>
+<test>0</test>
+<payment id="">
+<prop name="sd" value="%s" />
+<prop name="ed" value="%s" />
+<prop name="card" value="5168755932903558" />
+</payment>""" % (datetime.now().strftime("%d.%m.%Y"),(datetime.now() - timedelta(days=100)).strftime("%d.%m.%Y"))
+        sign = hashlib.sha1(hashlib.md5(data +'UB3JFMI30N4GY81eXLNShe45I6sv3b0T').hexdigest()).hexdigest()
+        ddd = """<?xml version="1.0" encoding="UTF-8"?>
+<request version="1.0">
+<merchant>
+<id>112956</id>
+<signature>%s</signature>
+</merchant>
+<data>
+%s
+</data>
+</request>""" % (sign,data)
+        print ddd
+        r = urllib2.Request("https://api.privatbank.ua/p24api/rest_fiz", data=ddd,
+                         headers={'Content-Type': 'application/xml'})
+        u = urllib2.urlopen(r)
+        response = u.read()
+        return HttpResponse(response)
 
+class GraphView(View):
+    def get(self, request, *args, **kwargs):
+        create_graf()
+        return HttpResponse('Hello')

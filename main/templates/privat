@@ -2,7 +2,7 @@
 <request version="1.0">
   <merchant>
     <id>112834</id>
-    <signature>6vwtn46fnW72GG5il877hH82E3IvYQ02</signature>
+    <signature>$sign=sha1(md5($data.6vwtn46fnW72GG5il877hH82E3IvYQ02))</signature>
   </merchant>
   <data>
     <oper>cmt</oper>
