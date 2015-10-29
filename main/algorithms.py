@@ -126,3 +126,32 @@ def shipment_store_houses():
 def create_stock(resource_order):
     from main.models import Stock
     Stock.objects.create(resource=resource_order.resource, amount=resource_order.amount)
+
+def create_graf():
+    from main.models import Roat
+    from main.models import PointOfConsuming
+    from main.models import GeographyPoint
+    from main.models import StoreHouse
+    roads = Roat.objects.all()
+    points = GeographyPoint.all()
+    graf = dict()
+    for point in points:
+        for road in roads:
+            if road.point_from == point or road.point_to == point:
+                first = road.objects.filter(point_from = point.pk)
+                second = road.objects.filter(point_of = point.pk)
+
+                for tochka in first:
+                    if point.pk in graf:
+                        graf[tochka.pk].append((tochka.point_of,tochka.roath_length))
+                    else:
+                        graf[tochka.pk] = [(tochka.point_of,tochka.roath_length)]
+                for tochka in second:
+                    if point.pk in graf:
+                        graf[tochka.pk].append((tochka.point_from,tochka.roath_length))
+                    else:
+                        graf[tochka.pk] = [(tochka.point_from,tochka.roath_length)]
+
+
+
+
