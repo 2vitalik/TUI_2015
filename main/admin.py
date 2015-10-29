@@ -43,7 +43,7 @@ class StockAdmin(admin.ModelAdmin):
     list_display = ('storeHouseId','resource','amount',)
 
 class GeographyPointAdmin(admin.ModelAdmin):
-    list_display = ('x','y','address','road',)
+    list_display = ('x','y','address',)
 
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (

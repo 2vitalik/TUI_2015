@@ -126,19 +126,12 @@ class Perfomance(models.Model):
 
 #////////////////////////////////////////////////////task3//////////////////////////////////////////////////////////////
 
-class GeographyPoint(models.Model):
-    ROAD_CHOICE = (
-        (u'Населений пункт',u'Населений пункт'),
-        (u'Дорога',u'Дорога'),
-    )
-    x = models.FloatField()
-    y = models.FloatField()
-    address = models.CharField(max_length=100)
-    road = models.CharField(max_length=20, verbose_name=u'Вид доріг',choices=ROAD_CHOICE, null=True)
+class Shipping(models.Model):
+    date_recomended = models.DateField(verbose_name=u'Дата відгрузки')
     class Meta:
-        verbose_name_plural = u'Географічні точки'
+        verbose_name_plural = u'Відгрузка'
     def __unicode__(self):
-        return "%s, %s"%(self.address, self.road)
+        return self.date_recomended
 
 class StoreHouse(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
@@ -162,48 +155,14 @@ class StoreHouse(models.Model):
             for stock in virtual_stocks:
                 fill_store_houses(stock)
 
-class Stock(models.Model):
-    storeHouseId = models.ForeignKey('StoreHouse', null = True, verbose_name=u'Склад')
-    resource = models.ForeignKey('Resource', verbose_name=u'Ресурс')
-    amount = models.IntegerField(null=True, verbose_name=u'Кількість одиниць ресурсу')
-
-    def __unicode__(self):
-        return u"%s, %s"%(self.storeHouseId, self.resource.name)
+class DeliveryDetalization(models.Model):
+    shipping = models.ForeignKey('Delivery', verbose_name=u'Доставка')
+    storehouse = models.ForeignKey('StoreHouse', verbose_name=u'Склад')
+    amount = models.IntegerField(verbose_name=u'Кількість')
     class Meta:
-        verbose_name_plural = u'Запас'
-    
-    def save(self, force_insert=False, force_update=False, using=None,update_fields=None):
-        created = self.pk is None
-        super(Stock, self).save(force_insert, force_update, using, update_fields)
-        if created:
-            fill_store_houses(self)
-
-class PointOfConsuming(models.Model):
-    geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
-    fio = models.CharField(max_length=50, null = False,verbose_name=u'ПІП заказника')
-    telephone = models.CharField(max_length=20, null = False, verbose_name=u'Телефон заказника')
-    class Meta:
-        verbose_name_plural = u'Споживач'
+        verbose_name_plural = u'Деталі поставки'
     def __unicode__(self):
-        return "%s, %s" % (self.fio, self.geography_point.address)
-
-class ResourceOrder(models.Model):
-    resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
-    amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
-    finished = models.BooleanField(default=False,verbose_name=u'Виконано:')
-    date_created = models.DateTimeField(auto_now_add=True, verbose_name=u'Дата створення')
-    date_finished = models.DateTimeField(verbose_name=u'Дата повного виконання')
-
-    class Meta:
-        verbose_name_plural = u'Замовлення ресурсів'
-    def __unicode__(self):
-        return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
-
-
-
-
-
-
+        return "%s,%s,%s,"%(self.shipping.pk, self.storehouse.geography_point.address, self.amount)
 
 class Delivery(models.Model):
     volonter = models.ForeignKey('Volonter', verbose_name=u'Волонтер')
@@ -216,22 +175,6 @@ class Delivery(models.Model):
     def __unicode__(self):
         return "%s,%s,%s"%(self.volonter.fio, self.resource.name, self.amount)
 
-class DeliveryDetalization(models.Model):
-    shipping = models.ForeignKey('Delivery', verbose_name=u'Волонтер')
-    storehouse = models.ForeignKey('StoreHouse', verbose_name=u'Склад')
-    amount = models.IntegerField(verbose_name=u'Кількість')
-    class Meta:
-        verbose_name_plural = u'Деталі поставки'
-    def __unicode__(self):
-        return "%s,%s,%s,"%(self.shipping.pk, self.storehouse.geography_point.address, self.amount)
-
-class Shipping(models.Model):
-    date_recomended = models.DateField(verbose_name=u'Дата відгрузки')
-    class Meta:
-        verbose_name_plural = u'Відгрузка'
-    def __unicode__(self):
-        return self.date_recomended
-
 class ShippingDetalization(models.Model):
     shipping = models.ForeignKey('Shipping',verbose_name=u'Відгрузка')
     stock = models.ForeignKey('Stock', verbose_name=u'Запас')
@@ -240,6 +183,36 @@ class ShippingDetalization(models.Model):
         verbose_name_plural = u'Деталізація відгрузки'
     def __unicode__(self):
         return "%s,%s,%s"%(self.shipping, self.stock, self.amount)
+
+class Stock(models.Model):
+    storeHouseId = models.ForeignKey('StoreHouse', null = True, verbose_name=u'Склад')
+    resource = models.ForeignKey('Resource', verbose_name=u'Ресурс')
+    amount = models.IntegerField(null=True, verbose_name=u'Кількість одиниць ресурсу')
+
+    def __unicode__(self):
+        return u"%s, %s"%(self.storeHouseId, self.resource.name)
+    class Meta:
+        verbose_name_plural = u'Запас'
+
+    def save(self, force_insert=False, force_update=False, using=None,update_fields=None):
+        created = self.pk is None
+        super(Stock, self).save(force_insert, force_update, using, update_fields)
+        if created:
+            fill_store_houses(self)
+
+#/////////////////////////////////////////////////////task4/////////////////////////////////////////////////////////////
+
+class ResourceOrder(models.Model):
+    resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
+    amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
+    finished = models.BooleanField(default=False,verbose_name=u'Виконано:')
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name=u'Дата створення')
+    date_finished = models.DateTimeField(verbose_name=u'Дата повного виконання')
+
+    class Meta:
+        verbose_name_plural = u'Замовлення ресурсів'
+    def __unicode__(self):
+        return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
 
 class KindOfTransport(models.Model):
     name = models.CharField(max_length=100, verbose_name=u'Назва')
@@ -307,13 +280,32 @@ class Roat(models.Model):
 class MakingRoat(models.Model):
     roat = models.ForeignKey('Roat', verbose_name=u'Маршрут')
     way = models.ForeignKey('Way', verbose_name=u'Дорога')
+    number = models.IntegerField(verbose_name=u'Номер по порядку',null=True)
 
     def __unicode__(self):
          return "%s"%(self.roat.name)
     class Meta:
         verbose_name_plural = u'Збірка маршруту'
 
+#//////////////////////////////////////////////////////task5////////////////////////////////////////////////////////////
 
+class GeographyPoint(models.Model):
+    x = models.FloatField()
+    y = models.FloatField()
+    address = models.CharField(max_length=100)
+    class Meta:
+        verbose_name_plural = u'Географічні точки'
+    def __unicode__(self):
+        return "%s"%self.pk
+
+class PointOfConsuming(models.Model):
+    geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
+    fio = models.CharField(max_length=50, null = False,verbose_name=u'ПІБ заказника')
+    telephone = models.CharField(max_length=20, null = False, verbose_name=u'Телефон заказника')
+    class Meta:
+        verbose_name_plural = u'Споживач'
+    def __unicode__(self):
+        return "%s, %s" % (self.fio, self.geography_point.address)
 
 
 
