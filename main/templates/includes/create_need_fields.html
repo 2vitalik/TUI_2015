@@ -17,7 +17,7 @@
     </tr>
     <tr>
         <td class="lef">Кількість</td>
-        <td class="ri"><input type="text" name="amount_{{ i }}"></td>
+        <td class="ri"><input type="text" id="amount_{{ i }}" name="amount_{{ i }}"></td>
     </tr>
     <tr>
         <td class="lef">DATA</td>
@@ -29,7 +29,8 @@
     </tr>
     <tr>
         <td>
-            <a class="addmore" id="a_{{ i }}" href="#" onclick="$('#create_table_{{ i|add:"1" }}').show(); $('#a_{{ i }}').hide(); return false;"></a>
+            <a class="addmore" id="a_{{ i }}" href="#" onclick="return addMore({{ i }});"></a>
+             <a id="del_a_{{ i }}" style="{% if i == 1 %}display: none;{% endif %}" id="a_{{ i }}" href="#" onclick="return deleteItem({{ i }});">delete</a>
                </td>
     </tr>
     </table>

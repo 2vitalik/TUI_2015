@@ -19,6 +19,8 @@
 <script src="js/html5.js"></script>
 <script src="js/IE9.js"></script>
 <![endif]-->
+    {% block js %}
+    {% endblock %}
   </head>
 <body>
 <div  id="site">
@@ -80,7 +82,7 @@
 <!-- end script to change imagines -->
     <div class="wrap clearFix">
 
-     <h1>Хочеш стати волонтером? <strong>Зарееструйся!</strong></h1>
+     <h1>Хочеш стати волонтером? <strong>Зареєструйся!</strong></h1>
       <p>Help4You – це волонтерська організація, яка обєдную саме таких людей. За допомогою нашого ресурсу кожен може зробити свій вклад, ви можете пожертвувати коштів на необхідне майно або принести до нас вже куплені речі, допомогти у доставці, фасуванні, та інших роботах пов’язаних з нашою роботою.</p>
         {% block button %}{% endblock %}
 {#      <a href="{% url 'create_volonter' %}" class="button">Стать волонтёром!</a>#}

@@ -314,6 +314,10 @@ class NeedListView(ListView):
     model = Need
     context_object_name = 'Needs'
 
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(NeedListView, self).dispatch(request, *args,**kwargs)
+
 class NeedCreateView(CreateView):
     template_name = 'create_need.html'
     model = Need

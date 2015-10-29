@@ -1,6 +1,10 @@
+# coding: utf-8
 from audioop import reverse
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from main.forms import CustomUserChangeForm, CustomUserCreationForm, CustomAdminPasswordChangeForm
 from main.models import Volonter, GeographyPoint, Stock, \
     Resource, \
     PointOfConsuming, \
@@ -30,8 +34,9 @@ class VolonterAdmin(admin.ModelAdmin):
         'categories_field',
             )
     search_fields = ('fio', )
-    list_filter = ('gender', )
+    list_filter = ('gender', 'address','categories','birthday',)
     filter_horizontal = ('categories', )
+    date_hierarchy = 'birthday'
 
     def categories_field(self, obj):
         return ', '.join([o.category for o in obj.categories.all()])
@@ -44,7 +49,7 @@ class VolonterAdmin(admin.ModelAdmin):
         # print ' '.join(a)
         # b = [o + ' m' for o in a]
         # print '; '.join(b)
-
+    categories_field.short_description = u'Категорії'
 
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
@@ -136,9 +141,15 @@ class RoatAdmin(admin.ModelAdmin):
 
 
 
+class CustomUserAdmin(UserAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_superuser')
+    form = CustomUserChangeForm
+    add_form = CustomUserCreationForm
+    change_password_form = CustomAdminPasswordChangeForm
 
 
-
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
 admin.site.register(Roat, RoatAdmin)
 admin.site.register(Trip, TripAdmin)
 admin.site.register(Employment, EmploymentAdmin)

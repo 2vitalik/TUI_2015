@@ -355,10 +355,10 @@ table{
 	/*<!--background-color: #24528d;-->*/
 }
 
-
 #grafik {
 	margin-left: 80px;
 }
+
 #verticalText {
 	-moz-transform: rotate(70deg);
     -webkit-transform: rotate(70deg);
@@ -371,6 +371,7 @@ table{
 	right: 30px;
 	text-align: left;
 }
+
 #test1 {
 	position: absolute;
 	top: 0px;
@@ -380,6 +381,7 @@ table{
 	width: 1358px;
 	height: 305px;
 }
+
 .lef{
 	width: 150px;
 	height: 36px;
@@ -389,6 +391,7 @@ table{
 	font:normal 15px "Helvetice Neue",Arial,Tahoma,Verdana;
 	border-spacing: 0px;
 }
+
 .ri{
 	width: 450px;
 	height: 36px;
@@ -404,17 +407,17 @@ table{
 	height: 20px;
 
 }
+
 .lef_v{
 	width: 150px;
 	color: #e5e5e5;
 	background: url("img/t.gif") repeat-y;
 	text-align: center;
 	vertical-align: top;
-
-
 	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
 	border-spacing: 0px;
 }
+
 .ri_v{
 	width: 450px;
 	/*max-height: auto;*/
@@ -425,6 +428,7 @@ table{
 	font:normal 16px "Helvetice Neue",Arial,Tahoma,Verdana;
 	border-spacing: 0px;
 }
+
 .kind_res{
 	position: relative;
 	top:7px;
@@ -436,18 +440,22 @@ table{
 	height: 36px;
 	/*border: 1px solid #000000;*/
 }
+
+/* таблица отображения левых строк в форие регестрации волонтёров*/
 .CreateVoll{
 	background-color: #727272;
-	color: #cacaca;
+	color: #ffffff;
 	border: 1px solid #2d2d2d;
 	text-align: center;
 }
 
+/* таблица отображения правых строк в форие регестрации волонтёров*/
 .CreateVolr{
 	background-color: #cacaca;
-	color: #727272;
+	color: #1a1a1a;
 	border: 1px solid #2d2d2d;
 }
+
 #blF{
 	display: inline-block;
 	width: 400px;
@@ -577,4 +585,13 @@ table{
 	position:relative;
 	left:410px;
 	top:-100px;
+}
+.pole{
+	width: 260px;
+}
+.pole_select{
+	width: 264px;
+}
+.bt{
+	width:400px;
 }
