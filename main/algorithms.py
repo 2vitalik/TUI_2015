@@ -3,7 +3,6 @@ import math
 from datetime import timedelta,datetime
 
 
-
 def fill_store_houses(stock):
     from main.models import StoreHouse
     from main.models import Stock
@@ -46,7 +45,6 @@ def create_resource_orders(need):
     from main.models import Need
     from main.models import ResourceOrder
 
-
     # stocks = Stock.objects.filter(resource=need.resource).exclude(store_house=None)
     # stores = []
     # for stock in stocks:
@@ -74,6 +72,7 @@ def create_resource_orders(need):
             date_created = datetime.now(),
             date_finished= datetime.now() + timedelta(days=1),
         )
+
 
  #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def shipment_store_houses():
@@ -123,9 +122,11 @@ def shipment_store_houses():
 #         if break_count is True:
 #             break
 
+
 def create_stock(resource_order):
     from main.models import Stock
     Stock.objects.create(resource=resource_order.resource, amount=resource_order.amount)
+
 
 def create_graf():
     from main.models import Way
@@ -165,8 +166,3 @@ def create_graf():
     #                 graf_danger[road.point_to].append((road.point_from, -1.0 * math.log(1-road.danger)))
     #             else:
     #                 graf_danger[road.point_to] = [(road.point_from, -1.0 * math.log(1-road.danger))]
-
-
-
-
-

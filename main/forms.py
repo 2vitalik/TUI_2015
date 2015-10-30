@@ -10,6 +10,7 @@ class CustomUserChangeForm(UserChangeForm):
             raise forms.ValidationError(u'Ви ввели занадто короткий пароль. Мінімальна довжина паролю 6 символів')
         return password1
 
+
 class CustomUserCreationForm(UserCreationForm):
     def clean_password1(self):
         password1 = self.cleaned_data.get("password1")

@@ -33,7 +33,7 @@ class VolonterAdmin(admin.ModelAdmin):
         'gender',
         'activeted',
         'categories_field',
-            )
+    )
     search_fields = ('fio', )
     list_filter = ('gender', 'address','categories','birthday')
     filter_horizontal = ('categories', )
@@ -68,23 +68,24 @@ class VolonterAdmin(admin.ModelAdmin):
     activeted.admin_order_field = 'activeted'
     activeted.short_description = 'Activeted'
 
+
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit', 'weight_one_unit',
     )
 
 
-
-
-
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','fio','telephone',)
+
 
 class NeedAdmin(admin.ModelAdmin):
     list_display = ('resource','amount','order','priority','finished','date_recomended',)
 
+
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
+
 
 class ResourceOrderAdmin(admin.ModelAdmin):
     list_display = ('pk',
@@ -123,55 +124,64 @@ class OrderAdmin(admin.ModelAdmin):
     def needs(self, obj):
         return ', '.join(["%s/%s" % (o.resource, o.amount) for o in obj.need_set.all()])
 
+
 class PotentialAdmin(admin.ModelAdmin):
     list_display = ('volonter','category','period',)
+
 
 class PerformanceAdmin(admin.ModelAdmin):
     list_display = ('need','amount','date',)
 
+
 class DeliveryAdmin(admin.ModelAdmin):
     list_display = ('volonter','resource','amount','date_recomended','date_real',)
+
 
 class DeliveryDetalizationAdmin(admin.ModelAdmin):
     list_display = ('shipping','storehouse','amount',)
 
+
 class ShippingAdmin(admin.ModelAdmin):
     list_display = ('date_recomended',)
+
 
 class ShippingDetalizationAdmin(admin.ModelAdmin):
     list_display = ('shipping','stock','amount',)
 
+
 class KindOfTransportAdmin(admin.ModelAdmin):
     list_display = ('name','category','speed','expences_fuel','volume_transport','max_weight','passability',)
+
 
 class TransportAdmin(admin.ModelAdmin):
     list_display = ('kind_of_transport','number')
 
+
 class EmploymentAdmin(admin.ModelAdmin):
     list_display = ('transport','date_start','date_finish',)
+
 
 class TripAdmin(admin.ModelAdmin):
     list_display = ('transport','shipping','date_start','perfomance',)
 
+
 class WayAdmin(admin.ModelAdmin):
     list_display = ('point_from','point_to','roat_length','danger','passability','load',)
+
 
 class RoatAdmin(admin.ModelAdmin):
     list_display = ('name','storehouse','point_consuming',)
 
+
 class MakingARoatAdmin(admin.ModelAdmin):
     list_display = ('roat','way',)
+
 
 class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_superuser')
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     change_password_form = CustomAdminPasswordChangeForm
-
-
-
-
-
 
 
 admin.site.register(MakingRoat, MakingARoatAdmin)
@@ -199,5 +209,3 @@ admin.site.register(CategoryResource, CategoryResourceAdmin)
 admin.site.register(GeographyPoint, GeographyPointAdmin)
 admin.site.register(Stock, StockAdmin)
 admin.site.register(Volonter, VolonterAdmin)
-
-

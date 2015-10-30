@@ -155,7 +155,6 @@ class ResourceGrafikView(ListView):
             for stock in stocks:
                 total_amount += stock.amount
 
-
             # total_amount = sum([stock.amount for stock in stocks])
             data.append({
                 'store_house': store_house,
@@ -300,6 +299,7 @@ class ResourceListView(ListView):
     model = Resource
     context_object_name = 'Resource'
 
+
 class MoneyView(View):
     def get(self, request, *args, **kwargs):
         data = """<oper>cmt</oper>
@@ -328,10 +328,12 @@ class MoneyView(View):
         response = u.read()
         return HttpResponse(response)
 
+
 class GraphView(View):
     def get(self, request, *args, **kwargs):
         create_graf()
         return HttpResponse('Hello')
+
 
 class CreatePotentialView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -379,16 +381,6 @@ class ActivateCandidateVolonterView(RedirectView):
         return super(ActivateCandidateVolonterView, self).get(request, *args, **kwargs)
 
 
-
-
-
-
-
-
-
-
-
-
 class NeedListView(ListView):
     template_name = 'list_need.html'
     model = Need
@@ -397,6 +389,7 @@ class NeedListView(ListView):
     @method_decorator(staff_member_required)
     def dispatch(self, request, *args, **kwargs):
         return super(NeedListView, self).dispatch(request, *args,**kwargs)
+
 
 class NeedCreateView(CreateView):
     template_name = 'create_need.html'
@@ -419,7 +412,6 @@ class NeedCreateView(CreateView):
 
 class CreateOrderView(TemplateView):
     template_name = 'create_order.html'
-
 
     def post(self, request, *args, **kwargs):
         order = Order.objects.create(point_consuming=request.user.point_consuming)
@@ -445,4 +437,3 @@ class CreateOrderView(TemplateView):
             'numbers': range(1, 20),
         })
         return context
-
