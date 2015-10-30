@@ -158,9 +158,9 @@ class Shipping(models.Model):
 
 class StoreHouse(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
-    volume = models.IntegerField(verbose_name=u'Об"єм складу')
+    volume = models.FloatField(verbose_name=u'Об"єм складу')
     rent = models.IntegerField(verbose_name=u'Ціна за м^2')
-    free_volume = models.FloatField(blank=False, null=True, verbose_name=u'Вільний об"єм')
+    free_volume = models.FloatField(blank=True, null=True, verbose_name=u'Вільний об"єм')
 
     class Meta:
         verbose_name_plural = u'Склади'
@@ -356,7 +356,7 @@ class GeographyPoint(models.Model):
         verbose_name_plural = u'Географічні точки'
 
     def __unicode__(self):
-        return "%s"%self.pk
+        return "%s" % self.address
 
 
 class PointOfConsuming(models.Model):

@@ -169,7 +169,7 @@ def create_graf():
                     graf_danger[road.point_from.pk] = [(road.point_to.pk, round(-1.0 * math.log(1-road.danger),4))]
 
                 if road.point_to.pk in graf_danger:
-                    graf_danger[road.point_to.pk].append((road.point_from.pk,round(-1.0 * math.log(1-road.danger),4)))
+                    graf_danger[road.point_to.pk].append((road.point_from.pk, round(-1.0 * math.log(1-road.danger),4)))
                 else:
                     graf_danger[road.point_to.pk] = [(road.point_from.pk, round(-1.0 * math.log(1-road.danger),4))]
 
