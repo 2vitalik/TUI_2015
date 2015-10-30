@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-     <h3 class="title_list">Регистрация волонтёра</h3>
+     <h3 class="title_list">Реєстрація волонтера</h3>
 {% endblock %}
 
 {% block content %}
@@ -34,7 +34,7 @@
         {% csrf_token %}
     <table>
     <tr>
-        <td class="CreateVoll">ФИО</td>
+        <td class="CreateVoll">ПІБ</td>
         <td class="CreateVolr"><input class="pole" type="text" name="fio"></td>
     </tr>
        <tr>
@@ -78,7 +78,7 @@
      </tr>
      <tr >
         <td class="CreateVoll">СТАТЬ</td>
-        <td class="CreateVolr"><input type="radio" value="М" name="gender"> М <br><input type="radio" value="Ж" name="gender"> Ж</td>
+        <td class="CreateVolr"><input type="radio" value="М" name="gender"> Чоловік<br><input type="radio" value="Ж" name="gender"> Жінка</td>
     </tr>
     <tr>
         <td class="CreateVoll">ВИД ДОПОМОГИ</td>
@@ -89,7 +89,7 @@
 
     </tr>
     <tr class="CreateVoll">
-        <td colspan="2"><input class="bt" type="submit" name="Save" value="Save"></td>
+        <td colspan="2"><input class="bt" type="submit" name="Save" value="Зареєструватися"></td>
     </tr>
     </table>
 

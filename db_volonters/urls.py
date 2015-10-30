@@ -37,6 +37,8 @@ urlpatterns = [
 
     url(r'^order/add/$',CreateOrderView.as_view(), name='create_order'),
 
+    # url(r'^map/$', MapView.as_view(), name='map'),
+
     url(r'^need/$',NeedListView.as_view(), name='list_need'),
     url(r'^need/add/$',NeedCreateView.as_view(), name='create_need'),
     # url(r'^Volonter/(?P<pk>\d+)/edit/',VolonterUpdateView.as_view(), name='update_volonter'),

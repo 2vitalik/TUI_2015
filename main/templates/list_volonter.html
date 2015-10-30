@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %}
-    <h3 class="title_list">Список волонтерів /<a href="{% url 'grafik_volonter' %}"> Графік волонтерів</a></h3>
+    <h3 class="title_list">Список волонтерів ( Таблиця /<a href="{% url 'grafik_volonter' %}"> Графік</a> )</h3>
 {% endblock %}
 
 {% block content %}
     <div id="list_table">
   <table border="0">
     <tr>
-        <td class="top_left">ФІО</td>
-        <td class="top_cen" >АДРЕСА</td>
+        <td class="top_left">ПІБ</td>
+        <td class="top_cen" >ОБЛАСТЬ ПРОЖИВАННЯ</td>
         <td class="top_right" >КОНТАКТНИЙ ТЕЛЕФОН</td>
     </tr>
 

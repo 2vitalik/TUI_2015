@@ -80,15 +80,15 @@
         <td class="ri">{{select_res.pk}}</td>
     </tr>
     <tr>
-        <td class="lef">category_resource</td>
+        <td class="lef">КАТЕГОРІЯ</td>
         <td class="ri">{{ select_res.category_resource }}</td>
     </tr>
     <tr>
-        <td class="lef">name</td>
+        <td class="lef">НАЗВА</td>
         <td class="ri">{{ select_res.name }}</td>
     </tr>
     <tr>
-        <td class="lef_v"><p class="trrt">Запас</p></td>
+        <td class="lef_v"><p class="trrt">ЗАПАС</p></td>
         <td class="ri_v">
         {% for item in data %}
              <p class="kind_res">{{ item.store_house }} ({{ item.total_amount }})</p>
@@ -96,15 +96,15 @@
         </td>
     </tr>
     <tr>
-        <td class="lef">unit of mesure</td>
+        <td class="lef">ОДИНИЦІ ВИМІРЮВАННЯ</td>
         <td class="ri">{{select_res.unit_of_mesure }}</td>
     </tr>
      <tr>
-        <td class="lef">volume_of_one_unit</td>
+        <td class="lef">ОБЄМ</td>
         <td class="ri">{{ select_res.volume_of_one_unit }}</td>
     </tr>
     <tr>
-        <td class="lef">price_one_unit</td>
+        <td class="lef">ЦІНА</td>
         <td class="ri">{{ select_res.price_one_unit }}</td>
     </tr>
 
