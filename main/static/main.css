@@ -561,7 +561,8 @@ table{
 .f_but{
 	position:absolute;
 	top:150px;
-	/*margin-left: 170px;*/
+	width: 50px;
+	margin-left: 170px;
 }
 /* блок формы*/
 .logBlock{
@@ -611,6 +612,7 @@ table{
 .bt_on_login{
 	width:55px;
 }
+
 .kol{
 	width:100%;
 	height: 100%;

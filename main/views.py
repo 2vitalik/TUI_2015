@@ -25,7 +25,7 @@ class MainView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MainView, self).get_context_data(**kwargs)
         context.update({
-            'Volonter': Volonter.objects.all(),
+            'Volonter': Volonter.objects.filter(activeted=False),
         })
         return context
 
@@ -38,7 +38,7 @@ class VolonterListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(VolonterListView, self).get_context_data(**kwargs)
         context.update({
-            'Volonter': Volonter.objects.all(),
+            'Volonter':Volonter.objects.filter(activeted=True),
         })
         return context
 
