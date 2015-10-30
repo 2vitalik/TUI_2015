@@ -617,3 +617,8 @@ table{
 	width:100%;
 	height: 36px;
 }
+.top_text{
+	font:normal 18px "Helvetice Neue",Arial,Tahoma,Verdana;
+	padding-right: 0px;
+
+}
