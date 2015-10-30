@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterGrafikView, \
     CreateVolontersView, ResourceGrafikView, CreateNeedsView, CreatePointOfConsumingView,FinishedView, \
-    ResourceListView, DeleteCandidateVolonterView, ActivateCandidateVolonterView,MoneyView, GraphView
+    ResourceListView, DeleteCandidateVolonterView, ActivateCandidateVolonterView,MoneyView, GraphView, SendMailView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -85,8 +85,7 @@ urlpatterns = [
     url(r'^send_mail', SendMailView.as_view()),
     url(r'^test/create_pointofconsuming', CreatePointOfConsumingView.as_view()),
     url(r'response/$',MoneyView.as_view()),
-    url(r'graph/$', GraphView.as_view())
-]
+    url(r'graph/$', GraphView.as_view()),
     url(r'^test/create_pointofconsuming', CreatePointOfConsumingView.as_view()),
     url(r'actions/delete/(?P<volonter_id>\d+)/', DeleteCandidateVolonterView.as_view()),
     url(r'actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view()),

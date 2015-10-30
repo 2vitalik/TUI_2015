@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0035_auto_20151029_1128'),
+        ('main', '0007_auto_20151012_1234'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='order',
-            name='name',
-            field=models.CharField(max_length=30, null=True, verbose_name='\u041d\u0430\u0437\u0432\u0430'),
+            model_name='skill',
+            name='proficiency',
+            field=models.CharField(max_length=20, null=True),
         ),
     ]

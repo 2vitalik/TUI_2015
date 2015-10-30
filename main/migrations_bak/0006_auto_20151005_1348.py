@@ -7,18 +7,18 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0025_auto_20151027_2011'),
+        ('main', '0005_auto_20151001_1257'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='need',
-            name='finished',
+            model_name='volonter',
+            name='conviction',
             field=models.BooleanField(default=False),
         ),
-        migrations.AddField(
-            model_name='order',
-            name='date_order',
-            field=models.DateField(auto_now_add=True, null=True),
+        migrations.AlterField(
+            model_name='kindofwork',
+            name='complexity',
+            field=models.CharField(default=b'', max_length=20),
         ),
     ]
