@@ -1,7 +1,10 @@
 # coding: utf-8
 from audioop import reverse
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
+from main.forms import CustomUserChangeForm, CustomUserCreationForm, CustomAdminPasswordChangeForm
 from main.models import Volonter, GeographyPoint, Stock, \
     Resource, \
     PointOfConsuming, \
@@ -12,6 +15,15 @@ from main.models import Volonter, GeographyPoint, Stock, \
     Order, Potential, Perfomance, Delivery, DeliveryDetalization, Shipping, ShippingDetalization, KindOfTransport, \
     Transport, Employment, Trip, Way, Roat, MakingRoat
 
+
+class StockAdmin(admin.ModelAdmin):
+    list_display = ('store_house','resource','amount',)
+
+
+class GeographyPointAdmin(admin.ModelAdmin):
+    list_display = ('x','y','address',)
+
+
 class VolonterAdmin(admin.ModelAdmin):
     list_display = (
         'fio',
@@ -20,9 +32,26 @@ class VolonterAdmin(admin.ModelAdmin):
         'telephone',
         'gender',
         'activeted',
-            )
+        'categories_field',
+    )
     search_fields = ('fio', )
-    list_filter = ('gender', )
+    list_filter = ('gender', 'address','categories','birthday')
+    filter_horizontal = ('categories', )
+    date_hierarchy = 'birthday'
+
+    def categories_field(self, obj):
+        return ', '.join([o.category for o in obj.categories.all()])
+        # res = ''
+        # for o in obj.categories.all():
+        #     if res:
+        #         res += ', '
+        #     res += o.category
+        # a = ['1', '2', '3']
+        # print ' '.join(a)
+        # b = [o + ' m' for o in a]
+        # print '; '.join(b)
+    categories_field.short_description = u'Категорії'
+    
     def activeted(self, obj):
         img = ''
         text = ''
@@ -39,28 +68,27 @@ class VolonterAdmin(admin.ModelAdmin):
     activeted.admin_order_field = 'activeted'
     activeted.short_description = 'Activeted'
 
-class StockAdmin(admin.ModelAdmin):
-    list_display = ('storeHouseId','resource','amount',)
-
-class GeographyPointAdmin(admin.ModelAdmin):
-    list_display = ('x','y','address',)
 
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit', 'weight_one_unit',
     )
 
+
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','fio','telephone',)
+
 
 class NeedAdmin(admin.ModelAdmin):
     list_display = ('resource','amount','order','priority','finished','date_recomended',)
 
+
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
 
+
 class ResourceOrderAdmin(admin.ModelAdmin):
-    list_display = (
+    list_display = ('pk',
                     'resource',
                     'amount',
                     'choise_finished',
@@ -85,59 +113,80 @@ class ResourceOrderAdmin(admin.ModelAdmin):
     choise_finished.admin_order_field = 'finished'
     choise_finished.short_description = 'Finished'
 
+
 class StoreHouseAdmin(admin.ModelAdmin):
     list_display = ('geography_point', 'volume','free_volume','rent')
 
+
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('point_consuming', 'date_order','name',)
+    list_display = ('name','needs', 'point_consuming', 'date_order',)
+
+    def needs(self, obj):
+        return ', '.join(["%s/%s" % (o.resource, o.amount) for o in obj.need_set.all()])
+
 
 class PotentialAdmin(admin.ModelAdmin):
     list_display = ('volonter','category','period',)
 
+
 class PerformanceAdmin(admin.ModelAdmin):
     list_display = ('need','amount','date',)
+
 
 class DeliveryAdmin(admin.ModelAdmin):
     list_display = ('volonter','resource','amount','date_recomended','date_real',)
 
+
 class DeliveryDetalizationAdmin(admin.ModelAdmin):
     list_display = ('shipping','storehouse','amount',)
+
 
 class ShippingAdmin(admin.ModelAdmin):
     list_display = ('date_recomended',)
 
+
 class ShippingDetalizationAdmin(admin.ModelAdmin):
     list_display = ('shipping','stock','amount',)
+
 
 class KindOfTransportAdmin(admin.ModelAdmin):
     list_display = ('name','category','speed','expences_fuel','volume_transport','max_weight','passability',)
 
+
 class TransportAdmin(admin.ModelAdmin):
     list_display = ('kind_of_transport','number')
+
 
 class EmploymentAdmin(admin.ModelAdmin):
     list_display = ('transport','date_start','date_finish',)
 
+
 class TripAdmin(admin.ModelAdmin):
     list_display = ('transport','shipping','date_start','perfomance',)
+
 
 class WayAdmin(admin.ModelAdmin):
     list_display = ('point_from','point_to','roat_length','danger','passability','load',)
 
+
 class RoatAdmin(admin.ModelAdmin):
     list_display = ('name','storehouse','point_consuming',)
+
 
 class MakingARoatAdmin(admin.ModelAdmin):
     list_display = ('roat','way',)
 
 
-
-
-
-
+class CustomUserAdmin(UserAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_superuser')
+    form = CustomUserChangeForm
+    add_form = CustomUserCreationForm
+    change_password_form = CustomAdminPasswordChangeForm
 
 
 admin.site.register(MakingRoat, MakingARoatAdmin)
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
 admin.site.register(Roat, RoatAdmin)
 admin.site.register(Way, WayAdmin)
 admin.site.register(Trip, TripAdmin)
@@ -160,5 +209,3 @@ admin.site.register(CategoryResource, CategoryResourceAdmin)
 admin.site.register(GeographyPoint, GeographyPointAdmin)
 admin.site.register(Stock, StockAdmin)
 admin.site.register(Volonter, VolonterAdmin)
-
-

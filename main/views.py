@@ -1,19 +1,22 @@
 # coding: utf-8
+from datetime import datetime, timedelta
 import random
+import urllib2
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView
+from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView, View
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.algorithms import create_stock
+from main.algorithms import create_stock, create_graf
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
     CategoryResource, Stock, Potential
 from django.core.mail import send_mail
+import hashlib
 
 
 class MainView(TemplateView):
@@ -45,6 +48,10 @@ class VolonterDetailView(DetailView):
     model = Volonter
     context_object_name = 'Volonter'
 
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(VolonterDetailView, self).dispatch(request, *args,**kwargs)
+
 
 class VolonterCreateView(CreateView):
     template_name = 'create_volonter.html'
@@ -68,7 +75,14 @@ class VolonterCreateView(CreateView):
             'Volonter': volonters,
         })
         return context
+# class MapView():
+#     pass
 
+# class VolonterUpdateView(UpdateView):
+#     template_name = 'update_volonter.html'
+#     model = Volonter
+#     context_object_name = 'Volonter'
+#     fields = ('fio', 'address','telephone', 'gender')
 
 class VolonterGrafikView(ListView):
     template_name = 'grafik_volonter.html'
@@ -139,6 +153,10 @@ class ResourceGrafikView(ListView):
     model = Resource
     context_object_name = 'Resource'
 
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ResourceGrafikView, self).dispatch(request, *args,**kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(ResourceGrafikView, self).get_context_data(**kwargs)
         data = list()
@@ -147,13 +165,12 @@ class ResourceGrafikView(ListView):
         rescol = Resource.objects.all()
         store_houses = StoreHouse.objects.all()
         for store_house in store_houses:
-            stocks = Stock.objects.filter(store_house=store_house, resource=resource)
-            # total_amount = 0
-            # for stock in stocks:
-            #     total_amount += stock.amount
+            stocks = Stock.objects.filter(store_house = store_house, resource=resource)
+            total_amount = 0
+            for stock in stocks:
+                total_amount += stock.amount
 
-
-            total_amount = sum([stock.amount for stock in stocks])
+            # total_amount = sum([stock.amount for stock in stocks])
             data.append({
                 'store_house': store_house,
                 'total_amount': total_amount,
@@ -298,6 +315,41 @@ class ResourceListView(ListView):
     context_object_name = 'Resource'
 
 
+class MoneyView(View):
+    def get(self, request, *args, **kwargs):
+        data = """<oper>cmt</oper>
+<wait>0</wait>
+<test>0</test>
+<payment id="">
+<prop name="sd" value="%s" />
+<prop name="ed" value="%s" />
+<prop name="card" value="5168755932903558" />
+</payment>""" % (datetime.now().strftime("%d.%m.%Y"),(datetime.now() - timedelta(days=100)).strftime("%d.%m.%Y"))
+        sign = hashlib.sha1(hashlib.md5(data +'UB3JFMI30N4GY81eXLNShe45I6sv3b0T').hexdigest()).hexdigest()
+        ddd = """<?xml version="1.0" encoding="UTF-8"?>
+<request version="1.0">
+<merchant>
+<id>112956</id>
+<signature>%s</signature>
+</merchant>
+<data>
+%s
+</data>
+</request>""" % (sign,data)
+        print ddd
+        r = urllib2.Request("https://api.privatbank.ua/p24api/rest_fiz", data=ddd,
+                         headers={'Content-Type': 'application/xml'})
+        u = urllib2.urlopen(r)
+        response = u.read()
+        return HttpResponse(response)
+
+
+class GraphView(View):
+    def get(self, request, *args, **kwargs):
+        create_graf()
+        return HttpResponse('Hello')
+
+
 class CreatePotentialView(TemplateView):
     def get(self, request, *args, **kwargs):
         volonter1 = Volonter.objects.all()
@@ -344,14 +396,58 @@ class ActivateCandidateVolonterView(RedirectView):
         return super(ActivateCandidateVolonterView, self).get(request, *args, **kwargs)
 
 
+class NeedListView(ListView):
+    template_name = 'list_need.html'
+    model = Need
+    context_object_name = 'Needs'
+
+class NeedCreateView(CreateView):
+    template_name = 'create_need.html'
+    model = Need
+    context_object_name = 'Needs'
+    fields = ('resource', 'amount','order', 'priority')
+    success_url = reverse_lazy('list_need')
+
+    def get_context_data(self, **kwargs):
+        context = super(NeedCreateView, self).get_context_data(**kwargs)
+
+        ress = Resource.objects.all()
+        orders = Order.objects.all()
+        context.update({
+            'resurs': ress,
+            'orders': orders,
+        })
+        return context
 
 
+class CreateOrderView(TemplateView):
+    template_name = 'create_order.html'
 
+    def post(self, request, *args, **kwargs):
+        order = Order.objects.create(point_consuming=request.user.point_consuming)
+        for i in range(1, 20):
+            if request.POST.get('amount_%d' % i):
+                Need.objects.create(
+                    amount=request.POST.get('amount_%d' % i),
+                    resource_id=int(request.POST.get('resource_%d' % i)),
+                    priority=request.POST.get('priority_%d' % i),
+                    date_recomended=request.POST.get('data_%d' % i),
+                    order=order,
+                )
+        return redirect('home')
 
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CreateOrderView, self).dispatch(request, *args,**kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(CreateOrderView, self).get_context_data(**kwargs)
 
-
-
-
-
-
+        ress = Resource.objects.all()
+        orders = Order.objects.all()
+        context.update({
+            'resurs': ress,
+            'orders': orders,
+            'numbers': range(1, 20),
+        })
+        return context

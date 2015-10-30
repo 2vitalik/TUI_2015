@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+
+    <h3 class="title_list">ВХІД</h3>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div id="create_table">
+
+        <form class="zforma" method="POST" action="{% url 'login' %}">
+
+            {% csrf_token %}
+
+            <div class="logBlock">
+
+                <p class="nameofuser">Імя користувача</p>
+
+                <span class="f_username"><input type="text" name="username"></span>
+
+                <p class="passofuser">Пароль</p>
+
+                <span class="f_password"><input type="password" name="password"></span>
+
+                <span class="f_but"><input class="bt" type="submit" name="Save" value="LogIn"></span>
+
+            </div>
+
+       </form>
+
+   </div>
+
+{% endblock %}

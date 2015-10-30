@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h3 class="title_list">Замовити Ресурс:</h3>
+{% endblock %}
+
+{% block js %}
+    <script type="application/javascript">
+
+    function addMore(i) {
+        $('#create_table_' + (i + 1)).show();
+        $('#a_' + i).hide();
+        $('#del_a_' + i).hide();
+        return false;
+    }
+    function deleteItem(i) {
+        $('#create_table_' + i).hide();
+        $('#amount_' + i).val('');
+{#        $('#a_' + (i )).hide();#}
+        if (i != 2){
+
+        $('#del_a_' + (i-1)).show();
+
+        }
+
+            $('#a_' + (i-1)).show();
+           return false;
+    }
+
+
+    </script>
+{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <form class="zforma" method="POST" action="{% url 'create_order' %}" onsubmit="">
+
+        {% csrf_token %}
+        {% for i in numbers %}
+            {% include 'includes/create_need_fields.html' %}
+        {% endfor %}
+    <div class="order_but"><input class="bt" height="40px" type="submit" name="Save" value="Save"></div>
+    </form>
+{% else %}
+{% endif %}
+{% endblock %}

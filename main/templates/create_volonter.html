@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-     <h3 class="title_list">Регистрация волонтёра</h3>
+     <h3 class="title_list">Реєстрація волонтера</h3>
 {% endblock %}
 
 {% block content %}
@@ -29,17 +29,17 @@
 
         <input type="submit" name="Save" value="Save">
     </form>-->
-    <div id="create_table">
+    <div class="create_table">
     <form class="zforma" method="POST" action="{% url 'create_volonter' %}">
         {% csrf_token %}
     <table>
     <tr>
-        <td>ФИО</td>
-        <td><input type="text" name="fio"></td>
+        <td class="CreateVoll">ПІБ</td>
+        <td class="CreateVolr"><input class="pole" type="text" name="fio"></td>
     </tr>
        <tr>
-        <td>АДРЕС</td>
-        <td><select size="1" name="address">
+        <td class="CreateVoll">ОБЛАСТЬ</td>
+        <td class="CreateVolr"><select size="1" class="pole_select" name="address">
             <option disabled>Выберите город</option>
             <option value="Винницкая область">Вінницька область</option>
             <option value="Волынская область">Волинська область</option>
@@ -69,27 +69,27 @@
         </td>
     </tr>
     <tr>
-        <td>ТЕЛЕФОН</td>
-        <td><input width="500px" type="text" name="telephone" placeholder="+380(***)(*******)"></td>
+        <td class="CreateVoll">ТЕЛЕФОН</td>
+        <td class="CreateVolr"><input class="pole" type="text" name="telephone" placeholder="+380(***)(*******)"></td>
     </tr>
     <tr >
-        <td>ДЕНЬ РОЖДЕНИЯ</td>
-        <td ><input width="500px" type="date" name="birthday"></td>
+        <td class="CreateVoll">ДАТА НАРОДЖЕННЯ</td>
+        <td class="CreateVolr"><input class="pole" type="date" name="birthday"></td>
      </tr>
      <tr >
-        <td>ПОЛ</td>
-        <td><input type="radio" value="М" name="gender"> М <br><input type="radio" value="Ж" name="gender"> Ж</td>
+        <td class="CreateVoll">СТАТЬ</td>
+        <td class="CreateVolr"><input type="radio" value="М" name="gender"> Чоловік<br><input type="radio" value="Ж" name="gender"> Жінка</td>
     </tr>
     <tr>
-        <td>Вид Работ</td>
-        <td>
+        <td class="CreateVoll">ВИД ДОПОМОГИ</td>
+        <td class="CreateVolr">
             {% for item in data %}
             <input type="checkbox" name="categories" value="{{ item.number }}">{{ item.name }}<br>
             {% endfor %}
 
     </tr>
-    <tr align="center">
-        <td colspan="2"><input class="bt" type="submit" name="Save" value="Save"></td>
+    <tr class="CreateVoll">
+        <td colspan="2"><input class="bt" type="submit" name="Save" value="Зареєструватися"></td>
     </tr>
     </table>
 
