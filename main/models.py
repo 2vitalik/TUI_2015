@@ -325,7 +325,7 @@ class Roat(models.Model):
     name = models.CharField(max_length=100,verbose_name=u'Назва', null=True)
     storehouse = models.ForeignKey('StoreHouse', verbose_name=u'Від складу',null=True)
     point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'До пункту', null=True)
-
+    wasys = models.ManyToManyField('Way', verbose_name  = u'Проміжні дороги', null = True, blank = True)
     class Meta:
         verbose_name_plural = u'Маршрут'
 
