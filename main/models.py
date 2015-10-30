@@ -44,7 +44,7 @@ class Volonter(models.Model):
     telephone = models.CharField(verbose_name=u'Телефон',max_length=20)
     gender = models.CharField(verbose_name=u'Стать',max_length=1, choices=GENDER_CHOICES)
     activeted = models.BooleanField(default=False, verbose_name=u'Підтвердження')
-    activeted = models.BooleanField(default=False, verbose_name=u'Підтвердження')
+    categories = models.ManyToManyField('CategoryResource', verbose_name=u'Категорія ресурсів')
 
     class Meta:
         verbose_name_plural = u'Волонтери'
@@ -220,7 +220,7 @@ class ShippingDetalization(models.Model):
 
 
 class Stock(models.Model):
-    storeHouseId = models.ForeignKey('StoreHouse', null = True, verbose_name=u'Склад')
+    store_house = models.ForeignKey('StoreHouse', null=True, verbose_name=u'Склад')
     resource = models.ForeignKey('Resource', verbose_name=u'Ресурс')
     amount = models.IntegerField(null=True, verbose_name=u'Кількість одиниць ресурсу')
 
