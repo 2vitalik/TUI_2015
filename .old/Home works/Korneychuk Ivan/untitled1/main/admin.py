@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.core.urlresolvers import reverse
-from main.models import Volonter, Skill, KindOfWork, Stock, Supply, Delivery, DeliveryDetalization, KindOfTransport, \
+from main.models import Volonter, Skill, KindOfWork, Stock, Supply, Shipping, ShippingDetalization, KindOfTransport, \
     Transport, Employment, Trip, Way, GeographyPoint, Route, MakingAWay
 
 
@@ -69,8 +69,8 @@ admin.site.register(Trip, TripAdmin)
 admin.site.register(Employment, EmploymentAdmin)
 admin.site.register(Transport, TransportAdmin)
 admin.site.register(KindOfTransport, KindOfTransportAdmin)
-admin.site.register(DeliveryDetalization, ShippingDetalizationAdmin)
-admin.site.register(Delivery,ShippingAdmin)
+admin.site.register(ShippingDetalization, ShippingDetalizationAdmin)
+admin.site.register(Shipping,ShippingAdmin)
 admin.site.register(Supply, SupplyAdmin)
 admin.site.register(Stock, StockAdmin)
 admin.site.register(Volonter, VolonterAdmin)

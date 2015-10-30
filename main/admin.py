@@ -3,7 +3,7 @@ from audioop import reverse
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from main.forms import CustomUserChangeForm, CustomUserCreationForm, CustomAdminPasswordChangeForm
 from main.models import Volonter, GeographyPoint, Stock, \
     Resource, \
@@ -13,7 +13,7 @@ from main.models import Volonter, GeographyPoint, Stock, \
     ResourceOrder, \
     StoreHouse, \
     Order, Potential, Perfomance, Delivery, DeliveryDetalization, Shipping, ShippingDetalization, KindOfTransport, \
-    Transport, Employment, Trip, Roat
+    Transport, Employment, Trip, Way, Roat, MakingRoat
 
 
 class StockAdmin(admin.ModelAdmin):
@@ -31,10 +31,11 @@ class VolonterAdmin(admin.ModelAdmin):
         'address',
         'telephone',
         'gender',
+        'activeted',
         'categories_field',
-            )
+    )
     search_fields = ('fio', )
-    list_filter = ('gender', 'address','categories','birthday',)
+    list_filter = ('gender', 'address','categories','birthday')
     filter_horizontal = ('categories', )
     date_hierarchy = 'birthday'
 
@@ -50,24 +51,41 @@ class VolonterAdmin(admin.ModelAdmin):
         # b = [o + ' m' for o in a]
         # print '; '.join(b)
     categories_field.short_description = u'Категорії'
+    
+    def activeted(self, obj):
+        img = ''
+        text = ''
+        if obj.activeted:
+            img = u'<img src="/static/admin/img/icon-yes.gif" alt="Активований">'
+            text = u'Видалити'
+            url = reverse('DeleteCandidateVolonterView', args=[obj.pk])
+        else:
+            img = u'<img src="/static/admin/img/icon-no.gif" alt="Не активований">'
+            text = u'Активувати'
+            url = reverse('ActivateCandidateVolonterView', args=[obj.pk])
+        return "%s <a href='%s'>%s</a>" % (img, url, text)
+    activeted.allow_tags = True
+    activeted.admin_order_field = 'activeted'
+    activeted.short_description = 'Activeted'
+
 
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit',
+        'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit', 'weight_one_unit',
     )
-
-
-
 
 
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','fio','telephone',)
 
+
 class NeedAdmin(admin.ModelAdmin):
     list_display = ('resource','amount','order','priority','finished','date_recomended',)
 
+
 class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
+
 
 class ResourceOrderAdmin(admin.ModelAdmin):
     list_display = ('pk',
@@ -101,44 +119,62 @@ class StoreHouseAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('pk','needs', 'point_consuming', 'date_order',)
+    list_display = ('name','needs', 'point_consuming', 'date_order',)
 
     def needs(self, obj):
         return ', '.join(["%s/%s" % (o.resource, o.amount) for o in obj.need_set.all()])
 
+
 class PotentialAdmin(admin.ModelAdmin):
     list_display = ('volonter','category','period',)
+
 
 class PerformanceAdmin(admin.ModelAdmin):
     list_display = ('need','amount','date',)
 
+
 class DeliveryAdmin(admin.ModelAdmin):
     list_display = ('volonter','resource','amount','date_recomended','date_real',)
+
 
 class DeliveryDetalizationAdmin(admin.ModelAdmin):
     list_display = ('shipping','storehouse','amount',)
 
+
 class ShippingAdmin(admin.ModelAdmin):
     list_display = ('date_recomended',)
+
 
 class ShippingDetalizationAdmin(admin.ModelAdmin):
     list_display = ('shipping','stock','amount',)
 
+
 class KindOfTransportAdmin(admin.ModelAdmin):
     list_display = ('name','category','speed','expences_fuel','volume_transport','max_weight','passability',)
+
 
 class TransportAdmin(admin.ModelAdmin):
     list_display = ('kind_of_transport','number')
 
+
 class EmploymentAdmin(admin.ModelAdmin):
     list_display = ('transport','date_start','date_finish',)
+
 
 class TripAdmin(admin.ModelAdmin):
     list_display = ('transport','shipping','date_start','perfomance',)
 
-class RoatAdmin(admin.ModelAdmin):
+
+class WayAdmin(admin.ModelAdmin):
     list_display = ('point_from','point_to','roat_length','danger','passability','load',)
 
+
+class RoatAdmin(admin.ModelAdmin):
+    list_display = ('name','storehouse','point_consuming',)
+
+
+class MakingARoatAdmin(admin.ModelAdmin):
+    list_display = ('roat','way',)
 
 
 class CustomUserAdmin(UserAdmin):
@@ -148,9 +184,11 @@ class CustomUserAdmin(UserAdmin):
     change_password_form = CustomAdminPasswordChangeForm
 
 
+admin.site.register(MakingRoat, MakingARoatAdmin)
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Roat, RoatAdmin)
+admin.site.register(Way, WayAdmin)
 admin.site.register(Trip, TripAdmin)
 admin.site.register(Employment, EmploymentAdmin)
 admin.site.register(Transport, TransportAdmin)
@@ -171,5 +209,3 @@ admin.site.register(CategoryResource, CategoryResourceAdmin)
 admin.site.register(GeographyPoint, GeographyPointAdmin)
 admin.site.register(Stock, StockAdmin)
 admin.site.register(Volonter, VolonterAdmin)
-
-

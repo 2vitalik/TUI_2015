@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('amount', models.IntegerField()),
-                ('shipping', models.ForeignKey(to='main.models.Delivery')),
+                ('shipping', models.ForeignKey(to='main.Shipping')),
                 ('stock', models.ForeignKey(to='main.Stock')),
             ],
         ),

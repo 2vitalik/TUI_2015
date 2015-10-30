@@ -1,19 +1,22 @@
 # coding: utf-8
+from datetime import datetime, timedelta
 import random
+import urllib2
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView
+from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView, View
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.algorithms import create_stock
+from main.algorithms import create_stock, create_graf
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
-    CategoryResource, Stock
+    CategoryResource, Stock, Potential
 from django.core.mail import send_mail
+import hashlib
 
 
 class MainView(TemplateView):
@@ -53,7 +56,6 @@ class VolonterDetailView(DetailView):
 class VolonterCreateView(CreateView):
     template_name = 'create_volonter.html'
     model = Volonter
-    #context_object_name = 'Volonter'
     fields = ('fio', 'address', 'birthday',
               'telephone', 'gender','categories',)
     success_url = reverse_lazy('list_volonter')
@@ -168,7 +170,6 @@ class ResourceGrafikView(ListView):
             for stock in stocks:
                 total_amount += stock.amount
 
-
             # total_amount = sum([stock.amount for stock in stocks])
             data.append({
                 'store_house': store_house,
@@ -180,6 +181,7 @@ class ResourceGrafikView(ListView):
             'select_res': resource,
         })
         return context
+
 
 class CreateVolontersView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -224,13 +226,14 @@ class CreateVolontersView(TemplateView):
             print fio, telephone
         return HttpResponse('ok')
 
+
 class CreateNeedsView(TemplateView):
     def get(self, request, *args, **kwargs):
         point_consuming1 = PointOfConsuming.objects.all()
         resource1 = list(Resource.objects.all())
         amount1 = [5,10,15,20,25,30,35,40,45,50,]
 
-        for i in range(50):
+        for i in range(10):
             point_consuming2 = random.choice(point_consuming1)
             resource2 = random.choice(resource1)
             amount2 = random.choice(amount1)
@@ -240,6 +243,7 @@ class CreateNeedsView(TemplateView):
                 amount=amount2,
             )
         return HttpResponse('ok')
+
 
 class CreatePointOfConsumingView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -274,7 +278,7 @@ class CreatePointOfConsumingView(TemplateView):
         # p.storehouse
         # p.pointofconsuming
 
-        for i in range(20):
+        for i in range(10):
             print i
             telephone1 = u'+38' + random.choice(operators) + unicode(random.randint(1000000, 9999999))
             fio1 = random.choice(surnames) + u' ' + random.choice(names)
@@ -286,15 +290,6 @@ class CreatePointOfConsumingView(TemplateView):
                 telephone = telephone1,
             )
         return HttpResponse('ok')
-
-
-class SendMailView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        subject = u'Я хочу стати волонтером'
-        message = '#'
-        email_from = 'tyrnir.informatikov@gmail.com'
-        email = 'tyrnir.informatikov@gmail.com'
-        send_mail(subject, message, email_from, [email])
 
 
 class FinishedView(RedirectView):
@@ -312,11 +307,94 @@ class FinishedView(RedirectView):
         resource_order.save()
         create_stock(resource_order)
         return super(FinishedView, self).get(request, *args,**kwargs)
-    
+
+
 class ResourceListView(ListView):
     template_name = 'list_resource.html'
     model = Resource
     context_object_name = 'Resource'
+
+
+class MoneyView(View):
+    def get(self, request, *args, **kwargs):
+        data = """<oper>cmt</oper>
+<wait>0</wait>
+<test>0</test>
+<payment id="">
+<prop name="sd" value="%s" />
+<prop name="ed" value="%s" />
+<prop name="card" value="5168755932903558" />
+</payment>""" % (datetime.now().strftime("%d.%m.%Y"),(datetime.now() - timedelta(days=100)).strftime("%d.%m.%Y"))
+        sign = hashlib.sha1(hashlib.md5(data +'UB3JFMI30N4GY81eXLNShe45I6sv3b0T').hexdigest()).hexdigest()
+        ddd = """<?xml version="1.0" encoding="UTF-8"?>
+<request version="1.0">
+<merchant>
+<id>112956</id>
+<signature>%s</signature>
+</merchant>
+<data>
+%s
+</data>
+</request>""" % (sign,data)
+        print ddd
+        r = urllib2.Request("https://api.privatbank.ua/p24api/rest_fiz", data=ddd,
+                         headers={'Content-Type': 'application/xml'})
+        u = urllib2.urlopen(r)
+        response = u.read()
+        return HttpResponse(response)
+
+
+class GraphView(View):
+    def get(self, request, *args, **kwargs):
+        create_graf()
+        return HttpResponse('Hello')
+
+
+class CreatePotentialView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        volonter1 = Volonter.objects.all()
+        category1 = CategoryResource.objects.all()
+        period1 = [u'Кожного разу',u'Кожної неділі',u'Кожного місяця']
+
+        for i in range(30):
+            volonter = random.choice(volonter1)
+            category = random.choice(category1)
+            period = random.choice(period1)
+            Potential.objects.create(
+
+            )
+
+
+class DeleteCandidateVolonterView(RedirectView):
+    permanent = False
+    url = reverse_lazy('admin:main_volonter_changelist')
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(DeleteCandidateVolonterView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        volonter_id = kwargs.get('volonter_id')
+        volonter = Volonter.objects.get(pk=volonter_id)
+        volonter.delete()
+        return super(DeleteCandidateVolonterView, self).get(request, *args, **kwargs)
+
+
+class ActivateCandidateVolonterView(RedirectView):
+    permanent = False
+    url = reverse_lazy('admin:main_volonter_changelist')
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ActivateCandidateVolonterView, self).dispatch(request, *args,**kwargs)
+
+    def get(self, request, *args, **kwargs):
+        volonter_id = kwargs.get('volonter_id')
+        volonter = Volonter.objects.get(pk=volonter_id)
+        volonter.convictions = not volonter.convictions
+        volonter.save()
+        return super(ActivateCandidateVolonterView, self).get(request, *args, **kwargs)
+
 
 class NeedListView(ListView):
     template_name = 'list_need.html'
@@ -344,7 +422,6 @@ class NeedCreateView(CreateView):
 
 class CreateOrderView(TemplateView):
     template_name = 'create_order.html'
-
 
     def post(self, request, *args, **kwargs):
         order = Order.objects.create(point_consuming=request.user.point_consuming)
@@ -374,4 +451,3 @@ class CreateOrderView(TemplateView):
             'numbers': range(1, 20),
         })
         return context
-
