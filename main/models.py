@@ -73,6 +73,7 @@ class Resource(models.Model):
     category_resource = models.ForeignKey('CategoryResource',verbose_name=u'Категорія ресурса')
     name = models.CharField(max_length=30,verbose_name=u'Назва ресурсу')
     unit_of_mesure = models.CharField(max_length=30,verbose_name=u'Одиниця вимірювання')
+    weight_one_unit = models.FloatField(verbose_name=u'Маса однієї одиниці', null=True)
     volume_of_one_unit = models.FloatField(verbose_name=u'Об"єм однієї одиниці')
     price_one_unit = models.FloatField(verbose_name=u'Ціна однієї одиниці')
     class Meta:
@@ -285,7 +286,7 @@ class MakingRoat(models.Model):
     def __unicode__(self):
          return "%s"%(self.roat.name)
     class Meta:
-        verbose_name_plural = u'Збірка маршруту'
+        verbose_name_plural = u'Створення маршруту'
 
 #//////////////////////////////////////////////////////task5////////////////////////////////////////////////////////////
 

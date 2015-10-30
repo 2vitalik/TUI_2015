@@ -47,7 +47,7 @@ class GeographyPointAdmin(admin.ModelAdmin):
 
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit',
+        'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit', 'weight_one_unit',
     )
 
 class PointOfConsumingAdmin(admin.ModelAdmin):
