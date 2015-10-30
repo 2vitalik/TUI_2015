@@ -51,7 +51,8 @@ def create_resource_orders(need):
     #     if stock.store_house not in stores:
     #         stores.append(stock.store_house)
     #
-    # needs = Need.objects.filter(resource=need.resource)
+    needs_1 = Need.objects.filter(resource=need.resource)
+    needs_2 = need.resource.need_set.all()
     # resource_orders = ResourceOrder.objects.filter(resource = need.resource).exclude(finished = True)
     #
     # total_stock_amount = sum([stock.amount for stock in stocks])
@@ -121,6 +122,10 @@ def shipment_store_houses():
 #                 break
 #         if break_count is True:
 #             break
+#todo:fill_store_houses()
+# virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+#  for stock in virtual_stocks:
+#      fill_store_houses(stock)
 
 
 def create_stock(resource_order):
@@ -140,29 +145,35 @@ def create_graf():
         for road in ways:
             if road.point_from == point:
                 if road.point_from in graf_length:
-                    graf_length[road.point_from].append((road.point_to,road.roat_length))
+                    graf_length[road.point_from].append((road.point_to.pk,road.roat_length))
                 else:
-                    graf_length[road.point_from] = [(road.point_to,road.roat_length)]
+                    graf_length[road.point_from] = [(road.point_to.pk,road.roat_length)]
 
                 if road.point_to in graf_length:
-                    graf_length[road.point_to].append((road.point_from,road.roat_length))
+                    graf_length[road.point_to].append((road.point_from.pk,road.roat_length))
                 else:
-                    graf_length[road.point_to] = [(road.point_from,road.roat_length)]
+                    graf_length[road.point_to] = [(road.point_from.pk,road.roat_length)]
 
     for n, data in graf_length.items():
+        print n
         for a, b in data:
             print (a, b)
 
-    # graf_danger = dict()
-    # for point in points:
-    #     for road in ways:
-    #         if road.point_from == point:
-    #             if road.point_from in graf_length:
-    #                 graf_danger[road.point_from].append((road.point_to, -1.0 * math.log(1-road.danger)))
-    #             else:
-    #                 graf_danger[road.point_from] = [(road.point_to, -1.0 * math.log(1-road.danger))]
-    #
-    #             if road.point_to in graf_length:
-    #                 graf_danger[road.point_to].append((road.point_from, -1.0 * math.log(1-road.danger)))
-    #             else:
-    #                 graf_danger[road.point_to] = [(road.point_from, -1.0 * math.log(1-road.danger))]
+    graf_danger = dict()
+    for point in points:
+        for road in ways:
+            if road.point_from.pk == point.pk:
+                if road.point_from in graf_danger:
+                    graf_danger[road.point_from.pk].append((road.point_to.pk, round(-1.0 * math.log(1-road.danger),4)))
+                else:
+                    graf_danger[road.point_from.pk] = [(road.point_to.pk, round(-1.0 * math.log(1-road.danger),4))]
+
+                if road.point_to.pk in graf_danger:
+                    graf_danger[road.point_to.pk].append((road.point_from.pk,round(-1.0 * math.log(1-road.danger),4)))
+                else:
+                    graf_danger[road.point_to.pk] = [(road.point_from.pk, round(-1.0 * math.log(1-road.danger),4))]
+
+    for n, data in graf_danger.items():
+        print n
+        for a, b in data:
+            print (a, b)
