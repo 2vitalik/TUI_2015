@@ -72,7 +72,7 @@ class CategoryResource(models.Model):
 class Resource(models.Model):
     category_resource = models.ForeignKey('CategoryResource',verbose_name=u'Категорія ресурса')
     name = models.CharField(max_length=30,verbose_name=u'Назва ресурсу')
-    unit_of_mesure = models.CharField(max_length=30,verbose_name=u'Одиниця вимірювання')
+    unit_of_mesure = models.CharField(max_length=30,verbose_name=u'Одиниця виміру')
     weight_one_unit = models.FloatField(verbose_name=u'Маса однієї одиниці', null=True)
     volume_of_one_unit = models.FloatField(verbose_name=u'Об"єм однієї одиниці')
     price_one_unit = models.FloatField(verbose_name=u'Ціна однієї одиниці')
@@ -84,6 +84,7 @@ class Resource(models.Model):
 #///////////////////////////////////////////////////task2///////////////////////////////////////////////////////////////
 
 class Need(models.Model):
+
     resource = models.ForeignKey('Resource',verbose_name=u'Потрібний ресурс')
     order = models.ForeignKey('Order', verbose_name=u'Замовлення', null=True)
     amount = models.IntegerField(verbose_name=u'Кількість ресурсу')
@@ -149,8 +150,7 @@ class StoreHouse(models.Model):
         just_created = self.pk is None
         if just_created:
             self.free_volume = self.volume
-        super(StoreHouse, self).save(force_insert, force_update, using,
-                                     update_fields)
+        super(StoreHouse, self).save(force_insert, force_update, using, update_fields)
         if just_created:
             virtual_stocks = Stock.objects.filter(store_house__isnull=True)
             for stock in virtual_stocks:
@@ -260,7 +260,7 @@ class Way(models.Model):
     point_from = models.ForeignKey('GeographyPoint', verbose_name=u'Звідки', related_name='point_from')
     point_to = models.ForeignKey('GeographyPoint', verbose_name=u'Куди', related_name='point_to')
     roat_length = models.IntegerField(verbose_name=u'Довжина')
-    danger = models.IntegerField(verbose_name=u'Небезпечність')
+    danger = models.FloatField(verbose_name=u'Небезпечність')
     passability = models.IntegerField(verbose_name=u'Проходимість')
     load = models.IntegerField(verbose_name=u'Заповненість')
     class Meta:
@@ -297,7 +297,7 @@ class GeographyPoint(models.Model):
     class Meta:
         verbose_name_plural = u'Географічні точки'
     def __unicode__(self):
-        return "%s"%self.pk
+        return "%s,%s"%(self.pk, self.address)
 
 class PointOfConsuming(models.Model):
     geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
