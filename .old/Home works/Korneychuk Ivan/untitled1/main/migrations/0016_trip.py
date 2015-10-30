@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('dateDeparture', models.DateField()),
                 ('perfomance', models.BooleanField(default=False)),
-                ('shipping', models.ForeignKey(to='main.models.Delivery')),
+                ('shipping', models.ForeignKey(to='main.Shipping')),
                 ('transport', models.ForeignKey(to='main.Transport')),
             ],
         ),

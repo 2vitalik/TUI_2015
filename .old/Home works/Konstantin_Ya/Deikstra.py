@@ -7,8 +7,6 @@ __author__ = 'Kostik'
       4:[(2,25),(3,30)]
     }"""
 a = dict()
-
-
 with open('graph') as file:
     w1,w2 = [int(x) for x in file.readline().split()]
     n,m = [int(x) for x in file.readline().split()]
