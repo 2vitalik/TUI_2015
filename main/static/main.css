@@ -331,10 +331,13 @@ table{
 	padding-bottom: 5px;
 	/*background-color: #e5e5e5;*/
 	text-align: center;
+	text-transform: uppercase;
 }
 
 .order_but {
-	margin-left: 460px;
+	margin-top: -50px;
+	margin-left: 282px;
+
 
 }
 .create_table table{
@@ -581,10 +584,20 @@ table{
 	display: block;
 	width: 50px;
 	height: 50px;
-	background-color: #86b319;
+	background:  url("img/plus.gif") no-repeat;
 	position:relative;
 	left:410px;
 	top:-100px;
+}
+.delmore{
+	display: block;
+	width: 50px;
+	height: 50px;
+	background:  url("img/minus.gif") no-repeat;
+	position:relative;
+	left:-60px;
+	top:-150px;
+
 }
 .pole{
 	width: 260px;
@@ -595,12 +608,12 @@ table{
 .bt{
 	width:400px;
 }
-.error_mes{
-	width: 1000px;
-	height: 50px;
-	border-top: 2px solid red;
-	border-bottom: 2px solid red;
-	border-left: 5px solid red;
-	border-right: 5px solid red;
-	background-color: darksalmon;
+.kol{
+	width:100%;
+	height: 100%;
+}
+.kol_v{
+	margin-left: 2px;
+	width:100%;
+	height: 36px;
 }

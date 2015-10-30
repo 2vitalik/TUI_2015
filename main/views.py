@@ -45,6 +45,10 @@ class VolonterDetailView(DetailView):
     model = Volonter
     context_object_name = 'Volonter'
 
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(VolonterDetailView, self).dispatch(request, *args,**kwargs)
+
 
 class VolonterCreateView(CreateView):
     template_name = 'create_volonter.html'
@@ -69,7 +73,8 @@ class VolonterCreateView(CreateView):
             'Volonter': volonters,
         })
         return context
-
+# class MapView():
+#     pass
 
 # class VolonterUpdateView(UpdateView):
 #     template_name = 'update_volonter.html'
@@ -145,6 +150,10 @@ class ResourceGrafikView(ListView):
     template_name = 'grafik_resource.html'
     model = Resource
     context_object_name = 'Resource'
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ResourceGrafikView, self).dispatch(request, *args,**kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(ResourceGrafikView, self).get_context_data(**kwargs)
@@ -314,10 +323,6 @@ class NeedListView(ListView):
     model = Need
     context_object_name = 'Needs'
 
-    @method_decorator(staff_member_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super(NeedListView, self).dispatch(request, *args,**kwargs)
-
 class NeedCreateView(CreateView):
     template_name = 'create_need.html'
     model = Need
@@ -353,6 +358,10 @@ class CreateOrderView(TemplateView):
                     order=order,
                 )
         return redirect('home')
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CreateOrderView, self).dispatch(request, *args,**kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(CreateOrderView, self).get_context_data(**kwargs)

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-     <h3 class="title_list">Спиок потреб</h3>
+     <h3 class="title_list">Список потреб</h3>
 {% endblock %}
 {% block content %}
  <div id="list_table">
@@ -8,14 +8,14 @@
     <tr>
         <td class="top_left">РЕСУРС</td>
         <td class="top_cen" >КІЛЬКІСТЬ</td>
-        <td class="top_right" >ЗАКАЗ</td>
+        <td class="top_right" >ДАТА ДОСТАВКИ</td>
     </tr>
 
     {% for need in Needs %}
         <tr class="list_tr">
         <td class="cell"> {{ need.resource }}</td>
         <td class="cell_c">{{ need.amount }}</td>
-        <td class="cell">{{ need.order }}</td>
+        <td class="cell">{{ need.date_recomended }}</td>
     </tr>
 
     {% endfor %}
