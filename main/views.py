@@ -4,9 +4,9 @@ import random
 import urllib2
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView, View
 from django.views.generic.base import TemplateView
@@ -150,13 +150,13 @@ class ResourceGrafikView(ListView):
         rescol = Resource.objects.all()
         store_houses = StoreHouse.objects.all()
         for store_house in store_houses:
-            stocks = Stock.objects.filter(store_house=store_house, resource=resource)
-            # total_amount = 0
-            # for stock in stocks:
-            #     total_amount += stock.amount
+            stocks = Stock.objects.filter(store_house = store_house, resource=resource)
+            total_amount = 0
+            for stock in stocks:
+                total_amount += stock.amount
 
 
-            total_amount = sum([stock.amount for stock in stocks])
+            # total_amount = sum([stock.amount for stock in stocks])
             data.append({
                 'store_house': store_house,
                 'total_amount': total_amount,
@@ -389,4 +389,60 @@ class ActivateCandidateVolonterView(RedirectView):
 
 
 
+class NeedListView(ListView):
+    template_name = 'list_need.html'
+    model = Need
+    context_object_name = 'Needs'
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(NeedListView, self).dispatch(request, *args,**kwargs)
+
+class NeedCreateView(CreateView):
+    template_name = 'create_need.html'
+    model = Need
+    context_object_name = 'Needs'
+    fields = ('resource', 'amount','order', 'priority')
+    success_url = reverse_lazy('list_need')
+
+    def get_context_data(self, **kwargs):
+        context = super(NeedCreateView, self).get_context_data(**kwargs)
+
+        ress = Resource.objects.all()
+        orders = Order.objects.all()
+        context.update({
+            'resurs': ress,
+            'orders': orders,
+        })
+        return context
+
+
+class CreateOrderView(TemplateView):
+    template_name = 'create_order.html'
+
+
+    def post(self, request, *args, **kwargs):
+        order = Order.objects.create(point_consuming=request.user.point_consuming)
+        for i in range(1, 20):
+            if request.POST.get('amount_%d' % i):
+                Need.objects.create(
+                    amount=request.POST.get('amount_%d' % i),
+                    resource_id=int(request.POST.get('resource_%d' % i)),
+                    priority=request.POST.get('priority_%d' % i),
+                    date_recomended=request.POST.get('data_%d' % i),
+                    order=order,
+                )
+        return redirect('home')
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateOrderView, self).get_context_data(**kwargs)
+
+        ress = Resource.objects.all()
+        orders = Order.objects.all()
+        context.update({
+            'resurs': ress,
+            'orders': orders,
+            'numbers': range(1, 20),
+        })
+        return context
 

@@ -1,0 +1,37 @@
+ <div id="create_table_{{ i }}" class="create_table" style="{% if i != 1 %}display: none;{% endif %}">
+    <table>
+    <tr>
+        <td class="lef">Resurs</td>
+        <td class="ri">
+
+            <select size="1" name="resource_{{ i }}">
+
+            <option disabled>Выберите ресурс</option>
+
+            {% for res in resurs %}
+            <option value="{{ res.pk }}">{{ res.name }}</option>
+            {% endfor %}
+
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="lef">Кількість</td>
+        <td class="ri"><input type="text" id="amount_{{ i }}" name="amount_{{ i }}"></td>
+    </tr>
+    <tr>
+        <td class="lef">DATA</td>
+        <td class="ri"><input type="date" name="data_{{ i }}"></td>
+    </tr>
+       <tr>
+        <td class="lef">Prior</td>
+        <td class="ri"><input type="text" name="priority_{{ i }}"></td>
+    </tr>
+    <tr>
+        <td>
+            <a class="addmore" id="a_{{ i }}" href="#" onclick="return addMore({{ i }});"></a>
+             <a id="del_a_{{ i }}" style="{% if i == 1 %}display: none;{% endif %}" id="a_{{ i }}" href="#" onclick="return deleteItem({{ i }});">delete</a>
+               </td>
+    </tr>
+    </table>
+</div>

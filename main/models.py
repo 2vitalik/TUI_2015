@@ -43,8 +43,10 @@ class Volonter(models.Model):
     telephone = models.CharField(verbose_name=u'Телефон',max_length=20)
     gender = models.CharField(verbose_name=u'Стать',max_length=1, choices=GENDER_CHOICES)
     activeted = models.BooleanField(default=False, verbose_name=u'Підтвердження')
+    activeted = models.BooleanField(default=False, verbose_name=u'Підтвердження')
     class Meta:
         verbose_name_plural = u'Волонтери'
+
     def __unicode__(self):
         return u"%s, %s" % (self.fio, self.address)
 
@@ -62,12 +64,16 @@ class Potential(models.Model):
     def __unicode__(self):
         return "%s,%s"%(self.volonter.fio, self.category.category)
 
+
 class CategoryResource(models.Model):
     category = models.CharField(max_length=50, verbose_name=u'Категорія')
+
     class Meta:
         verbose_name_plural = u'Категорії ресурсів'
+
     def __unicode__(self):
         return self.category
+
 
 class Resource(models.Model):
     category_resource = models.ForeignKey('CategoryResource',verbose_name=u'Категорія ресурса')
@@ -78,6 +84,7 @@ class Resource(models.Model):
     price_one_unit = models.FloatField(verbose_name=u'Ціна однієї одиниці')
     class Meta:
         verbose_name_plural = u'Ресурси'
+
     def __unicode__(self):
         return u"%s, %s" % (self.category_resource.category, self.name)
 
