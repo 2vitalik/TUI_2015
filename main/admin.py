@@ -1,6 +1,7 @@
+# coding: utf-8
 from audioop import reverse
 from django.contrib import admin
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from main.models import Volonter, GeographyPoint, Stock, \
     Resource, \
     PointOfConsuming, \
@@ -11,15 +12,6 @@ from main.models import Volonter, GeographyPoint, Stock, \
     Order, Potential, Perfomance, Delivery, DeliveryDetalization, Shipping, ShippingDetalization, KindOfTransport, \
     Transport, Employment, Trip, Way, Roat, MakingRoat
 
-
-class StockAdmin(admin.ModelAdmin):
-    list_display = ('store_house','resource','amount',)
-
-
-class GeographyPointAdmin(admin.ModelAdmin):
-    list_display = ('x','y','address','road',)
-
-
 class VolonterAdmin(admin.ModelAdmin):
     list_display = (
         'fio',
@@ -27,33 +19,36 @@ class VolonterAdmin(admin.ModelAdmin):
         'address',
         'telephone',
         'gender',
-        'categories_field',
+        'activeted',
             )
     search_fields = ('fio', )
     list_filter = ('gender', )
-    filter_horizontal = ('categories', )
+    def activeted(self, obj):
+        img = ''
+        text = ''
+        if obj.activeted:
+            img = u'<img src="/static/admin/img/icon-yes.gif" alt="Активований">'
+            text = u'Видалити'
+            url = reverse('DeleteCandidateVolonterView', args=[obj.pk])
+        else:
+            img = u'<img src="/static/admin/img/icon-no.gif" alt="Не активований">'
+            text = u'Активувати'
+            url = reverse('ActivateCandidateVolonterView', args=[obj.pk])
+        return "%s <a href='%s'>%s</a>" % (img, url, text)
+    activeted.allow_tags = True
+    activeted.admin_order_field = 'activeted'
+    activeted.short_description = 'Activeted'
 
-    def categories_field(self, obj):
-        return ', '.join([o.category for o in obj.categories.all()])
-        # res = ''
-        # for o in obj.categories.all():
-        #     if res:
-        #         res += ', '
-        #     res += o.category
-        # a = ['1', '2', '3']
-        # print ' '.join(a)
-        # b = [o + ' m' for o in a]
-        # print '; '.join(b)
+class StockAdmin(admin.ModelAdmin):
+    list_display = ('storeHouseId','resource','amount',)
 
+class GeographyPointAdmin(admin.ModelAdmin):
+    list_display = ('x','y','address',)
 
 class ResourceAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit',
+        'name', 'category_resource','unit_of_mesure', 'volume_of_one_unit', 'price_one_unit', 'weight_one_unit',
     )
-
-
-
-
 
 class PointOfConsumingAdmin(admin.ModelAdmin):
     list_display = ('geography_point','fio','telephone',)
@@ -65,7 +60,7 @@ class CategoryResourceAdmin(admin.ModelAdmin):
     list_display = ('category',)
 
 class ResourceOrderAdmin(admin.ModelAdmin):
-    list_display = ('pk',
+    list_display = (
                     'resource',
                     'amount',
                     'choise_finished',
@@ -90,16 +85,11 @@ class ResourceOrderAdmin(admin.ModelAdmin):
     choise_finished.admin_order_field = 'finished'
     choise_finished.short_description = 'Finished'
 
-
 class StoreHouseAdmin(admin.ModelAdmin):
     list_display = ('geography_point', 'volume','free_volume','rent')
 
-
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('pk','needs', 'point_consuming', 'date_order',)
-
-    def needs(self, obj):
-        return ', '.join(["%s/%s" % (o.resource, o.amount) for o in obj.need_set.all()])
+    list_display = ('point_consuming', 'date_order','name',)
 
 class PotentialAdmin(admin.ModelAdmin):
     list_display = ('volonter','category','period',)
@@ -139,6 +129,11 @@ class RoatAdmin(admin.ModelAdmin):
 
 class MakingARoatAdmin(admin.ModelAdmin):
     list_display = ('roat','way',)
+
+
+
+
+
 
 
 
