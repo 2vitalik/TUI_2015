@@ -134,6 +134,7 @@ def create_stock(resource_order):
 
 
 def create_graf():
+# def create_graf(store_house,point_ofconsuming):
     from main.models import Way
     from main.models import PointOfConsuming
     from main.models import GeographyPoint
@@ -154,11 +155,40 @@ def create_graf():
                 else:
                     graf_length[road.point_to] = [(road.point_from.pk,road.roat_length)]
 
-    for n, data in graf_length.items():
-        print n
-        for a, b in data:
-            print (a, b)
+    # for n, data in graf_length.items():
+    #     print n.pk
+    #     for a, b in data:
+    #         print (a, b)
+    used = [False]*len(graf_length)
+    g = [1e9]*len(graf_length)
+    p = []
+    # g[store_house.geography_point.pk] = 0
+    g[1] = 0
+    for l in range(len(graf_length)):
+        index = -1
+        curres = 1e9
+        for j in graf_length:
+            print(j.pk)
+            if g[j.pk] < curres:
+                if used[j] == False:
+                    index = j
+                    curres = g[j]
+        used[index] = True
+        for (u,w) in graf_length[index]:
+            if g[u] > g[index]+w:
+                 g[u] = g[index]+w
+                 p[u] = index
+#     vector<int> path;
+# for (int v=t; v!=s; v=p[v])
+# 	path.push_back (v);
+# path.push_back (s);
+# reverse (path.begin(), path.end());
+    path = []
 
+    pairs = []
+    for i in reversed(range(len(p)-1)):
+        pairs.append((p[i],p[i+1]))
+        print(pairs[i])
     graf_danger = dict()
     for point in points:
         for road in ways:
@@ -173,7 +203,10 @@ def create_graf():
                 else:
                     graf_danger[road.point_to.pk] = [(road.point_from.pk, round(-1.0 * math.log(1-road.danger),4))]
 
-    for n, data in graf_danger.items():
-        print n
-        for a, b in data:
-            print (a, b)
+    # for n, data in graf_danger.items():
+    #     print n
+    #     for a, b in data:
+    #         print (a, b)
+
+def algo2():
+    pass
