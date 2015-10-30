@@ -561,8 +561,7 @@ table{
 .f_but{
 	position:absolute;
 	top:150px;
-	width: 50px;
-	margin-left: 170px;
+	/*margin-left: 170px;*/
 }
 /* блок формы*/
 .logBlock{
