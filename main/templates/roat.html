@@ -9,22 +9,23 @@
     <script src="http://api-maps.yandex.ru/2.1/?lang=ru-RU" language="javascript" type="text/javascript"></script>
 
     <script type="application/javascript">
-
-
-
+    {% localize off %}
         function init () {
+            // Создаем карту с добавленными на нее кнопками.
+            var myMap = new ymaps.Map('map', {
+                center: [48.507927, 32.262311],
+                zoom: 6
+            }, {
+                buttonMaxWidth: 300
+            });
 
             {% for way in ways %}
-
-
-{#                if ({{ way.YANDEX_OR_YOU}})  {#}
-
-
+                {% if way.yandex_or_byhand %}
                     var multiRoute_{{ way.pk }} = new ymaps.multiRouter.MultiRoute({
                         // Описание опорных точек мультимаршрута.
                         referencePoints: [
-                            [55.734876, 37.59308],
-                            [55.80, 37.50]
+                            [{{ way.point_from.x }}, {{ way.point_from.y }}],
+                            [{{ way.point_to.x }}, {{ way.point_to.y }}]
                         ],
                         // Параметры маршрутизации.
                         params: {
@@ -35,51 +36,14 @@
                         // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
                         boundsAutoApply: true
                     });
-                    // Создаем кнопки для управления мультимаршрутом.
-                    var trafficButton = new ymaps.control.Button({
-                                data: {content: "Учитывать пробки"},
-                                options: {selectOnClick: true}
-                            }),
-                            viaPointButton = new ymaps.control.Button({
-                                data: {content: "Добавить транзитную точку"},
-                                options: {selectOnClick: true}
-                            });
-
-                    // Объявляем обработчики для кнопок.
-                    trafficButton.events.add('select', function () {
-                        /**
-                         * Задаем параметры маршрутизации для модели мультимаршрута.
-                         * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRouteModel.xml#setParams
-                         */
-                        multiRoute_{{ way.pk }}.model.setParams({avoidTrafficJams: true}, true);
-                    });
-{#                }#}
-
-
-
-{#                if (!{{ way.YANDEX_OR_YOU }}) {#}
-
-
-                    // Создаем карту с добавленными на нее кнопками.
-                    var myMap = new ymaps.Map('map', {
-                        center: [55.750625, 37.626],
-                        zoom: 7,
-                        controls: [trafficButton, viaPointButton]
-                    }, {
-                        buttonMaxWidth: 300
-                    });
-
                     // Добавляем мультимаршрут на карту.
-                    myMap.geoObjects.add(multiRoute);
-
-
+                    myMap.geoObjects.add(multiRoute_{{ way.pk }});
+                {% else %}
                     // Создаем ломаную с помощью вспомогательного класса Polyline.
                     var myPolyline{{ way.pk }} = new ymaps.Polyline([
                         // Указываем координаты вершин ломаной.
-                        [55.80, 37.50],
-                        [55.80, 37.40],
-                        [55.70, 37.50],
-                        [55.70, 37.40]
+                        [{{ way.point_from.x }}, {{ way.point_from.y }}],
+                        [{{ way.point_to.x }}, {{ way.point_to.y }}]
                     ], {
                         // Описываем свойства геообъекта.
                         // Содержимое балуна.
@@ -95,31 +59,13 @@
                         // Коэффициент прозрачности.
                         strokeOpacity: 0.5
                     });
-
                     // Добавляем линии на карту.
-                    myMap.geoObjects
-
-                            .add(myPolyline{{ way.pk }});
-{#                }#}
-
-
-
+                    myMap.geoObjects.add(myPolyline{{ way.pk }});
+                {% endif %}
             {% endfor %}
-
-
-
-
-
-
-
-
-
-
-
-
-            ymaps.ready(init);
         }
-
+        ymaps.ready(init);
+    {% endlocalize %}
     </script>
 
 {% endblock %}

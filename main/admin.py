@@ -170,6 +170,7 @@ class WayAdmin(admin.ModelAdmin):
 
 class RoatAdmin(admin.ModelAdmin):
     list_display = ('name','storehouse','point_consuming','transport','on_the_map',)
+    filter_horizontal = ('wasys',)
     def on_the_map(self,obj):
         text = u'Подивитися на карті'
         url = reverse('roat', args=[obj.pk] )
