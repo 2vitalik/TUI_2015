@@ -1,6 +1,6 @@
 # coding: utf-8
 import math
-from datetime import timedelta,datetime
+from datetime import timedelta, datetime
 
 
 def fill_store_houses(stock):
@@ -35,10 +35,10 @@ def fill_store_houses(stock):
             store.free_volume -= unit_volume * current_amount
             store.save()
 
-#     volonters = Volonter.objects.filter(fio__contains='')
+# volonters = Volonter.objects.filter(fio__contains='')
 
 
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def create_resource_orders(need):
     pass
     from main.models import Stock
@@ -141,7 +141,42 @@ def create_graf():
     from main.models import StoreHouse
     ways = Way.objects.all()
     points = GeographyPoint.objects.all()
-# //////////////////////////////1///////////////////////////////////////////////////////////////////////////////////////
+# //////////////////////////////deikstra////////////////////////////////////////////////////////////////////////////////
+    def deikstra(graf):
+            used = [False]*200000
+            g = [1e9]*100000
+            p = []
+            # p.append.(store_house.geography_point.pk)
+            #todo: store_house.geography_point.pk, point_of_consuming.geography_point.pk
+            # g[start] = 0
+            g[1] = 0
+
+            for l in range(len(graf)):
+                index = -1
+                curres = 1e9
+                for j in graf_length:
+                        if (used[j] == False) and ((index == -1) or (g[j] < g[index])):
+                            index = j
+                if g[index] == curres:
+                    break
+                used[index] = True
+                for (u,w) in graf[index]:
+                    if g[u] > g[index]+w:
+                         g[u] = g[index]+w
+                         p.append(u)
+
+            p.reverse()
+            p_sort = []
+            pairs = []
+            for lu in p:
+                # if lu != point_of_consuming.geography_point.pk
+                    p_sort.append(lu)
+            p_sort.reverse()
+            for i in range(len(p_sort)-1):
+                    pairs.append((p[i],p[i+1]))
+                    # print(pairs[i])
+        # return pairs, g[point_of_consuming.geography_point.pk]
+# /////////////////////////1////////////////////////////////////////////////////////////////////////////////////////////
     graf_length = dict()
     for point in points:
         for road in ways:
@@ -161,30 +196,6 @@ def create_graf():
     #     for a, b in data:
     #         print (a, b)
 
-    used = [False]*2000
-    g = [1e9]*1000
-    p = []
-    # g[store_house.geography_point.pk] = 0
-    g[1] = 0
-
-    for l in range(len(graf_length)):
-        index = -1
-        curres = 1e9
-        for j in graf_length:
-                if (used[j] == False) and ((index == -1) or (g[j] < g[index])):
-                    index = j
-        if g[index] == curres:
-            break
-        used[index] = True
-        for (u,w) in graf_length[index]:
-            if g[u] > g[index]+w:
-                 g[u] = g[index]+w
-                 p.append(u)
-    pairs_length = []
-
-    for i in range(len(p)-1):
-        pairs_length.append((p[i],p[i+1]))
-        # print(pairs[i])
 #///////////////////////////////////////2///////////////////////////////////////////////////////////////////////////////
     graf_danger = dict()
     for point in points:
@@ -204,6 +215,34 @@ def create_graf():
     #     print n
     #     for a, b in data:
     #         print (a, b)
+def complacency(need):
+    from main.models import Need
+    from main.models import Resource
 
-def algo2():
+    if datetime.now() > need.date_recomended:
+        comp = 0
+    else:
+        comp = (need.resource.price_one_unit*need.priority)/math.log(min(5,need.date_recomended - datetime.now()), 5)
+    return comp
+
+
+def speed(transport,way):
+    from main.models import Way
+    from main.models import Transport
+    general_speed = transport.speed/(transport.passability - way.passability)
+    return general_speed
+
+
+def cost_res_in_store_house(stock, store_house):
+    from main.models import StoreHouse
+    from main.models import Stock
+    cost = (stock.resource.volume_of_unit * store_house.rent)/store_house.volume
+    return cost
+
+
+def general_algo():
+    pass
+
+
+def algo_2():
     pass
