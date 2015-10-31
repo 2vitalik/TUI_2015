@@ -354,7 +354,7 @@ class MoneyView(View):
 <data>
 %s
 </data>
-</request>""" % (sign,data)
+</request>""" % (sign, data)
         print ddd
         r = urllib2.Request("https://api.privatbank.ua/p24api/rest_fiz", data=ddd,
                          headers={'Content-Type': 'application/xml'})
