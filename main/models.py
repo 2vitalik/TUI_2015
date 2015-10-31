@@ -45,7 +45,7 @@ class Volonter(models.Model):
     telephone = models.CharField(verbose_name=u'Телефон',max_length=20)
     gender = models.CharField(verbose_name=u'Стать',max_length=1, choices=GENDER_CHOICES)
     activeted = models.BooleanField(default=False, verbose_name=u'Підтвердження')
-    categories = models.ManyToManyField('CategoryResource', verbose_name=u'Категорія ресурсів', through='Potential')
+    categories = models.ManyToManyField('CategoryResource', verbose_name=u'Категорія ресурсів')
 
     class Meta:
         verbose_name_plural = u'Волонтери'

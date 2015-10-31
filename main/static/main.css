@@ -641,3 +641,7 @@ table{
 	font:normal 25px "Helvetice Neue",Arial,Tahoma,Verdana;
 	color:#1a1a1a;
 }
+.about {
+	margin-top: 50px;
+	margin-bottom: 200px;
+}

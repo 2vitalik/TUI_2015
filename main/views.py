@@ -65,6 +65,7 @@ class RoatView(TemplateView):
         context = super(RoatView, self).get_context_data(**kwargs)
         roat = Roat.objects.get(pk=self.kwargs.get('pk'))
         ways = roat.wasys.all()
+
         print ways
         context.update({
             'roat': roat,
@@ -505,10 +506,10 @@ class CreateOrderView(TemplateView):
         return context
 
 
-class LeliksView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        pass
-        return HttpResponse('OK')
+# class LeliksView(TemplateView):
+#     def get(self, request, *args, **kwargs):
+#         pass
+#         return HttpResponse('OK')
 # class RevertWayView(TemplateView):
 #     def get(self, request, *args, **kwargs):
 #         ways = Way.objects.all()

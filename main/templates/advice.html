@@ -10,10 +10,10 @@
             {% csrf_token %}
             <table>
                 <tr>
-                    <td style="width: 1500px;" class="CreateVoll">store_houses</td>
+                    <td class="CreateVoll">Склад</td>
                     <td class="CreateVolr">
                         <select size="1" class="pole_select" name="store_house">
-                            <option disabled>store_house</option>
+                            <option disabled>Склад</option>
                             {% for store_house in store_houses %}
                                 <option value="{{ store_house.pk }}">{{ store_house.geography_point }}</option>
                             {% endfor %}
@@ -21,10 +21,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="CreateVoll">point_of_consumings</td>
+                    <td class="CreateVoll">Споживач</td>
                     <td class="CreateVolr">
                         <select size="1" class="pole_select" name="point_of_consuming">
-                            <option disabled>store_house</option>
+                            <option disabled>Споживач</option>
                                 {% for point_of_consuming in point_of_consumings %}
                                     <option value="{{ point_of_consuming.pk }}">{{ point_of_consuming.geography_point }}</option>
                                 {% endfor %}
@@ -32,7 +32,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="CreateVoll">type</td>
+                    <td class="CreateVoll">Тип маршруту</td>
                     <td class="CreateVolr">
                         <select size="1" class="pole_select" name="type">
                             <option disabled>store_house</option>
@@ -48,4 +48,14 @@
             </table>
         </form>
    </div>
+    <br>
+
+    <br><br><br><br><br>     <br>
+
+    <br><br><br><br><br>     <br>
+
+    <br><br>
+
+    <br>
+
 {% endblock %}
