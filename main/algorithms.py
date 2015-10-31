@@ -315,9 +315,9 @@ def general_algo():
     store_houses = StoreHouse.objects.all()
     point_of_consimngs = PointOfConsuming.objects.all()
     max_sum = 0
-    transport_best = 0
-    store_house_best = 0
-    point_of_consimng_best = 0
+    transport_best = None
+    store_house_best = None
+    point_of_consimng_best = None
 
     for transport in free_transports:
         for store_house in store_houses:
@@ -330,6 +330,10 @@ def general_algo():
                     store_house_best = store_house
                     point_of_consimng_best = point_of_consimng
     if max_sum == 0:
+        return False
+    else:
+        pass
+
 
 
 
