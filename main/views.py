@@ -14,7 +14,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from main.algorithms import create_stock, create_graf
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
-    CategoryResource, Stock, Potential, Roat
+    CategoryResource, Stock, Potential, Roat, Way
 from django.core.mail import send_mail
 import hashlib
 
@@ -452,6 +452,7 @@ class NeedListView(ListView):
     model = Need
     context_object_name = 'Needs'
 
+
 class NeedCreateView(CreateView):
     template_name = 'create_need.html'
     model = Need
@@ -502,3 +503,23 @@ class CreateOrderView(TemplateView):
             'numbers': range(1, 20),
         })
         return context
+
+
+class LeliksView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        pass
+        return HttpResponse('OK')
+# class RevertWayView(TemplateView):
+#     def get(self, request, *args, **kwargs):
+#         ways = Way.objects.all()
+#         for way in ways:
+#             Way.objects.create(
+#                 point_from = way.point_to,
+#                 point_to = way.point_from,
+#                 roat_length = way.roat_length,
+#                 danger = way.danger,
+#                 passability = way.passability,
+#                 load = way.load,
+#                 yandex_or_byhand = way.yandex_or_byhand,
+#             )
+#         return HttpResponse('OK')

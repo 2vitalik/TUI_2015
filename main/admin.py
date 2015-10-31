@@ -32,10 +32,11 @@ class VolonterAdmin(admin.ModelAdmin):
         'telephone',
         'gender',
         'activeted',
-        'categories_field',
     )
     search_fields = ('fio', )
-    list_filter = ('gender', 'address','categories','birthday')
+    list_filter = ('gender', 'address',
+                   'categories',
+                   'birthday')
     filter_horizontal = ('categories', )
     date_hierarchy = 'birthday'
 
@@ -58,15 +59,13 @@ class VolonterAdmin(admin.ModelAdmin):
         if obj.activeted:
             img = u'<img src="/static/admin/img/icon-yes.gif" alt="Активований">'
             text = u'Видалити'
-            url = reverse('DeleteCandidateVolonterView', args=[obj.pk])
+            url = reverse('delete', args=[obj.pk])
         else:
             img = u'<img src="/static/admin/img/icon-no.gif" alt="Не активований">'
             text = u'Активувати'
-            url = reverse('ActivateCandidateVolonterView', args=[obj.pk])
+            url = reverse('activate', args=[obj.pk])
         return "%s <a href='%s'>%s</a>" % (img, url, text)
     activeted.allow_tags = True
-    activeted.admin_order_field = 'activeted'
-    activeted.short_description = 'Activeted'
 
 
 class ResourceAdmin(admin.ModelAdmin):
@@ -166,12 +165,18 @@ class TripAdmin(admin.ModelAdmin):
 
 
 class WayAdmin(admin.ModelAdmin):
-    list_display = ('point_from','point_to','roat_length','danger','passability','load',)
+    list_display = ('point_from','point_to','roat_length','danger','passability','load','yandex_or_byhand',)
 
 
 class RoatAdmin(admin.ModelAdmin):
-    list_display = ('name','storehouse','point_consuming',)
-
+    list_display = ('name','storehouse','point_consuming','transport','on_the_map',)
+    def on_the_map(self,obj):
+        text = u'Подивитися на карті'
+        url = reverse('leliksview')
+        return "<a href='%s'>%s</a>" % (url, text)
+    on_the_map.allow_tags = True
+    on_the_map.admin_order_field = u'Карта'
+    on_the_map.short_description = u'Карта'
 
 class MakingARoatAdmin(admin.ModelAdmin):
     list_display = ('roat','way',)
@@ -182,6 +187,11 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     change_password_form = CustomAdminPasswordChangeForm
+
+
+
+
+
 
 
 admin.site.register(MakingRoat, MakingARoatAdmin)
