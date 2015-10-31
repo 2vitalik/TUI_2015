@@ -25,9 +25,9 @@
                     <td class="CreateVolr">
                         <select size="1" class="pole_select" name="point_of_consuming">
                             <option disabled>store_house</option>
-{#                                {% for point_of_consuming in point_of_consumings %}#}
-{#                                    <option value="{{ point_of_consuming.pk }}">{{ point_of_consuming.name }}</option>#}
-{#                                {% endfor %}#}
+                                {% for point_of_consuming in point_of_consumings %}
+                                    <option value="{{ point_of_consuming.pk }}">{{ point_of_consuming.geography_point }}</option>
+                                {% endfor %}
                         </select>
                     </td>
                 </tr>

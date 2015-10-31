@@ -28,15 +28,15 @@ function init () {
                 iconColor: '#0095b6'
             }));
     {% endfor %}
-{#        {% for point_of_consuming in point_of_consumings %}#}
-{#        myMap.geoObjects#}
-{#            .add(new ymaps.Placemark([{{ point_of_consuming.geography_point.x }}, {{ point_of_consuming.geography_point.y }}], {#}
-{#                balloonContent: '{{ point_of_consuming.geography_point.address }}'#}
-{#            }, {#}
-{#                preset: 'islands#icon',#}
-{#                iconColor: 'red'#}
-{#            }));#}
-{#    {% endfor %}#}
+        {% for point_of_consuming in point_of_consumings %}
+        myMap.geoObjects
+            .add(new ymaps.Placemark([{{ point_of_consuming.geography_point.x }}, {{ point_of_consuming.geography_point.y }}], {
+                balloonContent: '{{ point_of_consuming.geography_point.address }}'
+            }, {
+                preset: 'islands#icon',
+                iconColor: 'red'
+            }));
+    {% endfor %}
         // todo: todo: point_ccnsuming
     {% endlocalize %}
 }

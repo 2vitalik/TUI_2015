@@ -39,8 +39,8 @@ urlpatterns = [
 
     url(r'^advice/$',AviceView.as_view(), name='advice'),
     url(r'^map/$',MapView.as_view(), name='map_stores'),
-    url(r'^roat/$',RoatView.as_view(), name='roat'),
-    # url(r'^roat/(?P<pk>\d+)/$',RoatView.as_view(), name='roat'),
+    # url(r'^roat/$',RoatView.as_view(), name='roat'),
+    url(r'^roat/(?P<pk>\d+)/$',RoatView.as_view(), name='roat'),
     url(r'^about/$',AboutView.as_view(), name='about'),
 
     url(r'^need/$',NeedListView.as_view(), name='list_need'),
@@ -107,6 +107,6 @@ urlpatterns = [
     url(r'^test/create_pointofconsuming', CreatePointOfConsumingView.as_view()),
     url(r'^actions/delete/(?P<volonter_id>\d+)/', DeleteCandidateVolonterView.as_view(), name='delete'),
     url(r'^actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view(), name='activate'),
-    url(r'^action/map', LeliksView.as_view(), name='leliksview')
+    # url(r'^action/map', LeliksView.as_view(), name='leliksview')
     # url(r'actions/revertways/', RevertWayView.as_view()),
  ]
