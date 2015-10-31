@@ -540,7 +540,7 @@ class CreateRoat(RedirectView):
 
                 if a[1] < best_transport:
                     best_transport = a[1]
-                    best_dict = a[0]
+                    best_pairs = a[0]
         elif type == '2':
 
             for transport in Transport.objects.all():
