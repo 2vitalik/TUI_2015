@@ -21,7 +21,7 @@ class StockAdmin(admin.ModelAdmin):
 
 
 class GeographyPointAdmin(admin.ModelAdmin):
-    list_display = ('x','y','address',)
+    list_display = ('address','x','y',)
 
 
 class VolonterAdmin(admin.ModelAdmin):
