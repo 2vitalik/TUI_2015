@@ -63,12 +63,12 @@ class RoatView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(RoatView, self).get_context_data(**kwargs)
-        # roat = Roat.objects.get(pk=self.kwargs.get('pk'))
-
+        roat = Roat.objects.get(pk=self.kwargs.get('pk'))
+        ways = roat.wasys.all()
+        print ways
         context.update({
-            'store_houses': StoreHouse.objects.all(),
-            # 'ways': roat.wasys.all(),
-            # todo: point_ccnsuming
+            'roat': roat,
+            'ways': ways,
         })
         return context
 

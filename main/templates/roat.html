@@ -10,109 +10,115 @@
 
     <script type="application/javascript">
 
-    //if ()
+
 
         function init () {
 
-            var multiRoute = new ymaps.multiRouter.MultiRoute({
-                // Описание опорных точек мультимаршрута.
-                referencePoints: [
-                    [55.734876, 37.59308],
-                    [55.80, 37.50]
-                ],
-                // Параметры маршрутизации.
-                params: {
-                    // Ограничение на максимальное количество маршрутов, возвращаемое маршрутизатором.
-                    results: 1
-                }
-            }, {
-                // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
-                boundsAutoApply: true
-            });
-            var multiRoute2 = new ymaps.multiRouter.MultiRoute({
-                // Описание опорных точек мультимаршрута.
-                referencePoints: [
-                    [55.70, 37.40],
-                    [55.80, 38.50]
-                ],
-                // Параметры маршрутизации.
-                params: {
-                    // Ограничение на максимальное количество маршрутов, возвращаемое маршрутизатором.
-                    results: 1
-                }
-            }, {
-                // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
-                boundsAutoApply: true
-            });
+            {% for way in ways %}
 
-            // Создаем кнопки для управления мультимаршрутом.
-            var trafficButton = new ymaps.control.Button({
-                    data: { content: "Учитывать пробки" },
-                    options: { selectOnClick: true }
-                }),
-                viaPointButton = new ymaps.control.Button({
-                    data: { content: "Добавить транзитную точку" },
-                    options: { selectOnClick: true }
-                });
 
-            // Объявляем обработчики для кнопок.
-            trafficButton.events.add('select', function () {
-                /**
-                 * Задаем параметры маршрутизации для модели мультимаршрута.
-                 * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRouteModel.xml#setParams
-                 */
-                multiRoute.model.setParams({ avoidTrafficJams: true }, true);
-            });
+{#                if ({{ way.YANDEX_OR_YOU}})  {#}
+
+
+                    var multiRoute_{{ way.pk }} = new ymaps.multiRouter.MultiRoute({
+                        // Описание опорных точек мультимаршрута.
+                        referencePoints: [
+                            [55.734876, 37.59308],
+                            [55.80, 37.50]
+                        ],
+                        // Параметры маршрутизации.
+                        params: {
+                            // Ограничение на максимальное количество маршрутов, возвращаемое маршрутизатором.
+                            results: 1
+                        }
+                    }, {
+                        // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
+                        boundsAutoApply: true
+                    });
+                    // Создаем кнопки для управления мультимаршрутом.
+                    var trafficButton = new ymaps.control.Button({
+                                data: {content: "Учитывать пробки"},
+                                options: {selectOnClick: true}
+                            }),
+                            viaPointButton = new ymaps.control.Button({
+                                data: {content: "Добавить транзитную точку"},
+                                options: {selectOnClick: true}
+                            });
+
+                    // Объявляем обработчики для кнопок.
+                    trafficButton.events.add('select', function () {
+                        /**
+                         * Задаем параметры маршрутизации для модели мультимаршрута.
+                         * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRouteModel.xml#setParams
+                         */
+                        multiRoute_{{ way.pk }}.model.setParams({avoidTrafficJams: true}, true);
+                    });
+{#                }#}
 
 
 
+{#                if (!{{ way.YANDEX_OR_YOU }}) {#}
+
+
+                    // Создаем карту с добавленными на нее кнопками.
+                    var myMap = new ymaps.Map('map', {
+                        center: [55.750625, 37.626],
+                        zoom: 7,
+                        controls: [trafficButton, viaPointButton]
+                    }, {
+                        buttonMaxWidth: 300
+                    });
+
+                    // Добавляем мультимаршрут на карту.
+                    myMap.geoObjects.add(multiRoute);
+
+
+                    // Создаем ломаную с помощью вспомогательного класса Polyline.
+                    var myPolyline{{ way.pk }} = new ymaps.Polyline([
+                        // Указываем координаты вершин ломаной.
+                        [55.80, 37.50],
+                        [55.80, 37.40],
+                        [55.70, 37.50],
+                        [55.70, 37.40]
+                    ], {
+                        // Описываем свойства геообъекта.
+                        // Содержимое балуна.
+                        balloonContent: "Ломаная линия"
+                    }, {
+                        // Задаем опции геообъекта.
+                        // Отключаем кнопку закрытия балуна.
+                        balloonCloseButton: false,
+                        // Цвет линии.
+                        strokeColor: "#000000",
+                        // Ширина линии.
+                        strokeWidth: 4,
+                        // Коэффициент прозрачности.
+                        strokeOpacity: 0.5
+                    });
+
+                    // Добавляем линии на карту.
+                    myMap.geoObjects
+
+                            .add(myPolyline{{ way.pk }});
+{#                }#}
+
+
+
+            {% endfor %}
 
 
 
 
-            // Создаем карту с добавленными на нее кнопками.
-            var myMap = new ymaps.Map('map', {
-                center: [55.750625, 37.626],
-                zoom: 7,
-                controls: [trafficButton, viaPointButton]
-            }, {
-                buttonMaxWidth: 300
-            });
 
-            // Добавляем мультимаршрут на карту.
-            myMap.geoObjects.add(multiRoute);
-            myMap.geoObjects.add(multiRoute2);
 
-    // Создаем ломаную с помощью вспомогательного класса Polyline.
-    var myPolyline = new ymaps.Polyline([
-            // Указываем координаты вершин ломаной.
-            [55.80, 37.50],
-            [55.80, 37.40],
-            [55.70, 37.50],
-            [55.70, 37.40]
-        ], {
-            // Описываем свойства геообъекта.
-            // Содержимое балуна.
-            balloonContent: "Ломаная линия"
-        }, {
-            // Задаем опции геообъекта.
-            // Отключаем кнопку закрытия балуна.
-            balloonCloseButton: false,
-            // Цвет линии.
-            strokeColor: "#000000",
-            // Ширина линии.
-            strokeWidth: 4,
-            // Коэффициент прозрачности.
-            strokeOpacity: 0.5
-        });
 
-    // Добавляем линии на карту.
-    myMap.geoObjects
 
-        .add(myPolyline);
+
+
+
+
+            ymaps.ready(init);
         }
-
-        ymaps.ready(init);
 
     </script>
 
