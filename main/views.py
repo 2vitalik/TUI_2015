@@ -12,9 +12,9 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView,
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.algorithms import create_stock
+from main.algorithms import create_stock, create_graf_chip, create_graf_danger, create_graf_time, create_roat
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
-    CategoryResource, Stock, Potential, Roat, Way
+    CategoryResource, Stock, Potential, Roat, Way, Transport
 from django.core.mail import send_mail
 import hashlib
 
@@ -527,5 +527,38 @@ class LeliksView(TemplateView):
 
 class CreateRoat(RedirectView):
     def get(self, request, *args, **kwargs):
-        pass
+        store_house = request.POST.get('store_house')
+        point_of_consuming = request.POST.get('point_of_consuming')
+        type = request.POST.get('type')
+        best_transport = 0
+        best_pairs = None
 
+        if type == '3':
+            best_transport = 1e9
+            for transport in Transport.objects.all():
+                a = create_graf_chip(store_house, point_of_consuming, transport)
+
+                if a[1] < best_transport:
+                    best_transport = a[1]
+                    best_dict = a[0]
+        elif type == '2':
+
+            for transport in Transport.objects.all():
+                a = create_graf_danger(store_house, point_of_consuming, transport)
+                if a[1] > best_transport:
+                    best_transport = a[1]
+                    best_pairs = a[0]
+        elif type == '1':
+
+            for transport in Transport.objects.all():
+                a = create_graf_time(store_house, point_of_consuming, transport)
+                if a[1] > best_transport:
+                    best_transport = a[1]
+                    best_pairs = a[0]
+
+        roat = create_roat(best_pairs)
+        roat.storehouse_id = int(store_house)
+        roat.point_of_consuming_id = int(point_of_consuming)
+        roat.transport = best_transport
+
+        return redirect('roat', args=[roat.pk])

@@ -109,5 +109,5 @@ urlpatterns = [
     url(r'^actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view(), name='activate'),
     # url(r'^action/map', LeliksView.as_view(), name='leliksview')
     # url(r'actions/revertways/', RevertWayView.as_view()),
-    url(r'create_roat', CreateRoat.as_view()),
+    url(r'create_roat', CreateRoat.as_view(), name='create_roat'),
  ]
