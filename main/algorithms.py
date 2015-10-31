@@ -1,7 +1,6 @@
 # coding: utf-8
 import math
 from datetime import timedelta, datetime
-from main.models import Roat, Way, StoreHouse, PointOfConsuming
 
 
 def fill_store_houses(stock):
@@ -178,6 +177,8 @@ def deikstra(graf,start,end):
 
 
 def create_roat(pairs):
+    from main.models import Roat, Way
+
     roat = Roat.objects.create()
     for pair in pairs:
         way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
