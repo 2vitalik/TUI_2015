@@ -51,7 +51,7 @@ class MapView(ListView):
     def get_context_data(self, **kwargs):
         context = super(MapView, self).get_context_data(**kwargs)
         context.update({
-            'StoreHouse':StoreHouse.objects.all(),
+            'store_houses': StoreHouse.objects.all(),
         })
         return context
 
