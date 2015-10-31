@@ -172,7 +172,7 @@ class RoatAdmin(admin.ModelAdmin):
     list_display = ('name','storehouse','point_consuming','transport','on_the_map',)
     def on_the_map(self,obj):
         text = u'Подивитися на карті'
-        url = reverse('leliksview')
+        url = reverse('roat', args=[obj.pk] )
         return "<a href='%s'>%s</a>" % (url, text)
     on_the_map.allow_tags = True
     on_the_map.admin_order_field = u'Карта'
