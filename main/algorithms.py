@@ -244,5 +244,23 @@ def general_algo():
     pass
 
 
-def algo_2():
-    pass
+def algo_2(transport,store_house,point_of_consuming):
+    from main.models import KindOfTransport
+    from main.models import StoreHouse
+    from main.models import PointOfConsuming
+    from main.models import Need
+    from main.models import Stock
+    from main.models import Transport
+    from main.models import Order
+
+    volume_cur = transport.volume_transport
+    sum_opt = 0
+    orders = Order.objects.filter(point_of_consuming = point_of_consuming)
+    for order in orders:
+        needs = order.need_set.all()
+        for need in needs:
+                stocks = Stock.objects.filter(resource=need.resorce,store_house = store_house)
+                for stock in stocks:
+                    if stock.resource.volume_of_unit <= volume_cur:
+                        pass
+
