@@ -19,7 +19,7 @@ from django.contrib.auth.views import login, logout
 from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterGrafikView, \
     CreateVolontersView, ResourceGrafikView, CreateNeedsView, CreatePointOfConsumingView,FinishedView, \
     ResourceListView, DeleteCandidateVolonterView, ActivateCandidateVolonterView,MoneyView, GraphView, \
-    CreateOrderView, NeedListView, NeedCreateView, CreateRoat
+    CreateOrderView, NeedListView, NeedCreateView, MapView, AboutView, AviceView, RoatView, LeliksView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -37,10 +37,15 @@ urlpatterns = [
 
     url(r'^order/add/$',CreateOrderView.as_view(), name='create_order'),
 
-    # url(r'^map/$', MapView.as_view(), name='map'),
+    url(r'^advice/$',AviceView.as_view(), name='advice'),
+    url(r'^map/$',MapView.as_view(), name='map_stores'),
+    # url(r'^roat/$',RoatView.as_view(), name='roat'),
+    url(r'^roat/(?P<pk>\d+)/$',RoatView.as_view(), name='roat'),
+    url(r'^about/$',AboutView.as_view(), name='about'),
 
     url(r'^need/$',NeedListView.as_view(), name='list_need'),
     url(r'^need/add/$',NeedCreateView.as_view(), name='create_need'),
+
     # url(r'^Volonter/(?P<pk>\d+)/edit/',VolonterUpdateView.as_view(), name='update_volonter'),
 
     # url(r'^StoreHouse/$',StoreHouseListView.as_view(), name= 'list_StoreHouse'),
@@ -100,7 +105,9 @@ urlpatterns = [
     url(r'response/$',MoneyView.as_view()),
     url(r'graph/$', GraphView.as_view()),
     url(r'^test/create_pointofconsuming', CreatePointOfConsumingView.as_view()),
-    url(r'actions/delete/(?P<volonter_id>\d+)/', DeleteCandidateVolonterView.as_view()),
-    url(r'actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view()),
+    url(r'^actions/delete/(?P<volonter_id>\d+)/', DeleteCandidateVolonterView.as_view(), name='delete'),
+    url(r'^actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view(), name='activate'),
+    # url(r'^action/map', LeliksView.as_view(), name='leliksview')
+    # url(r'actions/revertways/', RevertWayView.as_view()),
     url(r'create_roat', CreateRoat.as_view()),
  ]

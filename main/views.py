@@ -12,9 +12,9 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView,
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.algorithms import create_stock, create_graf
+from main.algorithms import create_stock
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
-    CategoryResource, Stock, Potential
+    CategoryResource, Stock, Potential, Roat, Way
 from django.core.mail import send_mail
 import hashlib
 
@@ -25,7 +25,7 @@ class MainView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MainView, self).get_context_data(**kwargs)
         context.update({
-            'Volonter': Volonter.objects.all(),
+            'Volonter': Volonter.objects.filter(activeted=False),
         })
         return context
 
@@ -38,9 +38,60 @@ class VolonterListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(VolonterListView, self).get_context_data(**kwargs)
         context.update({
-            'Volonter': Volonter.objects.all(),
+            'Volonter':Volonter.objects.filter(activeted=True),
         })
         return context
+
+
+class MapView(ListView):
+    template_name = 'map.html'
+    model = StoreHouse
+    context_object_name = 'StoreHouse'
+
+    def get_context_data(self, **kwargs):
+        context = super(MapView, self).get_context_data(**kwargs)
+        context.update({
+            'store_houses': StoreHouse.objects.all(),
+            'point_of_consumings': PointOfConsuming.objects.all(),
+            # todo: point_ccnsuming
+        })
+        return context
+
+
+class RoatView(TemplateView):
+    template_name = 'roat.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(RoatView, self).get_context_data(**kwargs)
+        # roat = Roat.objects.get(pk=self.kwargs.get('pk'))
+
+        context.update({
+            'store_houses': StoreHouse.objects.all(),
+            # 'ways': roat.wasys.all(),
+            # todo: point_ccnsuming
+        })
+        return context
+
+
+class AviceView(TemplateView):
+    template_name = 'advice.html'
+    # fields = ('store_house', 'point_of_consuming', 'type',)
+    # success_url = reverse_lazy('#')
+    def get_context_data(self, **kwargs):
+        context = super(AviceView, self).get_context_data(**kwargs)
+        store_house = StoreHouse.objects.all()
+        point_of_consuming = PointOfConsuming.objects.all()
+        context.update({
+            'store_houses':store_house,
+            'point_of_consumings': point_of_consuming,
+        })
+        return context
+
+
+class AboutView(ListView):
+    template_name = 'about.html'
+    model = Volonter
+    context_object_name = 'Volonter'
 
 
 class VolonterDetailView(DetailView):
@@ -346,8 +397,8 @@ class MoneyView(View):
 
 class GraphView(View):
     def get(self, request, *args, **kwargs):
-        create_graf()
-        return HttpResponse('Hello')
+        # create_graf()
+        return HttpResponse('Мы удалили функцию create_graf() отсюда :)')
 
 
 class CreatePotentialView(TemplateView):
@@ -401,6 +452,7 @@ class NeedListView(ListView):
     model = Need
     context_object_name = 'Needs'
 
+
 class NeedCreateView(CreateView):
     template_name = 'create_need.html'
     model = Need
@@ -451,6 +503,26 @@ class CreateOrderView(TemplateView):
             'numbers': range(1, 20),
         })
         return context
+
+
+class LeliksView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        pass
+        return HttpResponse('OK')
+# class RevertWayView(TemplateView):
+#     def get(self, request, *args, **kwargs):
+#         ways = Way.objects.all()
+#         for way in ways:
+#             Way.objects.create(
+#                 point_from = way.point_to,
+#                 point_to = way.point_from,
+#                 roat_length = way.roat_length,
+#                 danger = way.danger,
+#                 passability = way.passability,
+#                 load = way.load,
+#                 yandex_or_byhand = way.yandex_or_byhand,
+#             )
+#         return HttpResponse('OK')
 
 
 class CreateRoat(RedirectView):

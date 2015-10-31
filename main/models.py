@@ -1,5 +1,6 @@
 # coding: utf-8
 from datetime import datetime, timedelta
+from django.contrib.auth.models import User
 from django.db import models
 
 from main.algorithms import fill_store_houses, create_resource_orders
@@ -44,7 +45,7 @@ class Volonter(models.Model):
     telephone = models.CharField(verbose_name=u'Телефон',max_length=20)
     gender = models.CharField(verbose_name=u'Стать',max_length=1, choices=GENDER_CHOICES)
     activeted = models.BooleanField(default=False, verbose_name=u'Підтвердження')
-    categories = models.ManyToManyField('CategoryResource', verbose_name=u'Категорія ресурсів')
+    categories = models.ManyToManyField('CategoryResource', verbose_name=u'Категорія ресурсів', through='Potential')
 
     class Meta:
         verbose_name_plural = u'Волонтери'
@@ -83,7 +84,7 @@ class CategoryResource(models.Model):
 class Resource(models.Model):
     category_resource = models.ForeignKey('CategoryResource',verbose_name=u'Категорія ресурса')
     name = models.CharField(max_length=30,verbose_name=u'Назва ресурсу')
-    unit_of_mesure = models.CharField(max_length=30,verbose_name=u'Одиниця вимірювання')
+    unit_of_mesure = models.CharField(max_length=30,verbose_name=u'Одиниця виміру')
     weight_one_unit = models.FloatField(verbose_name=u'Маса однієї одиниці', null=True)
     volume_of_one_unit = models.FloatField(verbose_name=u'Об"єм однієї одиниці')
     price_one_unit = models.FloatField(verbose_name=u'Ціна однієї одиниці')
@@ -173,8 +174,7 @@ class StoreHouse(models.Model):
         just_created = self.pk is None
         if just_created:
             self.free_volume = self.volume
-        super(StoreHouse, self).save(force_insert, force_update, using,
-                                     update_fields)
+        super(StoreHouse, self).save(force_insert, force_update, using, update_fields)
         if just_created:
             virtual_stocks = Stock.objects.filter(store_house__isnull=True)
             for stock in virtual_stocks:
@@ -307,12 +307,17 @@ class Trip(models.Model):
 
 
 class Way(models.Model):
+    YANDEX_OR_YOU=(
+        (True,u'Яндекс'),
+        (False,u'Вручну'),
+    )
     point_from = models.ForeignKey('GeographyPoint', verbose_name=u'Звідки', related_name='point_from')
     point_to = models.ForeignKey('GeographyPoint', verbose_name=u'Куди', related_name='point_to')
     roat_length = models.IntegerField(verbose_name=u'Довжина')
-    danger = models.IntegerField(verbose_name=u'Небезпечність')
+    danger = models.FloatField(verbose_name=u'Небезпечність')
     passability = models.IntegerField(verbose_name=u'Проходимість')
     load = models.IntegerField(verbose_name=u'Заповненість')
+    yandex_or_byhand = models.BooleanField(verbose_name=u'Вид створення доріг', choices=YANDEX_OR_YOU, default=YANDEX_OR_YOU[0][0])
 
     class Meta:
         verbose_name_plural = u'Дороги'
@@ -340,6 +345,7 @@ class Roat(models.Model):
     name = models.CharField(max_length=100,verbose_name=u'Назва', null=True)
     storehouse = models.ForeignKey('StoreHouse', verbose_name=u'Від складу',null=True)
     point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'До пункту', null=True)
+    transport = models.ForeignKey('Transport',verbose_name=u'Рекомендований транспортний засіб', null=True, max_length=50)
     wasys = models.ManyToManyField('Way', verbose_name=u'Проміжні дороги',blank=True)
 
     class Meta:
@@ -372,10 +378,11 @@ class GeographyPoint(models.Model):
         verbose_name_plural = u'Географічні точки'
 
     def __unicode__(self):
-        return "%s" % self.address
+        return "%s,%s"%(self.pk, self.address)
 
 
 class PointOfConsuming(models.Model):
+    user = models.OneToOneField(User, null=True, related_name='point_consuming')
     geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
     fio = models.CharField(max_length=50, null = False,verbose_name=u'ПІБ заказника')
     telephone = models.CharField(max_length=20, null = False, verbose_name=u'Телефон заказника')
