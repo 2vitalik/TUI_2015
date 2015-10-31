@@ -187,7 +187,7 @@ def create_graf_chip(store_house, point_of_consuming,transport):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from == point:
+            if road.point_from == point and transport.passability >= road.passability:
                 if road.point_from in graf:
                     graf[road.point_from.pk].append((road.point_to.pk, road.roat_length/transport.expences_fuel))
                 else:
@@ -205,7 +205,7 @@ def create_graf_chip(store_house, point_of_consuming,transport):
     #         print (a, b)
 
 #///////////////////////////////////////2///////////////////////////////////////////////////////////////////////////////
-def create_graf_danger(store_house, point_of_consuming):
+def create_graf_danger(store_house, point_of_consuming, transport):
     from main.models import Way
     from main.models import PointOfConsuming
     from main.models import GeographyPoint
@@ -215,7 +215,7 @@ def create_graf_danger(store_house, point_of_consuming):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from.pk == point.pk:
+            if road.point_from.pk == point.pk and transport.passability >= road.passability:
                 if road.point_from in graf:
                     graf[road.point_from.pk].append((road.point_to.pk, round(-1.0 * math.log(1-road.danger),4)))
                 else:
@@ -247,7 +247,7 @@ def create_graf_time(store_house, point_of_consuming,transport):
     for point in points:
         for road in ways:
             if road.point_from == point:
-                if road.point_from in graf:
+                if road.point_from in graf and transport.passability >= road.passability:
                     graf[road.point_from.pk].append((road.point_to.pk, speed(transport, road) * math.log(min(transport.passability),5)/math.log(5)))
                 else:
                     graf[road.point_from.pk] = [(road.point_to.pk, speed(transport, road) * math.log(min(transport.passability),5)/math.log(5))]

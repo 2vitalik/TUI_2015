@@ -451,5 +451,9 @@ class CreateOrderView(TemplateView):
             'numbers': range(1, 20),
         })
         return context
-class CreateMap(RedirectView):
-    pass
+
+
+class CreateRoat(RedirectView):
+    def get(self, request, *args, **kwargs):
+        pass
+
