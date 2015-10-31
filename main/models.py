@@ -320,12 +320,28 @@ class Way(models.Model):
     def __unicode__(self):
         return "%s,%s,%s,"%(self.point_from.address,self.point_to.address,self.roat_length)
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None, ignore=False):
+        just_created = self.pk is None
+        if just_created and ignore is False:
+            way = Way(
+                point_from=self.point_to,
+                point_to=self.point_from,
+                roat_length = self.roat_length,
+                danger = self.danger,
+                possability = self.passability,
+                load = self.load
+            )
+            way.save(ignore=True)
+        super(Way, self).save(force_insert, force_update, using,
+                                     update_fields)
 
 class Roat(models.Model):
     name = models.CharField(max_length=100,verbose_name=u'Назва', null=True)
     storehouse = models.ForeignKey('StoreHouse', verbose_name=u'Від складу',null=True)
     point_consuming = models.ForeignKey('PointOfConsuming', verbose_name=u'До пункту', null=True)
     wasys = models.ManyToManyField('Way', verbose_name=u'Проміжні дороги',blank=True)
+
     class Meta:
         verbose_name_plural = u'Маршрут'
 
