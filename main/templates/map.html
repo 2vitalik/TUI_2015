@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load l10n %}
 
 {% block js %}
 
@@ -17,6 +18,7 @@ function init () {
         }, {
             searchControlProvider: 'yandex#search'
         });
+    {% localize off %}
     {% for store_house in store_houses %}
         myMap.geoObjects
             .add(new ymaps.Placemark([{{ store_house.geography_point.x }}, {{ store_house.geography_point.y }}], {
@@ -25,7 +27,9 @@ function init () {
                 preset: 'islands#icon',
                 iconColor: '#0095b6'
             }));
+        // {{ store_house.geography_point.y|floatformat }}, {{ store_house.geography_point.y }}
     {% endfor %}
+    {% endlocalize %}
 }
 </script>
 {% endblock %}
