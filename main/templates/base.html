@@ -3,6 +3,7 @@
 <html >
 <head>
 <title>new-help4you.tk</title>
+ <link rel="shortcut icon" href="{% static 'img/plus.gif' %}" type="image/gif">
 <meta http-equiv="Content-Type" content="text/html; charrset=windows-1251">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}"/>
@@ -41,12 +42,18 @@
             </ul>
           </li>
 
-          <li> <a href="{% url 'map_stores' %}">MAP</a> </li>
+{#          <li> <a href="{% url 'map_stores' %}">MAP</a> </li>#}
+        <li class="parent"> <a href="#">МАПА</a>
+            <ul>
+              <li> <a href="{% url 'map_stores' %}">ТОЧКИ</a> </li>
+              <li> <a href="{% url 'advice' %}">Test</a> </li>
+            </ul>
+          </li>
           <li> <a href="/admin">ДЛЯ АДМІНІСТРАції</a> </li>
             {% if user.is_authenticated %}
-                <li><p  class="infoaboutuser">Hello, {{ user.get_full_name }}</p> <a href="{% url 'logout' %}?next=/">logout</a> </li>
+                <li><p  class="infoaboutuser">Привіт, {{ user.get_full_name }}</p> <a href="{% url 'logout' %}?next=/">Вихід</a> </li>
             {% else %}
-                <li><a href="{% url 'login' %}">login</a> </li>
+                <li><a href="{% url 'login' %}">Вхід</a> </li>
             {% endif %}
         </ul>
       </div>

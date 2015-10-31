@@ -14,7 +14,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from main.algorithms import create_stock, create_graf
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
-    CategoryResource, Stock, Potential
+    CategoryResource, Stock, Potential, Roat
 from django.core.mail import send_mail
 import hashlib
 
@@ -52,6 +52,38 @@ class MapView(ListView):
         context = super(MapView, self).get_context_data(**kwargs)
         context.update({
             'store_houses': StoreHouse.objects.all(),
+            'point_of_consumings': PointOfConsuming.objects.all(),
+            # todo: point_ccnsuming
+        })
+        return context
+
+
+class RoatView(TemplateView):
+    template_name = 'roat.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(RoatView, self).get_context_data(**kwargs)
+        # roat = Roat.objects.get(pk=self.kwargs.get('pk'))
+
+        context.update({
+            'store_houses': StoreHouse.objects.all(),
+            # 'ways': roat.wasys.all(),
+            # todo: point_ccnsuming
+        })
+        return context
+
+
+class AviceView(TemplateView):
+    template_name = 'advice.html'
+    # fields = ('store_house', 'point_of_consuming', 'type',)
+    # success_url = reverse_lazy('#')
+    def get_context_data(self, **kwargs):
+        context = super(AviceView, self).get_context_data(**kwargs)
+        store_house = StoreHouse.objects.all()
+        point_of_consuming = PointOfConsuming.objects.all()
+        context.update({
+            'store_houses':store_house,
+            'point_of_consumings': point_of_consuming,
         })
         return context
 

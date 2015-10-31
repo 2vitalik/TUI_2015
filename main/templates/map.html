@@ -13,8 +13,8 @@ ymaps.ready(init);
 
 function init () {
     var myMap = new ymaps.Map('map', {
-            center: [55.76, 37.64],
-            zoom: 10
+            center: [48.507927, 32.262311],
+            zoom: 6
         }, {
             searchControlProvider: 'yandex#search'
         });
@@ -27,8 +27,17 @@ function init () {
                 preset: 'islands#icon',
                 iconColor: '#0095b6'
             }));
-        // {{ store_house.geography_point.y|floatformat }}, {{ store_house.geography_point.y }}
     {% endfor %}
+{#        {% for point_of_consuming in point_of_consumings %}#}
+{#        myMap.geoObjects#}
+{#            .add(new ymaps.Placemark([{{ point_of_consuming.geography_point.x }}, {{ point_of_consuming.geography_point.y }}], {#}
+{#                balloonContent: '{{ point_of_consuming.geography_point.address }}'#}
+{#            }, {#}
+{#                preset: 'islands#icon',#}
+{#                iconColor: 'red'#}
+{#            }));#}
+{#    {% endfor %}#}
+        // todo: todo: point_ccnsuming
     {% endlocalize %}
 }
 </script>
