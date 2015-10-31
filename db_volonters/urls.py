@@ -19,7 +19,7 @@ from django.contrib.auth.views import login, logout
 from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterGrafikView, \
     CreateVolontersView, ResourceGrafikView, CreateNeedsView, CreatePointOfConsumingView,FinishedView, \
     ResourceListView, DeleteCandidateVolonterView, ActivateCandidateVolonterView,MoneyView, GraphView, \
-    CreateOrderView, NeedListView, NeedCreateView
+    CreateOrderView, NeedListView, NeedCreateView, LeliksView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -100,6 +100,8 @@ urlpatterns = [
     url(r'response/$',MoneyView.as_view()),
     url(r'graph/$', GraphView.as_view()),
     url(r'^test/create_pointofconsuming', CreatePointOfConsumingView.as_view()),
-    url(r'actions/delete/(?P<volonter_id>\d+)/', DeleteCandidateVolonterView.as_view()),
-    url(r'actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view()),
+    url(r'^actions/delete/(?P<volonter_id>\d+)/', DeleteCandidateVolonterView.as_view(), name='delete'),
+    url(r'^actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view(), name='activate'),
+    url(r'^action/map', LeliksView.as_view(), name='leliksview')
+    # url(r'actions/revertways/', RevertWayView.as_view()),
  ]
