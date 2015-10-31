@@ -627,3 +627,17 @@ table{
 	padding-right: 0px;
 
 }
+.info{
+	text-align: center;
+	width: 900px;
+	padding-left: 20px;
+	font:normal 30px "Helvetice Neue",Arial,Tahoma,Verdana;
+	color: red;
+}
+.info_v{
+	text-align: center;
+	width: 900px;
+	padding-left: 20px;
+	font:normal 25px "Helvetice Neue",Arial,Tahoma,Verdana;
+	color:#1a1a1a;
+}

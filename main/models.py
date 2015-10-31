@@ -1,5 +1,6 @@
 # coding: utf-8
 from datetime import datetime, timedelta
+from django.contrib.auth.models import User
 from django.db import models
 
 from main.algorithms import fill_store_houses, create_resource_orders
@@ -360,6 +361,7 @@ class GeographyPoint(models.Model):
 
 
 class PointOfConsuming(models.Model):
+    user = models.OneToOneField(User, null=True, related_name='point_consuming')
     geography_point = models.OneToOneField('GeographyPoint', null=True, verbose_name=u'Географічна точка')
     fio = models.CharField(max_length=50, null = False,verbose_name=u'ПІБ заказника')
     telephone = models.CharField(max_length=20, null = False, verbose_name=u'Телефон заказника')

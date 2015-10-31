@@ -43,6 +43,25 @@ class VolonterListView(ListView):
         return context
 
 
+class MapView(ListView):
+    template_name = 'map.html'
+    model = StoreHouse
+    context_object_name = 'StoreHouse'
+
+    def get_context_data(self, **kwargs):
+        context = super(MapView, self).get_context_data(**kwargs)
+        context.update({
+            'StoreHouse':StoreHouse.objects.all(),
+        })
+        return context
+
+
+class AboutView(ListView):
+    template_name = 'about.html'
+    model = Volonter
+    context_object_name = 'Volonter'
+
+
 class VolonterDetailView(DetailView):
     template_name = 'view_volonter.html'
     model = Volonter

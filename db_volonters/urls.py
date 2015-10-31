@@ -19,7 +19,7 @@ from django.contrib.auth.views import login, logout
 from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterGrafikView, \
     CreateVolontersView, ResourceGrafikView, CreateNeedsView, CreatePointOfConsumingView,FinishedView, \
     ResourceListView, DeleteCandidateVolonterView, ActivateCandidateVolonterView,MoneyView, GraphView, \
-    CreateOrderView, NeedListView, NeedCreateView
+    CreateOrderView, NeedListView, NeedCreateView, MapView, AboutView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -37,6 +37,8 @@ urlpatterns = [
 
     url(r'^order/add/$',CreateOrderView.as_view(), name='create_order'),
 
+    url(r'^map/$',MapView.as_view(), name='map_stores'),
+    url(r'^about/$',AboutView.as_view(), name='about'),
     # url(r'^map/$', MapView.as_view(), name='map'),
 
     url(r'^need/$',NeedListView.as_view(), name='list_need'),
