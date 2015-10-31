@@ -12,7 +12,7 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView,
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.algorithms import create_stock, create_graf
+from main.algorithms import create_stock
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
     CategoryResource, Stock, Potential, Roat, Way
 from django.core.mail import send_mail
@@ -397,8 +397,8 @@ class MoneyView(View):
 
 class GraphView(View):
     def get(self, request, *args, **kwargs):
-        create_graf()
-        return HttpResponse('Hello')
+        # create_graf()
+        return HttpResponse('Мы удалили функцию create_graf() отсюда :)')
 
 
 class CreatePotentialView(TemplateView):
