@@ -451,3 +451,5 @@ class CreateOrderView(TemplateView):
             'numbers': range(1, 20),
         })
         return context
+class CreateMap(RedirectView):
+    pass

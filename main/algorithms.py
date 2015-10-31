@@ -248,20 +248,21 @@ def create_graf_time(store_house, point_of_consuming,transport):
         for road in ways:
             if road.point_from == point:
                 if road.point_from in graf:
-                    graf[road.point_from.pk].append((road.point_to.pk, road.roat_length))
+                    graf[road.point_from.pk].append((road.point_to.pk, speed(transport, road) * math.log(min(transport.passability),5)/math.log(5)))
                 else:
-                    graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length)]
+                    graf[road.point_from.pk] = [(road.point_to.pk, speed(transport, road) * math.log(min(transport.passability),5)/math.log(5))]
 
                 if road.point_to in graf:
-                    graf[road.point_to.pk].append((road.point_from.pk, road.roat_length))
+                    graf[road.point_to.pk].append((road.point_from.pk, speed(transport, road) * math.log(min(transport.passability),5)/math.log(5)))
                 else:
-                    graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length)]
+                    graf[road.point_to.pk] = [(road.point_from.pk, speed(transport, road) * math.log(min(transport.passability),5)/math.log(5))]
 
     # for n, data in graf_length.items():
     #     print n.pk
     #     for a, b in data:
     #         print (a, b)
-
+    a = deikstra(graf, store_house, point_of_consuming)
+    return a
 
 def complacency(need):
     from main.models import Need
