@@ -107,6 +107,6 @@ urlpatterns = [
     url(r'^test/create_pointofconsuming', CreatePointOfConsumingView.as_view()),
     url(r'^actions/delete/(?P<volonter_id>\d+)/', DeleteCandidateVolonterView.as_view(), name='delete'),
     url(r'^actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view(), name='activate'),
-    url(r'^action/map', LeliksView.as_view(), name='leliksview')
+    url(r'^action/map', LeliksView.as_view(), name='roat')
     # url(r'actions/revertways/', RevertWayView.as_view()),
  ]

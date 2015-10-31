@@ -341,6 +341,7 @@ class Way(models.Model):
         super(Way, self).save(force_insert, force_update, using,
                                      update_fields)
 
+
 class Roat(models.Model):
     name = models.CharField(max_length=100,verbose_name=u'Назва', null=True)
     storehouse = models.ForeignKey('StoreHouse', verbose_name=u'Від складу',null=True)
