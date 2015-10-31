@@ -12,7 +12,8 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView,
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.algorithms import create_stock, create_graf_chip, create_graf_danger, create_graf_time, create_roat
+from main.algorithms import create_stock, create_graf_chip, create_graf_danger, create_graf_time, create_roat, \
+    general_algo
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
     CategoryResource, Stock, Potential, Roat, Way, Transport
 from django.core.mail import send_mail
@@ -503,6 +504,14 @@ class CreateOrderView(TemplateView):
             'numbers': range(1, 20),
         })
         return context
+
+
+class GeneralAlgoView(TemplateView):
+    template_name = 'admin/general_algo.html'
+
+    def get(self, request, *args, **kwargs):
+        general_algo()
+        return super(GeneralAlgoView, self).get(request, *args, **kwargs)
 
 
 class LeliksView(TemplateView):

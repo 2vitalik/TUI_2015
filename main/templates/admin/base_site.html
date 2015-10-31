@@ -3,7 +3,9 @@
 {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">Administration panel</a></h1>
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Administration panel</a>
+    <span style="color: white; font-size: 12px;">(<a style="color: white;" href="{% url 'general_algo' %}">Restuct or Go!</a>)</span>
+</h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
