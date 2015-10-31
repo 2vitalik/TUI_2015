@@ -178,6 +178,7 @@ class RoatAdmin(admin.ModelAdmin):
     on_the_map.admin_order_field = u'Карта'
     on_the_map.short_description = u'Карта'
 
+
 class MakingARoatAdmin(admin.ModelAdmin):
     list_display = ('roat','way',)
 
