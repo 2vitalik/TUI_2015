@@ -19,7 +19,8 @@ from django.contrib.auth.views import login, logout
 from main.views import MainView, VolonterListView, VolonterDetailView, VolonterCreateView, VolonterGrafikView, \
     CreateVolontersView, ResourceGrafikView, CreateNeedsView, CreatePointOfConsumingView,FinishedView, \
     ResourceListView, DeleteCandidateVolonterView, ActivateCandidateVolonterView,MoneyView, GraphView, \
-    CreateOrderView, NeedListView, NeedCreateView, MapView, AboutView, AviceView, RoatView
+    CreateOrderView, NeedListView, NeedCreateView, MapView, AboutView, AviceView, RoatView, CreateRoat, \
+    GeneralAlgoView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -96,6 +97,8 @@ urlpatterns = [
     #     PointOfConsumingCreateView.as_view(),
     #     name = 'create_pointofconsuming'),
 
+    url(r'^general_algo/$', GeneralAlgoView.as_view(), name='general_algo'),
+
     url(r'^actions/finished/(?P<resource_order_id>\d+)/',
         FinishedView.as_view(),
         name='finished'),
@@ -109,4 +112,5 @@ urlpatterns = [
     url(r'^actions/add/(?P<volonter_id>\d+)',ActivateCandidateVolonterView.as_view(), name='activate'),
     # url(r'^action/map', LeliksView.as_view(), name='leliksview')
     # url(r'actions/revertways/', RevertWayView.as_view()),
+    url(r'create_roat', CreateRoat.as_view(), name='create_roat'),
  ]

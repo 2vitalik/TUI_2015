@@ -1,7 +1,7 @@
 # coding: utf-8
 import math
 from datetime import timedelta, datetime
-
+from main.models import Roat, Way, StoreHouse, PointOfConsuming, Order
 
 
 def fill_store_houses(stock):
@@ -176,6 +176,15 @@ def deikstra(graf,start,end):
     #         # print(pairs[i])
     return pairs, g[end.geography_point.pk]
 
+
+def create_roat(pairs):
+    roat = Roat.objects.create()
+    for pair in pairs:
+        way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
+        roat.wasys.add(way)
+
+    return roat
+
 def create_graf_chip(store_house, point_of_consuming,transport):
     from main.models import Way
     from main.models import PointOfConsuming
@@ -187,16 +196,16 @@ def create_graf_chip(store_house, point_of_consuming,transport):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from == point:
+            if road.point_from == point and transport.passability >= road.passability:
                 if road.point_from in graf:
-                    graf[road.point_from.pk].append((road.point_to.pk, road.roat_length/transport.expences_fuel))
+                    graf[road.point_from.pk].append((road.point_to.pk, road.roat_length*transport.expences_fuel))
                 else:
-                    graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length/transport.expences_fuel)]
+                    graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length*transport.expences_fuel)]
 
                 if road.point_to in graf:
-                    graf[road.point_to.pk].append((road.point_from.pk, road.roat_length/transport.expences_fuel))
+                    graf[road.point_to.pk].append((road.point_from.pk, road.roat_length*transport.expences_fuel))
                 else:
-                    graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length/transport.expences_fuel)]
+                    graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length*transport.expences_fuel)]
     a = deikstra(graf,store_house,point_of_consuming)
     return a
     # for n, data in graf_length.items():
@@ -205,7 +214,7 @@ def create_graf_chip(store_house, point_of_consuming,transport):
     #         print (a, b)
 
 #///////////////////////////////////////2///////////////////////////////////////////////////////////////////////////////
-def create_graf_danger(store_house, point_of_consuming):
+def create_graf_danger(store_house, point_of_consuming, transport):
     from main.models import Way
     from main.models import PointOfConsuming
     from main.models import GeographyPoint
@@ -215,7 +224,7 @@ def create_graf_danger(store_house, point_of_consuming):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from.pk == point.pk:
+            if road.point_from.pk == point.pk and transport.passability >= road.passability:
                 if road.point_from in graf:
                     graf[road.point_from.pk].append((road.point_to.pk, round(-1.0 * math.log(1-road.danger),4)))
                 else:
@@ -247,21 +256,22 @@ def create_graf_time(store_house, point_of_consuming,transport):
     for point in points:
         for road in ways:
             if road.point_from == point:
-                if road.point_from in graf:
-                    graf[road.point_from.pk].append((road.point_to.pk, road.roat_length))
+                if road.point_from in graf and transport.passability >= road.passability:
+                    graf[road.point_from.pk].append((road.point_to.pk, (speed(transport, road)/road.load)* math.log(min(transport.passability - road.passability+2),5)/math.log(5)))
                 else:
-                    graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length)]
+                    graf[road.point_from.pk] = [(road.point_to.pk, (speed(transport, road)/road.load)* math.log(min(transport.passability - road.passability+2),5)/math.log(5))]
 
                 if road.point_to in graf:
-                    graf[road.point_to.pk].append((road.point_from.pk, road.roat_length))
+                    graf[road.point_to.pk].append((road.point_from.pk, (speed(transport, road)/road.load)* math.log(min(transport.passability - road.passability+2),5)/math.log(5)))
                 else:
-                    graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length)]
+                    graf[road.point_to.pk] = [(road.point_from.pk, (speed(transport, road)/road.load)* math.log(min(transport.passability - road.passability+2),5)/math.log(5))]
 
     # for n, data in graf_length.items():
     #     print n.pk
     #     for a, b in data:
     #         print (a, b)
-
+    a = deikstra(graf, store_house, point_of_consuming)
+    return a
 
 def complacency(need):
     from main.models import Need
@@ -288,11 +298,121 @@ def cost_res_in_store_house(stock, store_house):
 
 
 def general_algo():
-    pass
+    from main.models import Employment
+    from main.models import Transport
+    from main.models import Roat, Way, StoreHouse, PointOfConsuming, Stock
+    transports = Transport.objects.all()
+    free_transports = []
+    for transport in transports:
+        try:
+            employment = transport.employment_set.order_by('-date_finish')[0]
+        except IndexError:
+            employment = None
+        if employment and employment.date_finish > datetime.now():
+            pass  # transport занят
+        else:
+            free_transports.append(transport)
+    store_houses = StoreHouse.objects.all()
+    point_of_consumings = PointOfConsuming.objects.all()
+    max_sum = 0
+
+    transport_best = None
+    store_house_best = None
+    point_of_consuning_best = None
+    cur_obj_best = None
+    for transport in free_transports:
+        for store_house in store_houses:
+            for point_of_consuming in point_of_consumings:
+                cur_obj = algo_2(transport, store_house, point_of_consuming)
+                cur_sum = cur_obj[0]
+                if cur_sum > max_sum:
+                    max_sum = cur_sum
+                    transport_best = transport
+                    store_house_best = store_house
+                    point_of_consuning_best = point_of_consuming
+                    cur_obj_best = cur_obj
+                else:
+                    # orders = Order.objects.all(point_consuming = point_of_consuming)
+                    cur_dict = cur_obj[1]
+                    for res, key in cur_dict.items():
+                        for order_m,amount in key.values():
+                            if amount == 0:
+                                continue
+                            else:
+                                needs = order_m.need_set.all()
+                                need = needs.filter(resource=res.pk)# or resoure = res
+                                need.amount += amount
+                                need.save()
+
+    if max_sum == 0:
+        return
+    else:
+        cur_dict = cur_obj_best[1]
+        for res, key in cur_dict.items():
+            for order_m, amount in key.values():
+                if amount == 0:
+                    continue
+                else:
+                    stocks = Stock.objects.filter(store_house=store_house_best, resorce=res)# or resoure = res
+                    for stock in stocks:
+                        break_count = False
+                        delete_stock = False
+                        if amount < stock.amount:
+                            stock.amount -= amount
+                            stock.save()
+                            store_house_best.free_volume += amount * res.volume_of_one_unit
+                            store_house_best.save()
+                            break_count = True
+                        elif amount == stock.amount:
+                            store_house_best.free_volume += amount * res.volume_of_one_unit
+                            store_house_best.save()
+                            stock.delete()
+                            break_count = True
+                        else:
+                            amount -= stock.amount
+                            store_house_best.free_volume += stock.amount * res.volume_of_one_unit
+                            store_house_best.save()
+                            delete_stock = True
+                        if delete_stock is True:
+                            stock.delete()
+                        if break_count is True:
+                            break
+
+
+# todo:fill_store_houses()
+    virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+    for stock in virtual_stocks:
+        fill_store_houses(stock)
+
+
+
+
+
+
 
 
 def K_func(transport, store_house, point_of_consuming):
-    pass
+    from main.models import Way
+    from main.models import PointOfConsuming
+    from main.models import GeographyPoint
+    from main.models import StoreHouse
+    ways = Way.objects.all()
+    points = GeographyPoint.objects.all()
+    graf = dict()
+    for point in points:
+        for road in ways:
+            if road.point_from.pk == point.pk and transport.passability >= road.passability:
+                if road.point_from in graf:
+                    graf[road.point_from.pk].append((road.point_to.pk, road.roat_length*transport.expences_fuel))
+                else:
+                    graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length*transport.expences_fuel)]
+
+                if road.point_to.pk in graf:
+                    graf[road.point_to.pk].append((road.point_from.pk,road.roat_length*transport.expences_fuel))
+                else:
+                    graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length*transport.expences_fuel)]
+    a = deikstra(graf, store_house, point_of_consuming)
+    return a[1]
 
 
 def algo_2(transport, store_house, point_of_consuming):
@@ -306,7 +426,7 @@ def algo_2(transport, store_house, point_of_consuming):
     from main.models import Order
     from main.models import ShippingDetalization
 
-    orders = Order.objects.filter(point_of_consuming=point_of_consuming)
+    orders = Order.objects.filter(point_consuming=point_of_consuming)
     diction = {Resource.objects.all(): {orders: 0}}
 
     volume_cur = transport.volume_transport
@@ -339,7 +459,7 @@ def algo_2(transport, store_house, point_of_consuming):
 
         sum_opt = sum_opt + stock_best.resource.volume_of_one_unit*cost_res_in_store_house(stock_best, store_house) + complacency_max
         volume_cur -= stock_best.resource.volume_of_one_unit
-        diction[stock_best.resource.pk][order_best.pk] += 1
+        diction[stock_best.resource][order_best] += 1
         need_best.amount -= 1
         need_best.save()
 
