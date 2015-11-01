@@ -35,9 +35,9 @@ class VolonterAdmin(admin.ModelAdmin):
     )
     search_fields = ('fio', )
     list_filter = ('gender', 'address',
-                   'categories',
+                   # 'categories',
                    'birthday')
-    filter_horizontal = ('categories', )
+    # filter_horizontal = ('categories', )
     date_hierarchy = 'birthday'
 
     def categories_field(self, obj):
