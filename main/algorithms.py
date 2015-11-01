@@ -300,7 +300,7 @@ def cost_res_in_store_house(stock, store_house):
 def general_algo():
     from main.models import Employment
     from main.models import Transport
-    from main.models import Roat, Way, StoreHouse, PointOfConsuming
+    from main.models import Roat, Way, StoreHouse, PointOfConsuming, Stock
     transports = Transport.objects.all()
     free_transports = []
     for transport in transports:
@@ -313,28 +313,78 @@ def general_algo():
         else:
             free_transports.append(transport)
     store_houses = StoreHouse.objects.all()
-    point_of_consimngs = PointOfConsuming.objects.all()
+    point_of_consumings = PointOfConsuming.objects.all()
     max_sum = 0
 
     transport_best = None
     store_house_best = None
-    point_of_consimng_best = None
-
+    point_of_consuning_best = None
+    cur_obj_best = None
     for transport in free_transports:
         for store_house in store_houses:
-            for point_of_consimng in point_of_consimngs:
-                cur_obj = algo_2(transport, store_house, point_of_consimng)
+            for point_of_consuming in point_of_consumings:
+                cur_obj = algo_2(transport, store_house, point_of_consuming)
                 cur_sum = cur_obj[0]
                 if cur_sum > max_sum:
                     max_sum = cur_sum
                     transport_best = transport
                     store_house_best = store_house
-                    point_of_consimng_best = point_of_consimng
+                    point_of_consuning_best = point_of_consuming
+                    cur_obj_best = cur_obj
+                else:
+                    # orders = Order.objects.all(point_consuming = point_of_consuming)
+                    cur_dict = cur_obj[1]
+                    for res, key in cur_dict.items():
+                        for order_m,amount in key.values():
+                            if amount == 0:
+                                continue
+                            else:
+                                needs = order_m.need_set.all()
+                                need = needs.filter(resource=res.pk)# or resoure = res
+                                need.amount += amount
+                                need.save()
 
     if max_sum == 0:
         return
     else:
-         order = Order.objects.filter(point_consuming=point_of_consimng_best)
+        cur_dict = cur_obj_best[1]
+        for res, key in cur_dict.items():
+            for order_m, amount in key.values():
+                if amount == 0:
+                    continue
+                else:
+                    stocks = Stock.objects.filter(store_house=store_house_best, resorce=res)# or resoure = res
+                    for stock in stocks:
+                        break_count = False
+                        delete_stock = False
+                        if amount < stock.amount:
+                            stock.amount -= amount
+                            stock.save()
+                            store_house_best.free_volume += amount * res.volume_of_one_unit
+                            store_house_best.save()
+                            break_count = True
+                        elif amount == stock.amount:
+                            store_house_best.free_volume += amount * res.volume_of_one_unit
+                            store_house_best.save()
+                            stock.delete()
+                            break_count = True
+                        else:
+                            amount -= stock.amount
+                            store_house_best.free_volume += stock.amount * res.volume_of_one_unit
+                            store_house_best.save()
+                            delete_stock = True
+                        if delete_stock is True:
+                            stock.delete()
+                        if break_count is True:
+                            break
+
+
+# todo:fill_store_houses()
+    virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+    for stock in virtual_stocks:
+        fill_store_houses(stock)
+
+
 
 
 
@@ -409,7 +459,7 @@ def algo_2(transport, store_house, point_of_consuming):
 
         sum_opt = sum_opt + stock_best.resource.volume_of_one_unit*cost_res_in_store_house(stock_best, store_house) + complacency_max
         volume_cur -= stock_best.resource.volume_of_one_unit
-        diction[stock_best.resource.pk][order_best.pk] += 1
+        diction[stock_best.resource][order_best] += 1
         need_best.amount -= 1
         need_best.save()
 
