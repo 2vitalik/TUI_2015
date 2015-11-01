@@ -5,7 +5,7 @@ import urllib2
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView, View
@@ -539,36 +539,33 @@ class CreateRoat(RedirectView):
         store_house = request.POST.get('store_house')
         point_of_consuming = request.POST.get('point_of_consuming')
         type = request.POST.get('type')
-        best_value = 0
-        best_pairs = None
         best_transport = None
+        best_value = 1e9
+        best_pairs = None
 
         if type == '3':
-            best_value = 1e9
             for transport in Transport.objects.all():
                 a = create_graf_chip(store_house, point_of_consuming, transport)
                 if a[1] < best_value:
+                    best_transport = transport
                     best_value = a[1]
                     best_pairs = a[0]
-                    best_transport = transport
-
         elif type == '2':
+
             for transport in Transport.objects.all():
                 a = create_graf_danger(store_house, point_of_consuming, transport)
-                if a[1] > best_value:
+                if a[1] < best_value:
+                    best_transport = transport
                     best_value = a[1]
                     best_pairs = a[0]
-                    best_transport = transport
-
         elif type == '1':
+
             for transport in Transport.objects.all():
                 a = create_graf_time(store_house, point_of_consuming, transport)
-                if a[1] > best_value:
+                if a[1] < best_value:
+                    best_transport = transport
                     best_value = a[1]
                     best_pairs = a[0]
-                    best_transport = transport
-        else:
-            raise Http404()
 
         roat = create_roat(best_pairs)
         roat.storehouse_id = int(store_house)

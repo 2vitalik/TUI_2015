@@ -1,6 +1,7 @@
 # coding: utf-8
 import math
 from datetime import timedelta, datetime
+from main.models import Roat, Way, StoreHouse, PointOfConsuming, Order
 
 
 def fill_store_houses(stock):
@@ -177,8 +178,6 @@ def deikstra(graf,start,end):
 
 
 def create_roat(pairs):
-    from main.models import Roat, Way
-
     roat = Roat.objects.create()
     for pair in pairs:
         way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
@@ -316,6 +315,7 @@ def general_algo():
     store_houses = StoreHouse.objects.all()
     point_of_consimngs = PointOfConsuming.objects.all()
     max_sum = 0
+
     transport_best = None
     store_house_best = None
     point_of_consimng_best = None
@@ -330,10 +330,12 @@ def general_algo():
                     transport_best = transport
                     store_house_best = store_house
                     point_of_consimng_best = point_of_consimng
+
     if max_sum == 0:
-        return False
+        return
     else:
-        pass
+         order = Order.objects.filter(point_consuming=point_of_consimng_best)
+
 
 
 
@@ -374,7 +376,7 @@ def algo_2(transport, store_house, point_of_consuming):
     from main.models import Order
     from main.models import ShippingDetalization
 
-    orders = Order.objects.filter(point_of_consuming=point_of_consuming)
+    orders = Order.objects.filter(point_consuming=point_of_consuming)
     diction = {Resource.objects.all(): {orders: 0}}
 
     volume_cur = transport.volume_transport
