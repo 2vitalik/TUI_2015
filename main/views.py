@@ -239,7 +239,7 @@ class CreateVolontersView(TemplateView):
     def get(self, request, *args, **kwargs):
         print 'Fill Volonters:'
         surnames = [u'Трэк', u'Троев', u'Атеистов', u'Трюкови', u'Спайдэр', u'Виннов']
-        names = [u'Вася', u'Акакий', u'Лео', u'Адольф', u'Иосиф', u'Дима', u'Игорь', u'Антон', u'Жора', u'Вася', u'Трион', u'Енот',]
+        names = [u'Вася', u'Иосиф', u'Дима', u'Игорь', u'Антон', u'Жора', u'Вася', u'Трион',]
         operators = [u'093', u'050', u'098', u'066', u'099']
         oblast = [u'Вінницька область',
                    u'Волинська область',
@@ -269,11 +269,13 @@ class CreateVolontersView(TemplateView):
             telephone = u'+38' + random.choice(operators) + unicode(random.randint(1000000, 9999999))
             fio = random.choice(surnames) + u' ' + random.choice(names)
             address = random.choice(oblast)
+
             Volonter.objects.create(
                 fio=fio,
                 address=address,
                 telephone=telephone,
                 gender=u'М',
+
             )
             print fio, telephone
         return HttpResponse('ok')
