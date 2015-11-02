@@ -271,18 +271,20 @@ class CreateVolontersView(TemplateView):
                    u'Чернігівська область',
                    u'Чернівецька область',
                    u'Автономна Республіка Крим']
+        all_categories = list(CategoryResource.objects.all())
         for i in range(20):
             telephone = u'+38' + random.choice(operators) + unicode(random.randint(1000000, 9999999))
             fio = random.choice(surnames) + u' ' + random.choice(names)
             address = random.choice(oblast)
 
-            Volonter.objects.create(
+            volonter = Volonter.objects.create(
                 fio=fio,
                 address=address,
                 telephone=telephone,
                 gender=u'М',
-
             )
+            for i in range(random.randint(1, 2)):
+                volonter.categories.add(random.choice(all_categories))
             print fio, telephone
         return HttpResponse('ok')
 
