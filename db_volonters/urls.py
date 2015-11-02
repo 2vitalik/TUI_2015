@@ -20,7 +20,7 @@ from main.views import MainView, VolonterListView, VolonterDetailView, VolonterC
     CreateVolontersView, ResourceGrafikView, CreateNeedsView, CreatePointOfConsumingView,FinishedView, \
     ResourceListView, DeleteCandidateVolonterView, ActivateCandidateVolonterView,MoneyView, GraphView, \
     CreateOrderView, NeedListView, NeedCreateView, MapView, AboutView, AviceView, RoatView, CreateRoat, \
-    GeneralAlgoView
+    GeneralAlgoView, PerListView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -33,6 +33,8 @@ urlpatterns = [
     url(r'^logout/', logout, name='logout'),
 
     url(r'^Volonter/$',VolonterListView.as_view(), name='list_volonter'),
+
+    url(r'^performance/$',PerListView.as_view(), name='per'),
     url(r'^Volonter/(?P<pk>\d+)/$',VolonterDetailView.as_view(), name='view_volonter'),
     url(r'^Volonter/add/',VolonterCreateView.as_view(), name='create_volonter'),
 

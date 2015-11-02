@@ -15,7 +15,7 @@ from django.views.generic.list import ListView
 from main.algorithms import create_stock, create_graf_chip, create_graf_danger, create_graf_time, \
     general_algo
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
-    CategoryResource, Stock, Potential, Roat, Way, Transport
+    CategoryResource, Stock, Potential, Roat, Way, Transport, Perfomance
 from django.core.mail import send_mail
 import hashlib
 
@@ -42,6 +42,20 @@ class VolonterListView(ListView):
             'Volonter':Volonter.objects.filter(activeted=True),
         })
         return context
+
+
+class PerListView(ListView):
+    template_name = 'list_per.html'
+    model = Perfomance
+    # context_object_name = 'Perfomance'
+
+    def get_context_data(self, **kwargs):
+        context = super(PerListView, self).get_context_data(**kwargs)
+        context.update({
+            'data':Perfomance.objects.all(),
+        })
+        return context
+
 
 
 class MapView(ListView):
@@ -241,6 +255,11 @@ class ResourceGrafikView(ListView):
 
 
 class CreateVolontersView(TemplateView):
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CreateVolontersView, self).dispatch(request, *args,**kwargs)
+
     def get(self, request, *args, **kwargs):
         print 'Fill Volonters:'
         cat = CategoryResource.objects.all()

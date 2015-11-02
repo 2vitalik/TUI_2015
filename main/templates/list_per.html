@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    <h3 class="title_list">Звіт по виконанню потреб</h3>
+{% endblock %}
+
+{% block content %}
+    <div id="list_table">
+  <table border="0">
+    <tr>
+        <td class="top_left">Потреба</td>
+        <td class="top_cen" >Кількість</td>
+        <td class="top_right" >Data</td>
+    </tr>
+
+    {% for per in data %}
+        <tr class="list_tr">
+        <td class="cell">{{ per.need }}</td>
+        <td class="cell_c">{{ per.amount }}</td>
+        <td class="cell">{{ per.date }}</td>
+    </tr>
+
+    {% endfor %}
+  </table>
+    </div>
+{% endblock %}
+{% block bottom %}
+
+{% endblock %}
