@@ -296,7 +296,7 @@ def complacency(need):
 def speed(transport,way):
     from main.models import Way
     from main.models import Transport
-    general_speed = transport.speed/(transport.kind_of_transport.passability - way.passability)
+    general_speed = transport.kind_of_transport.speed/(transport.kind_of_transport.passability - way.passability)
     return general_speed
 
 
@@ -458,7 +458,7 @@ def algo_2(transport, store_house, point_of_consuming):
     orders = Order.objects.filter(point_consuming=point_of_consuming)
     diction = {Resource.objects.all(): {orders: 0}}
 
-    volume_cur = transport.transport.kind_of_transport.volume_transport
+    volume_cur = transport.kind_of_transport.volume_transport
     sum_opt = 0
     coef_best = 1
 

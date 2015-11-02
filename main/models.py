@@ -139,7 +139,7 @@ class Perfomance(models.Model):
     date = models.DateField(verbose_name=u'Дата виконання')
 
     def __unicode__(self):
-        return "%s,%s,%s"%(self.need.resource, self.amount,self.date)
+        return "%s"%(self.pk)
 
     class Meta:
         verbose_name_plural = u'Виконання'
