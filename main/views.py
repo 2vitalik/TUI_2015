@@ -243,6 +243,7 @@ class ResourceGrafikView(ListView):
 class CreateVolontersView(TemplateView):
     def get(self, request, *args, **kwargs):
         print 'Fill Volonters:'
+        cat = CategoryResource.objects.all()
         surnames = [u'Трэк', u'Троев', u'Атеистов', u'Трюкови', u'Спайдэр', u'Виннов']
         names = [u'Вася', u'Иосиф', u'Дима', u'Игорь', u'Антон', u'Жора', u'Вася', u'Трион',]
         operators = [u'093', u'050', u'098', u'066', u'099']

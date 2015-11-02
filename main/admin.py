@@ -32,12 +32,12 @@ class VolonterAdmin(admin.ModelAdmin):
         'telephone',
         'gender',
         'activeted',
+        'categories_field',
     )
     search_fields = ('fio', )
     list_filter = ('gender', 'address',
-                   # 'categories',
-                   'birthday')
-    # filter_horizontal = ('categories', )
+                   'categories',)
+    filter_horizontal = ('categories', )
     date_hierarchy = 'birthday'
 
     def categories_field(self, obj):
