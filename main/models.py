@@ -250,7 +250,7 @@ class ResourceOrder(models.Model):
         verbose_name_plural = u'Замовлення ресурсів'
 
     def __unicode__(self):
-        return "%s,%s,%s,%s,"%(self.resource.name, self.store_house.address, self.date_created, self.date_finished)
+        return "%s,%s,%s,"%(self.resource.name, self.date_created, self.date_finished)
 
 
 class KindOfTransport(models.Model):

@@ -205,13 +205,13 @@ def create_graf_chip(store_house, point_of_consuming,transport):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from == point:
-                if road.point_from in graf:
+            if road.point_from == point and transport.kind_of_transport.passability >= road.passability:
+                if road.point_from.pk in graf:
                     graf[road.point_from.pk].append((road.point_to.pk, road.roat_length*transport.kind_of_transport.expences_fuel))
                 else:
                     graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length*transport.kind_of_transport.expences_fuel)]
 
-                if road.point_to in graf:
+                if road.point_to.pk in graf:
                     graf[road.point_to.pk].append((road.point_from.pk, road.roat_length*transport.kind_of_transport.expences_fuel))
                 else:
                     graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length*transport.kind_of_transport.expences_fuel)]
@@ -234,8 +234,8 @@ def create_graf_danger(store_house, point_of_consuming, transport):
     a  = None
     for point in points:
         for road in ways:
-            if road.point_from.pk == point.pk:
-                if road.point_from in graf:
+            if road.point_from.pk == point.pk and transport.kind_of_transport.passability >= road.passability:
+                if road.point_from.pk in graf:
                     graf[road.point_from.pk].append((road.point_to.pk, round(-1.0 * math.log(1-road.danger),4)))
                 else:
                     graf[road.point_from.pk] = [(road.point_to.pk, round(-1.0 * math.log(1-road.danger),4))]
@@ -266,13 +266,13 @@ def create_graf_time(store_house,point_of_consuming,transport):
 
     for point in points:
         for road in ways:
-            if road.point_from == point:
-                if road.point_from in graf:  # and transport.kind_of_transport.passability >= road.passability:
+            if road.point_from == point and transport.kind_of_transport.passability >= road.passability:
+                if road.point_from.pk in graf:
                     graf[road.point_from.pk].append((road.point_to.pk, (speed(transport, road)/road.load) * math.log(max(transport.kind_of_transport.passability - road.passability+2,5))/math.log(5)))
                 else:
                     graf[road.point_from.pk] = [(road.point_to.pk, (speed(transport, road)/road.load) * math.log(max(transport.kind_of_transport.passability - road.passability+2,5)) / math.log(5))]
 
-                if road.point_to in graf:
+                if road.point_to.pk in graf:
                     graf[road.point_to.pk].append((road.point_from.pk, (speed(transport, road)/road.load) * math.log(max(transport.kind_of_transport.passability - road.passability+2,5))/math.log(5)))
                 else:
                     graf[road.point_to.pk] = [(road.point_from.pk, (speed(transport, road)/road.load) * math.log(max(transport.kind_of_transport.passability - road.passability+2,5))/math.log(5))]
@@ -298,7 +298,9 @@ def complacency(need):
 def speed(transport,way):
     from main.models import Way
     from main.models import Transport
-    general_speed = transport.kind_of_transport.speed/(transport.kind_of_transport.passability - way.passability)
+    if transport.kind_of_transport.passability < way.passability:
+        return 0
+    general_speed = transport.kind_of_transport.speed * (transport.kind_of_transport.passability / way.passability / 5)
     return general_speed
 
 
