@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load l10n %}
 {% block title %}
-    <h3 class="title_list">{{ roat.name }} ( {{ roat.transport|default:"Маршрут не знайдено" }} )</h3>
+    <h3 class="title_list">{{ roat.storehouse }} - {{ roat.point_consuming.geography_point.address }} ( {{ roat.transport|default:"Маршрут не знайдено" }} )</h3>
 {% endblock %}
 {% block js  %}
 
