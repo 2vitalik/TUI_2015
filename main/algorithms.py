@@ -206,7 +206,7 @@ def create_graf_chip(store_house, point_of_consuming,transport):
                     graf[road.point_to.pk].append((road.point_from.pk, road.roat_length*transport.kind_of_transport.expences_fuel))
                 else:
                     graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length*transport.kind_of_transport.expences_fuel)]
-    a = deikstra(graf,store_house,point_of_consuming)
+    a = deikstra(graf, store_house, point_of_consuming)
     return a
     # for n, data in graf_length.items():
     #     print n.pk
@@ -242,7 +242,7 @@ def create_graf_danger(store_house, point_of_consuming, transport):
     #     for a, b in data:
     #         print (a, b)
 
-def create_graf_time(store_house, point_of_consuming,transport):
+def create_graf_time(store_house,point_of_consuming,transport):
     # def create_graf_chip(store_house, point_of_consuming):
     from main.models import Way
     from main.models import PointOfConsuming

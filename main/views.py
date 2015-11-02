@@ -535,13 +535,18 @@ class LeliksView(TemplateView):
 
 
 class CreateRoat(RedirectView):
+
     def get(self, request, *args, **kwargs):
-        store_house = request.POST.get('store_house')
-        point_of_consuming = request.POST.get('point_of_consuming')
+        store_house_pri = request.POST.get('store_house')
+        point_of_consuming_pri = request.POST.get('point_of_consuming')
         type = request.POST.get('type')
         best_transport = None
         best_value = 1e9
         best_pairs = None
+        # store_house = StoreHouse.objects.get(pk=self.kwargs.get('store_house_pri'))
+        # point_of_consuming = PointOfConsuming.objects.get(pk=self.kwargs.get('point_of_consuming_pri'))
+        store_house = StoreHouse.objects.filter(pk=store_house_pri)
+        point_of_consuming = PointOfConsuming.objects.filter(pk=point_of_consuming_pri)
 
         if type == '3':
             for transport in Transport.objects.all():
