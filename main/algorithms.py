@@ -224,7 +224,7 @@ def create_graf_danger(store_house, point_of_consuming, transport):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from.pk == point.pk and transport.kind_of_transport.passability >= road.passability:
+            if road.point_from.pk == point.pk:
                 if road.point_from in graf:
                     graf[road.point_from.pk].append((road.point_to.pk, round(-1.0 * math.log(1-road.danger),4)))
                 else:

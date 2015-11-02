@@ -548,8 +548,8 @@ class CreateRoat(RedirectView):
         best_pairs = None
         # store_house = StoreHouse.objects.get(pk=self.kwargs.get('store_house_pri'))
         # point_of_consuming = PointOfConsuming.objects.get(pk=self.kwargs.get('point_of_consuming_pri'))
-        store_house = StoreHouse.objects.filter(pk=store_house_pri)
-        point_of_consuming = PointOfConsuming.objects.filter(pk=point_of_consuming_pri)
+        store_house = StoreHouse.objects.get(pk=store_house_pri)
+        point_of_consuming = PointOfConsuming.objects.get(pk=point_of_consuming_pri)
 
         if type == '3':
             for transport in Transport.objects.all():
