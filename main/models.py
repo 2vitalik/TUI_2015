@@ -154,7 +154,7 @@ class Shipping(models.Model):
         verbose_name_plural = u'Відгрузка'
 
     def __unicode__(self):
-        return self.date_recomended
+        return "%s"%self.date_recomended
 
 
 class StoreHouse(models.Model):
@@ -334,7 +334,7 @@ class Way(models.Model):
                 point_to=self.point_from,
                 roat_length = self.roat_length,
                 danger = self.danger,
-                possability = self.passability,
+                passability = self.passability,
                 load = self.load
             )
             way.save(ignore=True)
@@ -353,7 +353,7 @@ class Roat(models.Model):
         verbose_name_plural = u'Маршрут'
 
     def __unicode__(self):
-        return self.name
+        return "%s" % (self.name)
 
 
 class MakingRoat(models.Model):
