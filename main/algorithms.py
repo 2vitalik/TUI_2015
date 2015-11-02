@@ -338,16 +338,14 @@ def general_algo():
     for transport in free_transports:
         for store_house in store_houses:
             for point_of_consuming in point_of_consumings:
-                cur_obj = algo_2(transport, store_house, point_of_consuming)
-                cur_sum = cur_obj[0]
+                cur_sum, cur_dict = algo_2(transport, store_house, point_of_consuming)
                 if cur_sum > max_sum:
                     max_sum = cur_sum
                     transport_best = transport
                     store_house_best = store_house
                     point_of_consuning_best = point_of_consuming
-                    cur_obj_diction = cur_obj[1]
+                    cur_obj_diction = cur_dict
                 # orders = Order.objects.all(point_consuming = point_of_consuming)
-                cur_dict = cur_obj[1]
                 for res, key in cur_dict.items():
                     for order_m,amount in key.values():
                         if amount == 0:
@@ -460,7 +458,11 @@ def algo_2(transport, store_house, point_of_consuming):
     from main.models import ShippingDetalization
 
     orders = Order.objects.filter(point_consuming=point_of_consuming)
-    diction = {Resource.objects.all(): {orders: 0}}
+    diction = {}
+    for resource in Resource.objects.all():
+        diction[resource] = {}
+        for order in orders:
+            diction[resource][order] = 0
 
     volume_cur = transport.kind_of_transport.volume_transport
     sum_opt = 0
