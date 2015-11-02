@@ -132,14 +132,14 @@ def create_stock(resource_order):
     Stock.objects.create(resource=resource_order.resource, amount=resource_order.amount)
 
 
-def deikstra(graf,start,end):
+def deikstra(graf, start, end):
     used = [False]*200000
     g = [1e9]*100000
     p = [0]*100000
     # p.append.(store_house.geography_point.pk)
     #todo: store_house.geography_point.pk, point_of_consuming.geography_point.pk
     # g[store_house.geography_point.pk] = 0
-    g[start] = 0
+    g[start.geography_point.pk] = 0
 
     for l in range(len(graf)):
         index = -1
@@ -156,10 +156,10 @@ def deikstra(graf,start,end):
                  p[u] = index
 
     pairs = []
-    if p[start] == 0:
+    if p[start.geography_point.pk] == 0:
         return pairs
     cur_point = end
-    while cur_point != start:
+    while cur_point != start.geography_point.pk:
         pairs.append((p[cur_point],cur_point))
         cur_point = p[cur_point]
     pairs.reverse()
@@ -257,14 +257,14 @@ def create_graf_time(store_house, point_of_consuming,transport):
         for road in ways:
             if road.point_from == point:
                 if road.point_from in graf and transport.kind_of_transport.passability >= road.passability:
-                    graf[road.point_from.pk].append((road.point_to.pk, (speed(transport, road)/road.load)* math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5)))
+                    graf[road.point_from.pk].append((road.point_to.pk, (speed(transport, road)/road.load) * math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5)))
                 else:
-                    graf[road.point_from.pk] = [(road.point_to.pk, (speed(transport, road)/road.load)* math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5))]
+                    graf[road.point_from.pk] = [(road.point_to.pk, (speed(transport, road)/road.load) * math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5))]
 
                 if road.point_to in graf:
-                    graf[road.point_to.pk].append((road.point_from.pk, (speed(transport, road)/road.load)* math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5)))
+                    graf[road.point_to.pk].append((road.point_from.pk, (speed(transport, road)/road.load) * math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5)))
                 else:
-                    graf[road.point_to.pk] = [(road.point_from.pk, (speed(transport, road)/road.load)* math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5))]
+                    graf[road.point_to.pk] = [(road.point_from.pk, (speed(transport, road)/road.load) * math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5))]
 
     # for n, data in graf_length.items():
     #     print n.pk
@@ -279,7 +279,7 @@ def complacency(need):
     if datetime.now() > need.date_recomended:
         comp = 0
     else:
-        comp = (need.resource.price_one_unit*need.priority)/math.log(min(5,need.date_recomended - datetime.now()), 5)
+        comp = (need.resource.price_one_unit*need.priority)/math.log(min(5, need.date_recomended - datetime.now()), 5)
     return comp
 
 
