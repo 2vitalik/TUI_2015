@@ -5,7 +5,7 @@ import urllib2
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView, ListView, TemplateView, RedirectView, View
@@ -547,15 +547,17 @@ class GeneralAlgoView(TemplateView):
 #         return HttpResponse('OK')
 
 
-class CreateRoat(RedirectView):
-
+class CreateRoat(TemplateView):
     def get(self, request, *args, **kwargs):
+        raise Http404()
+
+    def post(self, request, *args, **kwargs):
         store_house_pri = request.POST.get('store_house')
         point_of_consuming_pri = request.POST.get('point_of_consuming')
         type = request.POST.get('type')
         best_transport = None
         best_value = 1e9
-        best_pairs = None
+        best_pairs = []
         # store_house = StoreHouse.objects.get(pk=self.kwargs.get('store_house_pri'))
         # point_of_consuming = PointOfConsuming.objects.get(pk=self.kwargs.get('point_of_consuming_pri'))
         store_house = StoreHouse.objects.get(pk=store_house_pri)
@@ -597,6 +599,7 @@ class CreateRoat(RedirectView):
 
         roat = Roat(name=store_house.geography_point.address,storehouse=store_house,transport=best_transport, point_consuming= point_of_consuming )
         roat.save()
+        print 'best_pairs:', best_pairs
         for pair in best_pairs:
             way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
             roat.wasys.add(way.pk)

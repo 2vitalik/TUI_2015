@@ -162,6 +162,8 @@ def deikstra(graf, start, end):
     #     return pairs, g[end.geography_point.pk]
     cur_point = end.geography_point.pk
     while cur_point != start.geography_point.pk:
+        if p[cur_point] == 0:
+            return [], 1e9
         pairs.append((p[cur_point],cur_point))
         cur_point = p[cur_point]
     pairs.reverse()
