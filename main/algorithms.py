@@ -196,16 +196,16 @@ def create_graf_chip(store_house, point_of_consuming,transport):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from == point and transport.passability >= road.passability:
+            if road.point_from == point and transport.kind_of_transport.passability >= road.passability:
                 if road.point_from in graf:
-                    graf[road.point_from.pk].append((road.point_to.pk, road.roat_length*transport.expences_fuel))
+                    graf[road.point_from.pk].append((road.point_to.pk, road.roat_length*transport.kind_of_transport.expences_fuel))
                 else:
-                    graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length*transport.expences_fuel)]
+                    graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length*transport.kind_of_transport.expences_fuel)]
 
                 if road.point_to in graf:
-                    graf[road.point_to.pk].append((road.point_from.pk, road.roat_length*transport.expences_fuel))
+                    graf[road.point_to.pk].append((road.point_from.pk, road.roat_length*transport.kind_of_transport.expences_fuel))
                 else:
-                    graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length*transport.expences_fuel)]
+                    graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length*transport.kind_of_transport.expences_fuel)]
     a = deikstra(graf,store_house,point_of_consuming)
     return a
     # for n, data in graf_length.items():
@@ -224,7 +224,7 @@ def create_graf_danger(store_house, point_of_consuming, transport):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from.pk == point.pk and transport.passability >= road.passability:
+            if road.point_from.pk == point.pk and transport.kind_of_transport.passability >= road.passability:
                 if road.point_from in graf:
                     graf[road.point_from.pk].append((road.point_to.pk, round(-1.0 * math.log(1-road.danger),4)))
                 else:
@@ -256,15 +256,15 @@ def create_graf_time(store_house, point_of_consuming,transport):
     for point in points:
         for road in ways:
             if road.point_from == point:
-                if road.point_from in graf and transport.passability >= road.passability:
-                    graf[road.point_from.pk].append((road.point_to.pk, (speed(transport, road)/road.load)* math.log(min(transport.passability - road.passability+2),5)/math.log(5)))
+                if road.point_from in graf and transport.kind_of_transport.passability >= road.passability:
+                    graf[road.point_from.pk].append((road.point_to.pk, (speed(transport, road)/road.load)* math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5)))
                 else:
-                    graf[road.point_from.pk] = [(road.point_to.pk, (speed(transport, road)/road.load)* math.log(min(transport.passability - road.passability+2),5)/math.log(5))]
+                    graf[road.point_from.pk] = [(road.point_to.pk, (speed(transport, road)/road.load)* math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5))]
 
                 if road.point_to in graf:
-                    graf[road.point_to.pk].append((road.point_from.pk, (speed(transport, road)/road.load)* math.log(min(transport.passability - road.passability+2),5)/math.log(5)))
+                    graf[road.point_to.pk].append((road.point_from.pk, (speed(transport, road)/road.load)* math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5)))
                 else:
-                    graf[road.point_to.pk] = [(road.point_from.pk, (speed(transport, road)/road.load)* math.log(min(transport.passability - road.passability+2),5)/math.log(5))]
+                    graf[road.point_to.pk] = [(road.point_from.pk, (speed(transport, road)/road.load)* math.log(min(transport.kind_of_transport.passability - road.passability+2),5)/math.log(5))]
 
     # for n, data in graf_length.items():
     #     print n.pk
@@ -286,7 +286,7 @@ def complacency(need):
 def speed(transport,way):
     from main.models import Way
     from main.models import Transport
-    general_speed = transport.speed/(transport.passability - way.passability)
+    general_speed = transport.speed/(transport.kind_of_transport.passability - way.passability)
     return general_speed
 
 
@@ -420,16 +420,16 @@ def K_func(transport, store_house, point_of_consuming):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from.pk == point.pk and transport.passability >= road.passability:
+            if road.point_from.pk == point.pk and transport.kind_of_transport.passability >= road.passability:
                 if road.point_from in graf:
-                    graf[road.point_from.pk].append((road.point_to.pk, road.roat_length*transport.expences_fuel))
+                    graf[road.point_from.pk].append((road.point_to.pk, road.roat_length*transport.kind_of_transport.expences_fuel))
                 else:
-                    graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length*transport.expences_fuel)]
+                    graf[road.point_from.pk] = [(road.point_to.pk, road.roat_length*transport.kind_of_transport.expences_fuel)]
 
                 if road.point_to.pk in graf:
-                    graf[road.point_to.pk].append((road.point_from.pk,road.roat_length*transport.expences_fuel))
+                    graf[road.point_to.pk].append((road.point_from.pk,road.roat_length*transport.kind_of_transport.expences_fuel))
                 else:
-                    graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length*transport.expences_fuel)]
+                    graf[road.point_to.pk] = [(road.point_from.pk, road.roat_length*transport.kind_of_transport.expences_fuel)]
     a = deikstra(graf, store_house, point_of_consuming)
     return a[1]
 
@@ -448,7 +448,7 @@ def algo_2(transport, store_house, point_of_consuming):
     orders = Order.objects.filter(point_consuming=point_of_consuming)
     diction = {Resource.objects.all(): {orders: 0}}
 
-    volume_cur = transport.volume_transport
+    volume_cur = transport.transport.kind_of_transport.volume_transport
     sum_opt = 0
     coef_best = 1
 
