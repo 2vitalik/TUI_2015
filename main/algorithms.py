@@ -1,7 +1,7 @@
 # coding: utf-8
 import math
 from datetime import timedelta, datetime
-from main.models import Roat, Way, StoreHouse, PointOfConsuming, Order
+from main.models import Roat, Way, StoreHouse, PointOfConsuming, Order, Shipping
 
 
 def fill_store_houses(stock):
@@ -300,7 +300,7 @@ def cost_res_in_store_house(stock, store_house):
 def general_algo():
     from main.models import Employment
     from main.models import Transport
-    from main.models import Roat, Way, StoreHouse, PointOfConsuming, Stock
+    from main.models import Roat, Way, StoreHouse, PointOfConsuming, Stock, Shipping, ShippingDetalization
     transports = Transport.objects.all()
     free_transports = []
     for transport in transports:
@@ -315,6 +315,7 @@ def general_algo():
     store_houses = StoreHouse.objects.all()
     point_of_consumings = PointOfConsuming.objects.all()
     max_sum = 0
+    cur_obj_diction = None
 
     transport_best = None
     store_house_best = None
@@ -330,26 +331,41 @@ def general_algo():
                     transport_best = transport
                     store_house_best = store_house
                     point_of_consuning_best = point_of_consuming
-                    cur_obj_best = cur_obj
-                else:
-                    # orders = Order.objects.all(point_consuming = point_of_consuming)
-                    cur_dict = cur_obj[1]
-                    for res, key in cur_dict.items():
-                        for order_m,amount in key.values():
-                            if amount == 0:
-                                continue
-                            else:
-                                needs = order_m.need_set.all()
-                                need = needs.filter(resource=res.pk)# or resoure = res
-                                need.amount += amount
-                                need.save()
+                    cur_obj_diction = cur_obj[1]
+                # orders = Order.objects.all(point_consuming = point_of_consuming)
+                cur_dict = cur_obj[1]
+                for res, key in cur_dict.items():
+                    for order_m,amount in key.values():
+                        if amount == 0:
+                            continue
+                        else:
+                            needs = order_m.need_set.all()
+                            need = needs.filter(resource=res.pk)# or resoure = res
+                            need.amount += amount
+                            need.save()
+
 
     if max_sum == 0:
         return
     else:
-        cur_dict = cur_obj_best[1]
+        cur_dict = cur_obj_diction
         for res, key in cur_dict.items():
-            for order_m, amount in key.values():
+                    for order_m,amount in key.values():
+                        if amount == 0:
+                            continue
+                        else:
+                            needs = order_m.need_set.all()
+                            need = needs.filter(resource=res.pk)# or resoure = res
+                            need.amount -= amount
+                            need.save()
+        for res, key in cur_dict.items():
+            for order_m, amount in key.items():
+                shippings = Shipping.objects.filter(pk=order_m.pk)
+                if len(shippings) == 1:
+                    pass
+                else:
+                    Shipping.objects.create(pk=order_m.pk, date_recomended=datetime.now())
+
                 if amount == 0:
                     continue
                 else:
@@ -359,17 +375,20 @@ def general_algo():
                         delete_stock = False
                         if amount < stock.amount:
                             stock.amount -= amount
+                            ShippingDetalization.objects.create(shipping=order_m.pk, stock=stock.pk, amount=amount)
                             stock.save()
                             store_house_best.free_volume += amount * res.volume_of_one_unit
                             store_house_best.save()
                             break_count = True
                         elif amount == stock.amount:
+                            ShippingDetalization.objects.create(shipping=order_m.pk, stock=stock.pk, amount=amount)
                             store_house_best.free_volume += amount * res.volume_of_one_unit
                             store_house_best.save()
                             stock.delete()
                             break_count = True
                         else:
                             amount -= stock.amount
+                            ShippingDetalization.objects.create(shipping=order_m.pk, stock = stock.pk, amount = amount)
                             store_house_best.free_volume += stock.amount * res.volume_of_one_unit
                             store_house_best.save()
                             delete_stock = True
