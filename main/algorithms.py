@@ -2,6 +2,8 @@
 import math
 from datetime import timedelta, datetime
 
+
+
 def fill_store_houses(stock):
     from main.models import StoreHouse
     from main.models import Stock
@@ -156,9 +158,9 @@ def deikstra(graf, start, end):
                  p[u] = index
 
     pairs = []
-    if p[start.geography_point.pk] == 0:
-        return pairs
-    cur_point = end
+    # if g[start.geography_point.pk] == 0:
+    #     return pairs, g[end.geography_point.pk]
+    cur_point = end.geography_point.pk
     while cur_point != start.geography_point.pk:
         pairs.append((p[cur_point],cur_point))
         cur_point = p[cur_point]
@@ -175,15 +177,20 @@ def deikstra(graf, start, end):
     return pairs, g[end.geography_point.pk]
 
 
-def create_roat(pairs):
-    from main.models import Way
-    from main.models import Roat
-    roat = Roat.objects.create()
-    for pair in pairs:
-        way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
-        roat.wasys.add(way)
-
-    return roat
+# def create_roat(pairs, store_house, point_of_consuming, best_transport):
+#     from main.models import Way
+#     from main.models import Roat
+#     roats = Roat.objects.create(name = "bla", storehouse_id=store_house, point_of_consuming_id=point_of_consuming, transport=best_transport)
+#     print(roats)
+#     # roat.storehouse_id = store_house
+#         # roat.point_of_consuming_id = point_of_consuming
+#         # roat.transport = best_transport
+#
+#     for pair in pairs:
+#         way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
+#         roats.wasys.add(way)
+#
+#     return roats
 
 def create_graf_chip(store_house, point_of_consuming,transport):
     from main.models import Way
@@ -196,7 +203,7 @@ def create_graf_chip(store_house, point_of_consuming,transport):
     graf = dict()
     for point in points:
         for road in ways:
-            if road.point_from == point and transport.kind_of_transport.passability >= road.passability:
+            if road.point_from == point:
                 if road.point_from in graf:
                     graf[road.point_from.pk].append((road.point_to.pk, road.roat_length*transport.kind_of_transport.expences_fuel))
                 else:
@@ -222,6 +229,7 @@ def create_graf_danger(store_house, point_of_consuming, transport):
     ways = Way.objects.all()
     points = GeographyPoint.objects.all()
     graf = dict()
+    a  = None
     for point in points:
         for road in ways:
             if road.point_from.pk == point.pk:
@@ -234,6 +242,7 @@ def create_graf_danger(store_house, point_of_consuming, transport):
                     graf[road.point_to.pk].append((road.point_from.pk, round(-1.0 * math.log(1-road.danger),4)))
                 else:
                     graf[road.point_to.pk] = [(road.point_from.pk, round(-1.0 * math.log(1-road.danger),4))]
+
     a = deikstra(graf, store_house, point_of_consuming)
     return a
 
@@ -273,13 +282,14 @@ def create_graf_time(store_house,point_of_consuming,transport):
     a = deikstra(graf, store_house, point_of_consuming)
     return a
 
+
 def complacency(need):
     from main.models import Need
     from main.models import Resource
     if datetime.now() > need.date_recomended:
         comp = 0
     else:
-        comp = (need.resource.price_one_unit*need.priority)/math.log(min(5, need.date_recomended - datetime.now()), 5)
+        comp = (need.resource.price_one_unit*need.priority)/math.log(min(5,need.date_recomended - datetime.now()), 5)
     return comp
 
 
@@ -340,7 +350,7 @@ def general_algo():
                             continue
                         else:
                             needs = order_m.need_set.all()
-                            need = needs.filter(resource=res.pk)# or resoure = res
+                            need = needs.get(resource=res.pk)# or resoure = res
                             need.amount += amount
                             need.save()
 
@@ -355,12 +365,12 @@ def general_algo():
                             continue
                         else:
                             needs = order_m.need_set.all()
-                            need = needs.filter(resource=res.pk)# or resoure = res
+                            need = needs.get(resource=res.pk)# or resoure = res
                             need.amount -= amount
                             need.save()
         for res, key in cur_dict.items():
             for order_m, amount in key.items():
-                shippings = Shipping.objects.filter(pk=order_m.pk)
+                shippings = Shipping.objects.get(pk=order_m.pk)
                 if len(shippings) == 1:
                     pass
                 else:

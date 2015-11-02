@@ -12,7 +12,7 @@ from django.views.generic import CreateView, UpdateView, ListView, TemplateView,
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from main.algorithms import create_stock, create_graf_chip, create_graf_danger, create_graf_time, create_roat, \
+from main.algorithms import create_stock, create_graf_chip, create_graf_danger, create_graf_time, \
     general_algo
 from main.models import Volonter, Resource, Need, GeographyPoint, StoreHouse, PointOfConsuming, Order, ResourceOrder, \
     CategoryResource, Stock, Potential, Roat, Way, Transport
@@ -64,14 +64,18 @@ class RoatView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(RoatView, self).get_context_data(**kwargs)
+        # roat = Roat.objects.all()
+
         roat = Roat.objects.get(pk=self.kwargs.get('pk'))
         ways = roat.wasys.all()
+        # for roat1 in roat:
+        #     ways = roat1.wasys
 
-        print ways
         context.update({
             'roat': roat,
             'ways': ways,
         })
+
         return context
 
 
@@ -404,6 +408,9 @@ class GraphView(View):
         # create_graf()
         return HttpResponse('Мы удалили функцию create_graf() отсюда :)')
 
+class FirstAlgoView(View):
+    def get(self, request, *args, **kwargs):
+       pass
 
 class CreatePotentialView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -575,9 +582,23 @@ class CreateRoat(RedirectView):
                     best_value = a[1]
                     best_pairs = a[0]
 
-        roat = create_roat(best_pairs)
-        roat.storehouse_id = int(store_house)
-        roat.point_of_consuming_id = int(point_of_consuming)
-        roat.transport = best_transport
+        # roat = create_roat(best_pairs,store_house,point_of_consuming,best_transport)
+        # roat.storehouse_id = store_house
+        # roat.point_of_consuming_id = point_of_consuming
+        # roat.transport = best_transport
+        # roat.transport = best_transport
+        # roat.wasys.add(was.get(pk=''))
+        # roat.wasys.add(1)
+        # roat.storehouse_id = store_house
+        # roat.point_of_consuming_id = point_of_consuming
 
-        return redirect('roat', args=[roat.pk])
+        roat = Roat(name=store_house.geography_point.address,storehouse=store_house,transport=best_transport, point_consuming= point_of_consuming )
+        roat.save()
+        for pair in best_pairs:
+            way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
+            roat.wasys.add(way.pk)
+
+        print(roat.pk)
+
+        # return redirect('roat', args=[roat.pk])
+        return redirect('roat', roat.pk)

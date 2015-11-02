@@ -173,7 +173,7 @@ class RoatAdmin(admin.ModelAdmin):
     filter_horizontal = ('wasys',)
     def on_the_map(self,obj):
         text = u'Подивитися на карті'
-        url = reverse('roat', args=[obj.pk] )
+        url = reverse('roat', args=[obj.pk])
         return "<a href='%s'>%s</a>" % (url, text)
     on_the_map.allow_tags = True
     on_the_map.admin_order_field = u'Карта'
