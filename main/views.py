@@ -598,7 +598,8 @@ class CreateRoat(RedirectView):
             way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
             roat.wasys.add(way.pk)
 
-        print(roat.pk)
+        # print(roat.pk)
+
 
         # return redirect('roat', args=[roat.pk])
         return redirect('roat', roat.pk)
