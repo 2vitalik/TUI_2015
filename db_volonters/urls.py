@@ -20,7 +20,7 @@ from main.views import MainView, VolonterListView, VolonterDetailView, VolonterC
     CreateVolontersView, ResourceGrafikView, CreateNeedsView, CreatePointOfConsumingView,FinishedView, \
     ResourceListView, DeleteCandidateVolonterView, ActivateCandidateVolonterView,MoneyView, GraphView, \
     CreateOrderView, NeedListView, NeedCreateView, MapView, AboutView, AviceView, RoatView, CreateRoat, \
-    GeneralAlgoView, PerListView
+    GeneralAlgoView, PerListView, FirstAlgoView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -115,4 +115,5 @@ urlpatterns = [
     # url(r'^action/map', LeliksView.as_view(), name='leliksview')
     # url(r'actions/revertways/', RevertWayView.as_view()),
     url(r'create_roat', CreateRoat.as_view(), name='create_roat'),
+    url(r'algo/$', FirstAlgoView.as_view()),
  ]

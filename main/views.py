@@ -432,7 +432,8 @@ class GraphView(View):
 
 class FirstAlgoView(View):
     def get(self, request, *args, **kwargs):
-       pass
+        general_algo()
+        return HttpResponse('Мы удалили функцию create_graf() отсюда :)')
 
 class CreatePotentialView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -618,7 +619,6 @@ class CreateRoat(TemplateView):
 
         roat = Roat(name=store_house.geography_point.address,storehouse=store_house,transport=best_transport, point_consuming= point_of_consuming )
         roat.save()
-        print 'best_pairs:', best_pairs
         for pair in best_pairs:
             way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
             roat.wasys.add(way.pk)
