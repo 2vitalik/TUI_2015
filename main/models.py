@@ -115,6 +115,8 @@ class Need(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         created = self.pk is None
+        if self.amount == 0:
+            self.finished = True
         super(Need, self).save(force_insert, force_update, using,
                                update_fields)
         if created:
@@ -167,7 +169,7 @@ class StoreHouse(models.Model):
         verbose_name_plural = u'Склади'
 
     def __unicode__(self):
-        return self.geography_point.address
+        return u"%s" % self.geography_point.address
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -215,8 +217,8 @@ class ShippingDetalization(models.Model):
     class Meta:
         verbose_name_plural = u'Деталізація відгрузки'
 
-    def __unicode__(self):
-        return "%s,%s,%s"%(self.shipping, self.stock, self.amount)
+    # def __unicode__(self):
+    #     return "%s,%s,%s"%(self.shipping, self.stock, self.amount)
 
 
 class Stock(models.Model):
@@ -379,7 +381,7 @@ class GeographyPoint(models.Model):
         verbose_name_plural = u'Географічні точки'
 
     def __unicode__(self):
-        return "%s,%s"%(self.pk, self.address)
+        return u"%s,%s"%(self.pk, self.address)
 
 
 class PointOfConsuming(models.Model):

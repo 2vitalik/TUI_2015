@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -113,3 +114,29 @@ EMAIL_HOST_PASSWORD = 'tyrnir.informatikov1'
 EMAIL_PORT = 587
 SERVER_EMAIL = 'tyrnir.informatikov@gmail.com'
 DEFAULT_FROM_EMAIL = 'tyrnir.informatikov@gmail.com'
+
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
+# LOGGING['loggers']['django.db.backends'] = dict(handlers=['console'], level='DEBUG', propagate=True)
