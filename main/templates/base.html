@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html >
 <head>
-<title>new-help4you.tk</title>
+<title>HELP4YOU</title>
  <link rel="shortcut icon" href="{% static 'img/help.gif' %}" type="image/gif">
 <meta http-equiv="Content-Type" content="text/html; charrset=windows-1251">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,7 @@
     <script language="javascript" type="text/javascript" src="{% static 'jquery.flot.pie.js' %}"></script>
     <script language="javascript" type="text/javascript" src="{% static 'jquery.flot.categories.js' %}"></script>
     <script language="javascript" type="text/javascript" src="{% static 'jquery.cross-slide.js' %}"></script>
+
 {#<script language="javascript" src="{% static 'object_manager.js' %}" type="text/javascript"></script>#}
 <script src="{% static 'custom.js' %}"></script>
 <!--[if lt IE 9]>
@@ -23,17 +24,20 @@
 <![endif]-->
     {% block js %}
     {% endblock %}
+
+
   </head>
 <body>
 <div  id="site">
 <header class="clearFix">
-  <div class="wrap"> <a id="logo" href="/">Help4You.tk</a>
+  <div class="wrap"> <a id="logo" href="/">Help4You</a>
     <hr>
     <nav>
       <div id="nav"> <strong>Navigation</strong>
         <ul>
 
           <li class="active"> <a href="/">ГОЛОВНА</a> </li>
+
           <li class="parent"> <a href="#">ЗВІТИ</a>
             <ul>
               <li> <a href="{% url 'list_volonter' %}">Волонтери</a> </li>
@@ -47,12 +51,16 @@
         <li class="parent"> <a href="#">МАПА</a>
             <ul>
               <li> <a href="{% url 'map_stores' %}">Склади</a> </li>
+                {% if user.is_authenticated %}
               <li> <a href="{% url 'advice' %}">Прокласти маршрут</a> </li>
+                {% endif %}
             </ul>
           </li>
+        <li class="active"> <a href="/about">КОНТАКТИ</a> </li>
           <li> <a href="/admin">ДЛЯ АДМІНІСТРАції</a> </li>
+
             {% if user.is_authenticated %}
-                <li><p  class="infoaboutuser">Привіт, {{ user.get_full_name }}</p> <a href="{% url 'logout' %}?next=/">Вихід</a> </li>
+                <li><p  class="infoaboutuser">Привіт, {{ user.get_short_name }}</p> <a href="{% url 'logout' %}?next=/">Вихід</a> </li>
             {% else %}
                 <li><a href="{% url 'login' %}">Вхід</a> </li>
             {% endif %}
@@ -92,7 +100,7 @@
     <div class="wrap clearFix">
 
      <h1>Хочеш стати волонтером? <strong>Зареєструйся!</strong></h1>
-      <p class="top_text">Help4You – це волонтерська організація, яка обєдную саме таких людей. За допомогою нашого ресурсу кожен може зробити свій внесок, ви можете пожертвувати коштів на необхідне майно або принести до нас вже куплені речі, допомогти у доставці, фасуванні, та інших роботах пов’язаних з нашою роботою.</p>
+      <p class="top_text">Help4You – це волонтерська організація, яка об'єднує саме таких людей. За допомогою нашого ресурсу кожен може зробити свій внесок: пожертвувати коштів на необхідне майно або принести до нас вже куплені речі, допомогти у доставці, фасуванні, та інших роботах пов’язаних з нашою діяльністю.</p>
         {% block button %}{% endblock %}
 {#      <a href="{% url 'create_volonter' %}" class="button">Стать волонтёром!</a>#}
 {#      <a href="https://docs.google.com/spreadsheets/d/1kkL6Gd3DPs0UZxhqt8xnQtJRTeXEjOQ5ZgN6E9_rQ_Q/edit#gid=0" target="_blank" class="button">Необходимо</a>#}
@@ -120,7 +128,7 @@
 <hr>
 <footer class="clearFix">
   <div class="wrap clearFix">
-    <p class="floatRight"> Copyright &copy; 2015 <a href="#"></a> &ndash; All Rights Reserved</p>
+    <p class="floatRight"> Copyright &copy; 2015 - 2016 <a href="#"></a> &ndash; All Rights Reserved</p>
     <p class="socialIcons"> <a href="#" class="rss">RSS</a> <a href="https://www.facebook.com/tyrnir.informatikov" target="_blank" class="facebook">Facebook</a> <a href="https://twitter.com/help4you_ua" target="_blank" class="twitter">Twitter</a> </p>
   </div>
 </footer>

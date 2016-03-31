@@ -63,6 +63,8 @@ class MapView(ListView):
     model = StoreHouse
     context_object_name = 'StoreHouse'
 
+
+
     def get_context_data(self, **kwargs):
         context = super(MapView, self).get_context_data(**kwargs)
         context.update({
@@ -97,6 +99,11 @@ class AviceView(TemplateView):
     template_name = 'advice.html'
     # fields = ('store_house', 'point_of_consuming', 'type',)
     # success_url = reverse_lazy('#')
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(AviceView, self).dispatch(request, *args,**kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(AviceView, self).get_context_data(**kwargs)
         store_house = StoreHouse.objects.all()
@@ -263,8 +270,10 @@ class CreateVolontersView(TemplateView):
     def get(self, request, *args, **kwargs):
         print 'Fill Volonters:'
         cat = CategoryResource.objects.all()
-        surnames = [u'Трэк', u'Троев', u'Атеистов', u'Трюкови', u'Спайдэр', u'Виннов']
-        names = [u'Вася', u'Иосиф', u'Дима', u'Игорь', u'Антон', u'Жора', u'Вася', u'Трион',]
+        surnames = [u'Мельник', u'Іванов', u'Калінін', u'Шемякін']
+        names = [u'Василь',  u'Дмитро', u'Игорь', u'Антон']
+        znames = [u'Олександрович',  u'Олексыйович', u'Константинович']
+        bt = [u'1989-03-19',  u'1988-09-11',  u'1987-12-19', u'1990-07-25']
         operators = [u'093', u'050', u'098', u'066', u'099']
         oblast = [u'Вінницька область',
                    u'Волинська область',
@@ -291,21 +300,27 @@ class CreateVolontersView(TemplateView):
                    u'Чернівецька область',
                    u'Автономна Республіка Крим']
         all_categories = list(CategoryResource.objects.all())
-        for i in range(20):
+        for i in range(5):
             telephone = u'+38' + random.choice(operators) + unicode(random.randint(1000000, 9999999))
-            fio = random.choice(surnames) + u' ' + random.choice(names)
+            fio = random.choice(surnames) + u' ' + random.choice(names) + u' ' + random.choice(znames)
+            bth=random.choice(bt)
             address = random.choice(oblast)
 
             volonter = Volonter.objects.create(
                 fio=fio,
+                birthday=bth,
                 address=address,
                 telephone=telephone,
                 gender=u'М',
+                activeted=True,
             )
             for i in range(random.randint(1, 2)):
                 volonter.categories.add(random.choice(all_categories))
             print fio, telephone
+
+
         return HttpResponse('ok')
+
 
 
 class CreateNeedsView(TemplateView):

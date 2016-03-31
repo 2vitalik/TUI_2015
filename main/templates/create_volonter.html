@@ -36,11 +36,11 @@
     <table>
     <tr>
         <td class="CreateVoll">ПІБ</td>
-        <td class="CreateVolr"><input class="pole" type="text" name="fio"></td>
+        <td class="CreateVolr"><input style="height:29px; !important" class="pole" type="text" name="fio"></td>
     </tr>
        <tr>
-        <td class="CreateVoll">ОБЛАСТЬ</td>
-        <td class="CreateVolr"><select size="1" class="pole_select" name="address">
+        <td  class="CreateVoll">ОБЛАСТЬ</td>
+        <td class="CreateVolr"><select  style="height:29px; !important" size="1" class="pole_select" name="address">
             <option disabled>Выберите город</option>
             <option value="Винницкая область">Вінницька область</option>
             <option value="Волынская область">Волинська область</option>
@@ -71,15 +71,15 @@
     </tr>
     <tr>
         <td class="CreateVoll">ТЕЛЕФОН</td>
-        <td class="CreateVolr"><input class="pole" type="text" name="telephone" placeholder="+380(***)(*******)"></td>
+        <td class="CreateVolr"><input style="height:29px; !important" class="pole" type="text" name="telephone" placeholder="+380(***)(*******)"></td>
     </tr>
     <tr >
         <td class="CreateVoll">ДАТА НАРОДЖЕННЯ</td>
-        <td class="CreateVolr"><input class="pole" type="date" name="birthday"></td>
+        <td class="CreateVolr"><input style="height:29px; !important" class="pole" type="date" name="birthday"></td>
      </tr>
      <tr >
         <td class="CreateVoll">СТАТЬ</td>
-        <td class="CreateVolr"><input type="radio" value="М" name="gender"> Чоловік<br><input type="radio" value="Ж" name="gender"> Жінка</td>
+        <td style="POSITION:RELATIVE;PADDING-TOP:5PX !IMPORTANT; PADDING-LEFT:7PX !IMPORTANT; " class="CreateVolr"><input type="radio" value="М" checked="checked" name="gender"> Чоловік<br><SPAN CLASS="BREAK_T"></SPAN><input type="radio" value="Ж" name="gender"> Жінка</td>
     </tr>
     <tr>
         <td class="CreateVoll">ВИД ДОПОМОГИ</td>
@@ -90,7 +90,7 @@
 
     </tr>
     <tr class="CreateVoll">
-        <td colspan="2"><input class="bt" type="submit" name="Save" value="Зареєструватися"></td>
+        <td colspan="2"><input class="bt_on_advice" type="submit" name="Save" value="Зареєструватися"></td>
     </tr>
     </table>
 
@@ -98,6 +98,6 @@
     <br>
     <br>
     <br>
-    <p>*при реєстації ви будете додані в список кандидатів у волонтери. Ваш запит буде оброблений в протягом 2 днів.</p>
+    <p>*При реєстації ви будете додані в список кандидатів у волонтери. Ваш запит буде оброблений протягом 2 днів.</p>
    </div>
 {% endblock %}

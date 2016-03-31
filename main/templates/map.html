@@ -57,8 +57,23 @@ function init () {
         padding: 0;
         margin: 0;
     }
+.text_leg{
+    position: relative;
+    top: -10px;
+
+}
+.legend{
+    display: block;
+    margin-top:5px;
+    margin-left: 400px;
+}
 </style>
 <div id="map">
 
 </div>
+    <span class="legend">
+    <img width="30px" src="{% static 'metka1.png' %}"><span class="text_leg"> Склад</span>
+     <img width="30px" src="{% static 'metka2.png' %}"><span class="text_leg"> Споживач</span>
+
+    </span>
 {% endblock %}

@@ -12,7 +12,8 @@
 
     <div id="create_table">
 
-        <form class="zforma" method="POST" action="{% url 'login' %}">
+
+        <form id="slick-login"class="zforma" method="POST" action="{% url 'login' %}">
 
             {% csrf_token %}
 
@@ -20,13 +21,13 @@
 
                 <p class="nameofuser">Імя користувача</p>
 
-                <span class="f_username"><input type="text" name="username"></span>
+                <span class="f_username" ><input STYLE="border-radius: 8px;" type="text" name="username"></span>
 
                 <p class="passofuser">Пароль</p>
 
-                <span class="f_password"><input type="password" name="password"></span>
+                <span class="f_password"><input STYLE="border-radius: 8px;" type="password" name="password"></span>
 
-                <span class="f_but"><input class="bt_on_login" type="submit" name="Save" value="LogIn"></span>
+                <span class="f_but"><input class="bt_on_login" STYLE="border-radius: 8px; WIDTH:200PX; POSITION:ABSOLUTE; LEFT:-85PX;" type="submit" name="Save" value="LogIn"></span>
 
             </div>
 

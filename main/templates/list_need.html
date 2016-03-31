@@ -3,6 +3,7 @@
      <h3 class="title_list">Перелік потреб</h3>
 {% endblock %}
 {% block content %}
+
  <div id="list_table">
   <table border="0">
     <tr>
@@ -12,12 +13,13 @@
     </tr>
 
     {% for need in Needs %}
+        {% if need.amount != 0 %}
         <tr class="list_tr">
         <td class="cell"> {{ need.resource }}</td>
         <td class="cell_c">{{ need.amount }}</td>
         <td class="cell">{{ need.date_recomended }}</td>
     </tr>
-
+        {% endif %}
     {% endfor %}
   </table>
     </div>

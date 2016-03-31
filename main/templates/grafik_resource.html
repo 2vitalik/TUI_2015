@@ -15,7 +15,9 @@
         if(N != 0) {
             var data = [
                 {% for item in data %}
+                    {% if item.total_amount != 0 %}
                     {label: "{{ item.store_house }} ( {{ item.total_amount }} )", data:{{ item.total_amount }}},
+                    {% endif %}
                 {% endfor %}
             ];
         } else{
@@ -75,10 +77,7 @@
 	</div>
     <div id="view_tab">
     <table border="0">
-    <tr>
-        <td class="lef">ID</td>
-        <td class="ri">{{select_res.pk}}</td>
-    </tr>
+  
     <tr>
         <td class="lef">КАТЕГОРІЯ</td>
         <td class="ri">{{ select_res.category_resource }}</td>
@@ -91,7 +90,9 @@
         <td class="lef_v"><p class="trrt">ЗАПАС</p></td>
         <td class="ri_v">
         {% for item in data %}
+            {% if item.total_amount != 0 %}
              <p class="kind_res">{{ item.store_house }} ({{ item.total_amount }})</p>
+            {% endif %}
             {% endfor %}
         </td>
     </tr>
@@ -100,7 +101,7 @@
         <td class="ri">{{select_res.unit_of_mesure }}</td>
     </tr>
      <tr>
-        <td class="lef">ОБЄМ</td>
+        <td class="lef">ОБ'ЄМ</td>
         <td class="ri">{{ select_res.volume_of_one_unit }}</td>
     </tr>
     <tr>

@@ -404,18 +404,18 @@ def general_algo():
         best_pairs = a[0]
         roat = Roat(name=store_house_best.geography_point.address,storehouse=store_house_best,
                     transport=transport_best, point_consuming= point_of_consuming_best)
-        roat.save()
-        for pair in best_pairs:
-            way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
-            roat.wasys.add(way.pk)
-
-        print datetime.now(), 'finished'
-
-
-# todo:fill_store_houses()
-    virtual_stocks = Stock.objects.filter(store_house__isnull=True)
-    for stock in virtual_stocks:
-        fill_store_houses(stock)
+#         roat.save()
+#         for pair in best_pairs:
+#             way = Way.objects.get(point_from_id=pair[0], point_to_id=pair[1])
+#             roat.wasys.add(way.pk)
+#
+#         print datetime.now(), 'finished'
+#
+#
+# # todo:fill_store_houses()
+#     virtual_stocks = Stock.objects.filter(store_house__isnull=True)
+#     for stock in virtual_stocks:
+#         fill_store_houses(stock)
 
 
 

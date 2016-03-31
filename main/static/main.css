@@ -14,7 +14,7 @@ Template re-named to: Continents AIO (All In One)
 *  IMPORT OTHER STYLES                                                                                             
 *******************************************************************************************************************/
 @import url(reset.css); 
-/* 
+/*
 Choose the colour you wish to use => colour-azure.css is default
 @import url(colour-azure.css);
 @import url(colour-black.css);
@@ -60,7 +60,7 @@ header #nav{position:absolute; top:0; right:0;}
 header #nav > strong{display:none;}
 header #nav > ul > li{float:left; background:url("img/nav-sep.png") no-repeat 0 50%; position:relative;}
 header #nav > ul > li.parent > a{background:url("img/nav-more.png") no-repeat 20px 50%; padding-left:40px;}
-header #nav > ul > li > ul{display:none; min-width:100%; position:absolute; top:41px; left:0px; line-height:normal; white-space:nowrap;}
+header #nav > ul > li > ul{display:none; min-width:100%; position:absolute; top:40px; left:0px; line-height:normal; white-space:nowrap;}
 header #nav > ul > li > ul > li{margin-bottom:1px;}
 header #nav > ul > li > ul > li > a{color:#c3c3c3; text-decoration:none; padding:10px 20px; display:block; background:url("img/subnav-bg.png");}
 header #nav > ul > li > ul > li > a:hover{background:#000; color:#fff; text-decoration:none;}
@@ -161,7 +161,7 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 	.cols li{max-width:100%;}
 	.cols li.middle{margin:0;}
 }
-
+/*
 @media (max-width: 580px) { 
 	header{height:50px; line-height:50px;}
 	#intro .inner{padding:30px 0;}
@@ -180,7 +180,7 @@ footer .socialIcons a.twitter{background:url("img/small-twitter.png") no-repeat;
 	footer p.floatLeft, footer p.floatRight{display:block; width:100%; float:none; margin-bottom:20px;}
 	footer p:last-child{margin-bottom:0;}
 	.buttonCentered{position:relative; top:-15px;}
-}
+}*/
 
 /* iPhone4 */
 @media only screen and (-webkit-min-device-pixel-ratio: 2) { 
@@ -446,17 +446,15 @@ table{
 
 /* таблица отображения левых строк в форие регестрации волонтёров*/
 .CreateVoll{
-	background-color: #727272;
-	color: #ffffff;
-	border: 1px solid #2d2d2d;
-	text-align: center;
+
+	text-align: left;
+	width:138px;
 }
 
 /* таблица отображения правых строк в форие регестрации волонтёров*/
 .CreateVolr{
-	background-color: #cacaca;
-	color: #1a1a1a;
-	border: 1px solid #2d2d2d;
+
+
 }
 
 #blF{
@@ -568,10 +566,10 @@ table{
 .logBlock{
 	position:relative;
 	left:265px;
-	background-color:#aeaeae;
+
 	width: 400px;
 	height: 200px;
-	border:1px solid #2d2d2d;
+
 }
 
 /*       ----------------------------------------------------------------------- end login panel*/
@@ -607,20 +605,56 @@ table{
 	width: 264px;
 }
 .bt{
-	width:400px;
+	left: -2px;
+	width:406px;
+	 position: relative;
+    background-color: #202647;
+    border: none;
+    font-size: 18px;
+    color: #FFFFFF;
+    padding: 5px;
+    height: 40px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+.bt_on_advice{
+	left: 0px;
+	top: 20px;
+	width:404px;
+	border-radius: 10px; /* закругление углов для всех, кто понимает */
+	position: relative;
+    background-color: #202647;
+    border: none;
+    font-size: 18px;
+    color: #FFFFFF;
+    padding: 1px;
+    height: 40px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
 }
 .bt_on_login{
 	width:55px;
 }
 
 .kol{
-	width:100%;
+	background-color: #ffffff;
+	width:316px;
 	height: 100%;
 }
 .kol_v{
-	margin-left: 2px;
-	width:100%;
+	position: inherit;
+	margin-left: 0px;
+	width:320px;
 	height: 36px;
+	top: 25px;
 }
 .top_text{
 	font:normal 18px "Helvetice Neue",Arial,Tahoma,Verdana;
@@ -644,4 +678,12 @@ table{
 .about {
 	margin-top: 50px;
 	margin-bottom: 200px;
+}
+#site{
+	min-width: 1366px !important;
+	display: block;
+}
+.BREAK_T{
+	DISPLAY:BLOCK;
+	HEIGHT: 7PX;
 }

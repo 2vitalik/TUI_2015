@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^about/$',AboutView.as_view(), name='about'),
 
     url(r'^need/$',NeedListView.as_view(), name='list_need'),
+    url(r'^support/$',AboutView.as_view(), name='about'),
     url(r'^need/add/$',NeedCreateView.as_view(), name='create_need'),
 
     # url(r'^Volonter/(?P<pk>\d+)/edit/',VolonterUpdateView.as_view(), name='update_volonter'),
